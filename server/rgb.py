@@ -1,5 +1,6 @@
 #!/usr/bin/env python
- 
+
+
 import time
 import os
 import sys
@@ -14,6 +15,8 @@ import math
 RED_PIN_1 = 2
 GREEN_PIN_1 = 5
 BLUE_PIN_1 = 6
+
+
 RUN = 1
 COMMAND_RUN = 0
 
