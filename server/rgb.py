@@ -14,6 +14,8 @@ import math
 RED_PIN_1 = 2
 GREEN_PIN_1 = 5
 BLUE_PIN_1 = 6
+RUN = 1
+COMMAND_RUN = 0
 
  
 def pwm(pin, angle):
@@ -39,19 +41,7 @@ def clip(value):
 		return 0.0
 
 
-		
-#command line options		
-
-# choose to the given color. syntax: "./rgb.py c 0.1 0.5 1"
-if sys.argv[1] == "c":
-	r = float(sys.argv[2])
-	g = float(sys.argv[3])
-	b = float(sys.argv[4])
-	changeColor(r,g,b)
-
-
-# starts server listening to commands: syntax: "./rgb.py server"
-if sys.argv[1] == "server":
+def socket_thread(intervall):
 	#create an INET, STREAMing socket
 	serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	
@@ -65,18 +55,30 @@ if sys.argv[1] == "server":
 	
 	#become a server socket
 	serversocket.listen(5)
-	
-	#main loop
-	while 1:
+	while RUN:
 		try:
 			(clientsocket, address) = serversocket.accept()
-			rgb = string.split(string.replace(str(clientsocket.recv(1024)), ",", "."))
-			#print "received: " + str(clientsocket.recv(1024))
-			changeColor(float(rgb[0]), float(rgb[1]), float(rgb[2]))
+			#rgb = string.split(string.replace(str(clientsocket.recv(1024)), ",", "."))
+			command = clientsocket.recv(1024);
 		except:
 			print "Unexpected error:", sys.exc_info()[0]
 		else:
 			clientsocket.close()
+
+		
+#command line options		
+
+# choose to the given color. syntax: "./rgb.py c 0.1 0.5 1"
+if sys.argv[1] == "c":
+	r = float(sys.argv[2])
+	g = float(sys.argv[3])
+	b = float(sys.argv[4])
+	changeColor(r,g,b)
+
+
+# starts server listening to commands: syntax: "./rgb.py server"
+if sys.argv[1] == "server":
+	thread.start_new_thread(socket_thread, (0.01))
 		
 		
 			
