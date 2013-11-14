@@ -25,7 +25,7 @@
 			<li><a href="http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi/">thomas@tbideas.com-PWM</a></li>
 		</ul>
 		<h2>rgb-pi server</h2>
-		<h3>configuring</h3>
+		<h3>configure</h3>
 		<p>first you have to set the pin numbers according to the pins you connected the rgb-channels of your LEDs</p>
 		<pre><code># file: rgb.py
 		# rgb representing pins on the raspberry pi GPIO interface
@@ -33,7 +33,7 @@
 		RED_PIN_1 = 2
 		GREEN_PIN_1 = 5
 		BLUE_PIN_1 = 6</code></pre>
-		<h3>using</h3>
+		<h3>use</h3>
 		<p>simply changing color<p>
 		<pre><code>./rgb.py c 1.0 0.2 0.4</code></pre>
 		<p>starting the server<p>
