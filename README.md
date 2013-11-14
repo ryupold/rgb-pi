@@ -16,8 +16,8 @@
 			</ul>
 		<p style="font-size: 1em;">sources & helpful links:</p>
 		<ul>
-			<li><a href="http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip/"></a></li>
-			<li><a href="http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi/"></a></li>
+			<li><a href="http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip/">michael@mitchtech.net - Assembly</a></li>
+			<li><a href="http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi/">thomas@tbideas.com - PWM</a></li>
 		</ul>
 	</body>
 </html> 
