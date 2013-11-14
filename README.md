@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 	<head><title></title></head>
 	<body>
@@ -14,7 +14,6 @@
 				<li>Perfboard/Breadboard or Dupont cables</li>
 				<li>12V power supply</li>
 			</ul>
-		
 		<p style="font-size: 1em;">sources & helpful links:</p>
 		<ul>
 			<li><a href="http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip/"></a></li>
