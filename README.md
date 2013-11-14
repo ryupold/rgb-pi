@@ -6,6 +6,12 @@
 		<p >Controlling RGB LED Stripes using a Raspberry Pi and a mobile Device</p>
 		<p>This project was build on the work of sarfata and his project <a href="https://github.com/sarfata/pi-blaster">pi-blaster</a></p>
 		<p>This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings. (protocoll in development)</p>
+		<p>To control the whole thing there are mobile apps planned for various platforms:</p>
+		<ul>
+			<li>Windows Phone</li>
+			<li>Android</li>
+			<li>...</li>
+		</ul>
 		<h3> Hardware Parts needed: </h3>
 			<ul>
 				<li>Raspberry Pi</li>
