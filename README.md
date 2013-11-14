@@ -33,7 +33,7 @@
 		RED_PIN_1 = 2
 		GREEN_PIN_1 = 5
 		BLUE_PIN_1 = 6</code></pre>
-		<h3>using server</h3>
+		<h3>using</h3>
 		<p>simply changing color<p>
 		<pre><code>./rgb.py c 1.0 0.2 0.4</code></pre>
 		<p>starting the server<p>
