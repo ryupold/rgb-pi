@@ -1,4 +1,3 @@
-
 <html>
 	<head><title></title></head>
 	<body>
@@ -12,7 +11,7 @@
 			<li>Android</li>
 			<li>...</li>
 		</ul>
-		<h3> Hardware Parts needed: </h3>
+		<h2>hardware parts needed:</h2>
 			<ul>
 				<li>Raspberry Pi</li>
 				<li>3 x TIP120 power transistors for each LED strip (in case you wanna controll them seperatly)</li>
@@ -25,5 +24,19 @@
 			<li><a href="http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip/">michael@mitchtech.net-Assembly</a></li>
 			<li><a href="http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi/">thomas@tbideas.com-PWM</a></li>
 		</ul>
+		<h2>rgb-pi server</h2>
+		<h3>configure</h3>
+		<p>first you have to set the pin numbers according to the pins you connected the rgb-channels of your LEDs</p>
+		<pre><code># file: rgb.py
+		# rgb representing pins on the raspberry pi GPIO interface
+		# see: https://github.com/sarfata/pi-blaster
+		RED_PIN_1 = 2
+		GREEN_PIN_1 = 5
+		BLUE_PIN_1 = 6</code></pre>
+		<h3>use</h3>
+		<p>simply changing color<p>
+		<pre><code>./rgb.py c 1.0 0.2 0.4</code></pre>
+		<p>starting the server<p>
+		<pre><code>./rgb.py server</code></pre>
 	</body>
 </html> 
