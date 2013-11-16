@@ -22,20 +22,32 @@ namespace RGB
 
         private enum RGBCommandType
         {
-            ChangeColor = 1
+            ChangeColor = 1,
+            RandomFader = 2
         }
 
         private struct RGBCommand
         {
             public float R, G, B;
             public RGBCommandType Type;
+            public string Command;
 
             public RGBCommand(RGBCommandType type, float r, float g, float b)
             {
+                Command = string.Empty;
                 Type = type;
                 R = r;
                 G = g;
                 B = b;
+            }
+
+            public RGBCommand(RGBCommandType type, string command)
+            {
+                this.Command = command;
+                Type = type;
+                R = 0;
+                G = 0;
+                B = 0;
             }
         }
 
@@ -90,9 +102,16 @@ namespace RGB
                         c = commandQ.Dequeue();
                     }
 
-
+                    
                     client.Connect("192.168.1.150", 4321);
-                    client.Send(c.R.ToString("F3") + " " + c.G.ToString("F3") + " " + c.B.ToString("F3"));
+                    switch(c.Type){
+                        case RGBCommandType.ChangeColor:
+                            client.Send("cc " + c.R.ToString("F3") + " " + c.G.ToString("F3") + " " + c.B.ToString("F3"));
+                            break;
+                        case RGBCommandType.RandomFader:
+                            client.Send("rf ");
+                            break;
+                    }
                     client.Close();
                 }
                 catch { }
@@ -143,6 +162,15 @@ namespace RGB
             // Create a new menu item with the localized string from AppResources.
             //ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
             //ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            lock (commandQ)
+            {
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, txtCommand.Text));
+                Monitor.PulseAll(commandQ);
+            }
         }
 
 

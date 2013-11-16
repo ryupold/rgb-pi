@@ -38,11 +38,18 @@
 
         <!--Pivot Control-->
         <phone:Pivot Title="RGB">
-            <!--Pivot item one-->
+            <!--Pivot item: choose color-->
             <phone:PivotItem Header="choose color" Name="piChooseColor">
                 <Grid Name="gridChooseColor"/>
             </phone:PivotItem>
 
+            <!--Pivot item: fading-->
+            <phone:PivotItem Header="commands" Name="piCommands">
+                <Grid Name="gridCommands">
+                    <TextBox Name="txtCommand" Margin="10,246,113,235"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Margin="348,272,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.421,-0.132" Click="Button_Click"/>
+                </Grid>
+            </phone:PivotItem>
 
         </phone:Pivot>
 
