@@ -27,16 +27,16 @@ if sys.argv[1] == "c":
 	r = float(sys.argv[2])
 	g = float(sys.argv[3])
 	b = float(sys.argv[4])
-	changeColor(r,g,b)
+	rgbfunctions.changeColor(r,g,b)
 
 
 # starts server listening to commands: syntax: "./rgb.py server"
 if sys.argv[1] == "server":
 	#readcommands("socket thread", 0.01)
 	thread.start_new_thread(rgbthreads.readcommands, ("socket thread", 0.01, ))
-	
-while RUN:
-   pass
+	while RUN:
+		pass
+
 		
 			
 		

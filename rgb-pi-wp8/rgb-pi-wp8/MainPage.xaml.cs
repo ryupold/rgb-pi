@@ -109,7 +109,7 @@ namespace RGB
                             client.Send("cc " + c.R.ToString("F3") + " " + c.G.ToString("F3") + " " + c.B.ToString("F3"));
                             break;
                         case RGBCommandType.RandomFader:
-                            client.Send("rf ");
+                            client.Send("rf "+c.Command);
                             break;
                     }
                     client.Close();
@@ -168,7 +168,7 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, txtCommand.Text));
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, slMinSpeed.Value+" "+slMaxSpeed.Value+" "+slMinBrightness.Value+ " "+slMaxBrightness.Value));
                 Monitor.PulseAll(commandQ);
             }
         }

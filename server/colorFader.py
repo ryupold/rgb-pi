@@ -5,10 +5,14 @@ import time
 import rgbfunctions
 import math
 
+RUN = 0
+
 def fade(endColor):
 	try:
 		i = 0
-		while (1):
+		global RUN
+		myrun = RUN
+		while (myrun == RUN):
 			global speed
 			global endcolor
 			global minSpeed
@@ -134,6 +138,10 @@ speed = 10
 changeSpeedAfter = 5
 max = 255
 min = 0
+	
+def stopFade():
+	global RUN
+	RUN = RUN + 1
 
 def startFade(minS, maxS, mi, ma):
 	global min

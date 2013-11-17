@@ -44,10 +44,18 @@
             </phone:PivotItem>
 
             <!--Pivot item: fading-->
-            <phone:PivotItem Header="commands" Name="piCommands">
+            <phone:PivotItem Header="commands" Name="piCommands" Margin="12,0">
                 <Grid Name="gridCommands">
-                    <TextBox Name="txtCommand" Margin="10,246,113,235"/>
-                    <Button Content="Button" HorizontalAlignment="Left" Margin="348,272,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.421,-0.132" Click="Button_Click"/>
+                    <Slider Name="slMinSpeed" SmallChange="1" Value="20" Minimum="10" Maximum="500" Margin="0,42,0,492" RenderTransformOrigin="0.49,0.512" HorizontalAlignment="Left" Width="456"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="min. speed" VerticalAlignment="Top"/>
+                    <Slider Name="slMaxSpeed" SmallChange="1" Value="200" Minimum="10" Maximum="500" Margin="0,166,0,363" RenderTransformOrigin="0.493,0.49" HorizontalAlignment="Left" Width="456"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="max. speed" VerticalAlignment="Top"/>
+
+                    <Button Content="start fading" Margin="0,516,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.421,-0.132" Click="Button_Click"/>
+                    <Slider x:Name="slMinBrightness" SmallChange="1" Value="10" Maximum="255" Margin="0,295,0,239" RenderTransformOrigin="0.493,0.49" HorizontalAlignment="Left" Width="456"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,268,0,0" TextWrapping="Wrap" Text="min. brightness" VerticalAlignment="Top"/>
+                    <Slider x:Name="slMaxBrightness" SmallChange="1" Value="200" Maximum="255" Margin="0,419,0,115" RenderTransformOrigin="0.493,0.49" HorizontalAlignment="Left" Width="456"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,392,0,0" TextWrapping="Wrap" Text="max. brightness" VerticalAlignment="Top"/>
                 </Grid>
             </phone:PivotItem>
 
