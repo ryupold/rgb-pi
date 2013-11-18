@@ -23,7 +23,9 @@ namespace RGB
         private enum RGBCommandType
         {
             ChangeColor = 1,
-            RandomFader = 2
+            RandomFader = 2,
+            DimColor = 3,
+            DimCurrentColor = 4
         }
 
         private struct RGBCommand
@@ -111,6 +113,12 @@ namespace RGB
                         case RGBCommandType.RandomFader:
                             client.Send("rf "+c.Command);
                             break;
+                        case RGBCommandType.DimColor:
+                            client.Send("dim " + c.Command);
+                            break;
+                        case RGBCommandType.DimCurrentColor:
+                            client.Send("doff " + c.Command);
+                            break;
                     }
                     client.Close();
                 }
@@ -142,9 +150,11 @@ namespace RGB
             abbOn.Click += delegate(object s, EventArgs ea)
             {
                 System.Windows.Media.Color color = System.Windows.Media.Color.FromArgb(255, 255, 255, 255);
-                client.Connect("192.168.1.150", 4321);
-                client.Send((color.R / 255.0).ToString("F3") + " " + (color.G / 255.0).ToString("F3") + " " + (color.B / 255.0).ToString("F3"));
-                client.Close();
+                lock (commandQ)
+                {
+                    commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "5 FFFFFF"));
+                    Monitor.PulseAll(commandQ);
+                }
             };
             ApplicationBar.Buttons.Add(abbOn);
 
@@ -153,9 +163,11 @@ namespace RGB
             abbOff.Click += delegate(object s, EventArgs ea)
             {
                 System.Windows.Media.Color color = System.Windows.Media.Color.FromArgb(255, 0, 0, 0);
-                client.Connect("192.168.1.150", 4321);
-                client.Send((color.R / 255.0).ToString("F3") + " " + (color.G / 255.0).ToString("F3") + " " + (color.B / 255.0).ToString("F3"));
-                client.Close();
+                lock (commandQ)
+                {
+                    commandQ.Enqueue(new RGBCommand(RGBCommandType.DimCurrentColor, "2"));
+                    Monitor.PulseAll(commandQ);
+                }
             };
             ApplicationBar.Buttons.Add(abbOff);
 
@@ -169,6 +181,15 @@ namespace RGB
             lock (commandQ)
             {
                 commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, slMinSpeed.Value+" "+slMaxSpeed.Value+" "+slMinBrightness.Value+ " "+slMaxBrightness.Value));
+                Monitor.PulseAll(commandQ);
+            }
+        }
+
+        private void btnDim_Click(object sender, RoutedEventArgs e)
+        {
+            lock (commandQ)
+            {
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "5 "+txtDimColor.Text));
                 Monitor.PulseAll(commandQ);
             }
         }

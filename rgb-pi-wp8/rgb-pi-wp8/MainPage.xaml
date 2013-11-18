@@ -59,6 +59,14 @@
                 </Grid>
             </phone:PivotItem>
 
+            <phone:PivotItem Header="Dim" Name="piDim">
+                <Grid Name="gridDim">
+                    <TextBox Name="txtDimColor" Height="72" Margin="10,308,93,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                    <Button Content="Dim" Margin="363,310,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.633,0.535" Name="btnDim" Click="btnDim_Click"/>
+
+                </Grid>
+            </phone:PivotItem>
+
         </phone:Pivot>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are

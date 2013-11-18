@@ -10,7 +10,10 @@ import thread
 import threading
 import math
 import rgbfunctions
+
+#programme
 import colorFader
+import timedDimmer
 
 
 RUN = 1
@@ -26,14 +29,39 @@ class FadeThread (threading.Thread):
 	def run(self):
 		print "Starting Thread: " + self.name
 		##this is a test
-		#colorFader.startFade(2, 100, 0, 50)
 		colorFader.startFade(int(self.cmd[1]), int(self.cmd[2]), int(self.cmd[3]), int(self.cmd[4]))
 		print "Exiting:" + self.name
 	def stop(self):
 		print "stopping "+self.name
 		colorFader.stopFade()
 		
-	
+class DimThread (threading.Thread):
+	def __init__(self, threadID, name, cmd):
+		threading.Thread.__init__(self)
+		self.threadID = threadID
+		self.name = name
+		self.cmd = cmd
+	def run(self):
+		print "Starting Thread: " + self.name, self.cmd
+		timedDimmer.startDim(int(self.cmd[1]), self.cmd[2])
+		print "Exiting:" + self.name
+	def stop(self):
+		print "stopping "+self.name
+		timedDimmer.stopDim()
+		
+class DimOFFThread (threading.Thread):
+	def __init__(self, threadID, name, cmd):
+		threading.Thread.__init__(self)
+		self.threadID = threadID
+		self.name = name
+		self.cmd = cmd
+	def run(self):
+		print "Starting Thread: " + self.name, self.cmd
+		timedDimmer.dimCurrentColor(int(self.cmd[1]))
+		print "Exiting:" + self.name
+	def stop(self):
+		print "stopping "+self.name
+		timedDimmer.stopDim()
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -68,6 +96,12 @@ def readcommands(threadName, intervall):
 			elif command[0] == "rf":
 				CURRENTTHREAD = FadeThread(1, "fade thread", command)
 				CURRENTTHREAD.start()
+			elif command[0] == "dim":
+				CURRENTTHREAD = DimThread(2, "dim thread", command)
+				CURRENTTHREAD.start()
+			elif command[0] == "doff":
+				CURRENTTHREAD = DimOFFThread(3, "dim off thread", command)
+				CURRENTTHREAD.start()	
 			else:
 				print "unknown command: '", command, "'"
 				

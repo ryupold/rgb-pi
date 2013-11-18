@@ -18,7 +18,10 @@ startColor = 'FF4444'		#Color to start with
 
 RUN = 0
 
-def dim(minutesToDim, startColor):
+def dimCurrentColor(secondsToDim):
+	startDim(secondsToDim, utils.getColorString([int(rgbfunctions.RED*255), int(rgbfunctions.GREEN*255), int(rgbfunctions.BLUE*255)]))
+
+def startDim(secondsToDim, startColor):
 	global RUN
 	myrun = RUN
 
@@ -28,7 +31,7 @@ def dim(minutesToDim, startColor):
 	startTime = int(time.time())
 
 	#time to dim, seconds
-	secondsToDim = minutesToDim * 60
+	
 
 	#time, when lights should go out
 	endTime = startTime + secondsToDim
@@ -52,17 +55,32 @@ def dim(minutesToDim, startColor):
 
 		now = time.time()
 		secondsPassed = now - startTime
-
+		secondsToGo = endTime - secondsPassed
+		
 		#Set new color (startcolor - (seconds passed * stepsPerSecond))
-		currentColor[0] = max(0, startColorArray[0] - int((secondsPassed * (startColorArray[0] / secondsToDim))))
-		currentColor[1] = max(0, startColorArray[1] - int((secondsPassed * (startColorArray[1] / secondsToDim))))
-		currentColor[2] = max(0, startColorArray[2] - int((secondsPassed * (startColorArray[2] / secondsToDim))))
+		#currentColor[0] = max(0, startColorArray[0] - int((secondsPassed * float(startColorArray[0] / secondsToDim))))
+		#currentColor[1] = max(0, startColorArray[1] - int((secondsPassed * float(startColorArray[1] / secondsToDim))))
+		#currentColor[2] = max(0, startColorArray[2] - int((secondsPassed * float(startColorArray[2] / secondsToDim))))
+		currentColor[0] = max(0, interpolateColor(startColorArray[0], 0, 1.0*secondsPassed/(secondsToDim)))
+		currentColor[1] = max(0, interpolateColor(startColorArray[1], 0, 1.0*secondsPassed/(secondsToDim)))
+		currentColor[2] = max(0, interpolateColor(startColorArray[2], 0, 1.0*secondsPassed/(secondsToDim)))
+		
+		
+		print currentColor
 
 		R = currentColor[0] / 255.0
 		G = currentColor[1] / 255.0
 		B = currentColor[2] / 255.0
+		
 
 		rgbfunctions.changeColor(R, G, B)
 
 		#next step
 		time.sleep(secondsBetweenChange)
+
+def interpolateColor(fc, tc, percent):
+	return fc + (tc-fc)*percent
+		
+def stopDim():
+	global RUN
+	RUN = RUN + 1

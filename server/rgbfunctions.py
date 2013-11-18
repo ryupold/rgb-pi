@@ -8,6 +8,12 @@ import string
 import thread
 import math
 
+#global rgb values
+RED = 0
+GRREN = 0
+BLUE = 0
+
+
 
 def pwm(pin, angle):
     cmd = "echo " + str(pin) + "=" + str(angle) + " > /dev/pi-blaster"
@@ -16,6 +22,13 @@ def pwm(pin, angle):
 	
 # elementary function to change the color of the LED strip
 def changeColor(r, g, b):
+	global RED
+	global GREEN
+	global BLUE
+	RED = r
+	GREEN = g
+	BLUE = b
+	
 	cmdR = "echo " + str(config.RED_PIN_1) + "=" + str(g) + " > /dev/pi-blaster"
 	cmdG = "echo " + str(config.GREEN_PIN_1) + "=" + str(r) + " > /dev/pi-blaster"
 	cmdB = "echo " + str(config.BLUE_PIN_1) + "=" + str(b) + " > /dev/pi-blaster"
