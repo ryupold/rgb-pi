@@ -1,3 +1,4 @@
+import config
 import time
 import os
 import sys
@@ -7,9 +8,6 @@ import string
 import thread
 import math
 
-RED_PIN_1 = 2
-GREEN_PIN_1 = 5
-BLUE_PIN_1 = 6
 
 def pwm(pin, angle):
     cmd = "echo " + str(pin) + "=" + str(angle) + " > /dev/pi-blaster"
