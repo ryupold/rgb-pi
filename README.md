@@ -33,9 +33,9 @@ GREEN_PIN_1 = 5
 BLUE_PIN_1 = 6</code></pre>
 		<h3>use</h3>
 		<p>simply changing color<p>
-		<pre><code>./rgb.py c 1.0 0.2 0.4</code></pre>
+		<pre><code>python rgb.py c 1.0 0.2 0.4</code></pre>
 		<p>starting the server<p>
-		<pre><code>./rgb.py server</code></pre>
+		<pre><code>python rgb.py server</code></pre>
 		<h4>communication protocol</h4>
 		<p>The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a string with a maximum size of 1024 bytes.</p>
 		<p>By default the server listens to port <strong>4321</strong>, but this can be configured in <strong>config.py</strong>.</p>
