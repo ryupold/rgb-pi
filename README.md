@@ -47,7 +47,7 @@
 			<pre><code>cc red green blue</code></pre>
 			example (violet): <pre><code>cc 0.5 0 1</code></pre></li>
 			<li><strong>rf</strong> - randomized fader (all values are integer | speed values must be bigger than 0 | brightness has to be between 0 and 255):
-			<pre><code>rt minSpeed maxSpeed minBrightness maxBrightness</code></pre></li>
+			<pre><code>rt minSpeed maxSpeed minBrightness maxBrightness</code></pre>
 			example: <pre><code>rt 50 150 10 200</code></pre></li>
 		</ul>
 	</body>
