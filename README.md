@@ -38,5 +38,13 @@
 		<pre><code>./rgb.py c 1.0 0.2 0.4</code></pre>
 		<p>starting the server<p>
 		<pre><code>./rgb.py server</code></pre>
+		<h4>communication protocoll</h4>
+		<p>The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a string with a maximum size of 1024 bytes.</p>
+		<p>By default the server listens to port <strong>4321</strong>, but this can be configured in <strong>config.py</strong>.</p>
+		<p>Following commands are implemented in the current version (command arguments are seperated by a space):</p>
+		<ul>
+			<li>set a specific color:
+			<pre><code>cc (float value between 0 and 1) green(float value between 0 and 1) blue(float value between 0 and 1)</code></pre></li>
+		</ul>
 	</body>
 </html> 
