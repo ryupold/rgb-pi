@@ -27,8 +27,7 @@
 		<h2>rgb-pi server</h2>
 		<h3>configure</h3>
 		<p>first you have to set the pin numbers according to the pins you connected the rgb-channels of your LEDs. This have to be done in the <strong>config.py</strong> file:</p>
-		<pre><code># rgb representing pins on the raspberry pi GPIO interface 
-# see: https://github.com/sarfata/pi-blaster 
+		<pre><code>#rgb representing pins on the raspberry pi GPIO interface. See: https://github.com/sarfata/pi-blaster 
 RED_PIN_1 = 2 
 GREEN_PIN_1 = 5 
 BLUE_PIN_1 = 6</code></pre>
@@ -49,6 +48,6 @@ BLUE_PIN_1 = 6</code></pre>
 			<pre><code>rt minSpeed maxSpeed minBrightness maxBrightness</code></pre>
 			example: <pre><code>rt 50 150 10 200</code></pre></li>
 		</ul>
-		<p>There is no acknowledgement in the current communication protocol, but planned for the future.</p>
+		<p>There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.</p>
 	</body>
 </html> 
