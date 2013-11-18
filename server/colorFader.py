@@ -38,7 +38,7 @@ def fade(endColor):
 					current[0] = current[0] - random.randint(1, 4)
 				elif (current[0] < end[0]):
 					current[0] = current[0] + random.randint(1, 4)
-				if (abs(current[0] - end[0]) <= 2):
+				if (abs(current[0] - end[0]) <= 4):
 					current[0] = end[0]
 
 				#G
@@ -46,7 +46,7 @@ def fade(endColor):
 					current[1] = current[1] - random.randint(1, 4)
 				elif (current[1] < end[1]):
 					current[1] = current[1] + random.randint(1, 4)
-				if (abs(current[1] - end[1]) <= 2):
+				if (abs(current[1] - end[1]) <= 4):
 					current[1] = end[1]
 
 				#B
@@ -54,7 +54,7 @@ def fade(endColor):
 					current[2] = current[2] - random.randint(1, 4)
 				elif (current[2] < end[2]):
 					current[2] = current[2] + random.randint(1, 4)
-				if (abs(current[2] - end[2]) <= 2):
+				if (abs(current[2] - end[2]) <= 4):
 					current[2] = end[2]
 				
 				#####################################
@@ -137,4 +137,4 @@ def startFade(minS, maxS, mi, ma):
 	global endColor
 	endColor = utils.getColorString(getRandomColor())
 	
-	fade(getIntComponents(endColor))
+	fade(utils.getIntComponents(endColor))
