@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 #Returns an array containing RGB values as integers
 #Param: Color string (i.e. "FF0000")
 def getIntComponents(color):

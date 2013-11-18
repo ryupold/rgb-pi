@@ -21,7 +21,7 @@ def fade(endColor):
 			global changeSpeedAfter
 			
 			
-			current = getIntComponents(getCurrentColor())
+			current = utils.getIntComponents(getCurrentColor())
 			end = endColor
 			
 			#print 'Target: '+str(end[0])+', '+str(end[1])+', '+str(end[2])
@@ -66,7 +66,7 @@ def fade(endColor):
 				#####################################
 				#####################################
 				
-				setColor(getColorString(current))
+				setColor(utils.getColorString(current))
 
 				i = i + 1
 				if (i == changeSpeedAfter):
@@ -84,7 +84,7 @@ def fade(endColor):
 #Set new color
 #Param color String (i.e. "FF0000")
 def setColor(color):
-	c = getIntComponents(color)
+	c = utils.getIntComponents(color)
 	R = c[0] / 255.0
 	G = c[1] / 255.0
 	B = c[2] / 255.0
@@ -133,8 +133,8 @@ def startFade(minS, maxS, mi, ma):
 	global speed
 	speed = random.randint(minSpeed, maxSpeed)
 	global currentColor
-	currentColor = getColorString(getRandomColor())
+	currentColor = utils.getColorString(getRandomColor())
 	global endColor
-	endColor = getColorString(getRandomColor())
+	endColor = utils.getColorString(getRandomColor())
 	
 	fade(getIntComponents(endColor))

@@ -16,9 +16,9 @@ def pwm(pin, angle):
 	
 # elementary function to change the color of the LED strip
 def changeColor(r, g, b):
-	cmdR = "echo " + str(RED_PIN_1) + "=" + str(g) + " > /dev/pi-blaster"
-	cmdG = "echo " + str(GREEN_PIN_1) + "=" + str(r) + " > /dev/pi-blaster"
-	cmdB = "echo " + str(BLUE_PIN_1) + "=" + str(b) + " > /dev/pi-blaster"
+	cmdR = "echo " + str(config.RED_PIN_1) + "=" + str(g) + " > /dev/pi-blaster"
+	cmdG = "echo " + str(config.GREEN_PIN_1) + "=" + str(r) + " > /dev/pi-blaster"
+	cmdB = "echo " + str(config.BLUE_PIN_1) + "=" + str(b) + " > /dev/pi-blaster"
 	os.system(cmdR)
 	os.system(cmdG)
 	os.system(cmdB)
