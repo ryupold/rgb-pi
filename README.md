@@ -47,6 +47,12 @@ BLUE_PIN_1 = 6</code></pre>
 			<li><strong>rf</strong> - randomized fader (all values are integer | speed values must be bigger than 0 | brightness has to be between 0 and 255):
 			<pre><code>rf minSpeed maxSpeed minBrightness maxBrightness</code></pre>
 			example: <pre><code>rf 50 150 10 200</code></pre></li>
+			<li><strong>dim</strong> - dim the specified color off, over a certain time (time is given in seconds as an integer | color is a rgb hex string like '0007E0' (without the apostrophe)):
+			<pre><code>dim timeInSeconds startColor</code></pre>
+			example purlple sleep timer: <pre><code>dim 3600 7D26CD</code></pre></li>
+			<li><strong>doff</strong> - dim the current color off, over a certain time (time is given in seconds as an integer):
+			<pre><code>doff timeInSeconds</code></pre>
+			example smooth turn off: <pre><code>doff 2</code></pre></li>
 		</ul>
 		<p>There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.</p>
 	</body>
