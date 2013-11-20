@@ -48,11 +48,13 @@ BLUE_PIN_1 = 6</code></pre>
 			<pre><code>rf minSpeed maxSpeed minBrightness maxBrightness</code></pre>
 			example: <pre><code>rf 50 150 10 200</code></pre></li>
 			<li><strong>dim</strong> - dim the specified color off, over a certain time (time is given in seconds as an integer | color is a rgb hex string like '0007E0' (without the apostrophe)):
-			<pre><code>dim timeInSeconds startColor</code></pre>
-			example purlple sleep timer: <pre><code>dim 3600 7D26CD</code></pre></li>
-			<li><strong>doff</strong> - dim the current color off, over a certain time (time is given in seconds as an integer):
-			<pre><code>doff timeInSeconds</code></pre>
-			example smooth turn off: <pre><code>doff 2</code></pre></li>
+			<pre><code>dim timeInSeconds startColor [endColor]</code></pre>
+			example purlple sleep timer: <pre><code>dim 3600 7D26CD</code></pre>
+			example dim from red to blue: <pre><code>dim 10 FF0000 0000FF</code></pre>
+			</li>
+			<li><strong>fade</strong> - fades the current color, over a certain time (time is given in seconds as an integer) to the endColor:
+			<pre><code>fade timeInSeconds endColorHex</code></pre>
+			example smooth turn off: <pre><code>fade 2 000000</code></pre></li>
 		</ul>
 		<p>There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.</p>
 	</body>
