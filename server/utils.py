@@ -21,3 +21,6 @@ def getColorString(c):
 	if (int(c[2]) < 16):
 		B = '0'+B 
 	return R+G+B
+	
+def interpolateColor(fc, tc, percent):
+	return fc + (tc-fc)*percent

@@ -10,6 +10,7 @@ import thread
 import threading
 import math
 import rgbfunctions
+import config
 
 #programme
 import colorFader
@@ -35,33 +36,26 @@ class FadeThread (threading.Thread):
 		print "stopping "+self.name
 		colorFader.stopFade()
 		
-class DimThread (threading.Thread):
+class DimFadeThread (threading.Thread):
 	def __init__(self, threadID, name, cmd):
 		threading.Thread.__init__(self)
 		self.threadID = threadID
 		self.name = name
 		self.cmd = cmd
-	def run(self):
-		print "Starting Thread: " + self.name, self.cmd
-		timedDimmer.startDim(int(self.cmd[1]), self.cmd[2])
-		print "Exiting:" + self.name
-	def stop(self):
-		print "stopping "+self.name
-		timedDimmer.stopDim()
 		
-class DimOFFThread (threading.Thread):
-	def __init__(self, threadID, name, cmd):
-		threading.Thread.__init__(self)
-		self.threadID = threadID
-		self.name = name
-		self.cmd = cmd
 	def run(self):
-		print "Starting Thread: " + self.name, self.cmd
-		timedDimmer.dimCurrentColor(int(self.cmd[1]))
-		print "Exiting:" + self.name
+		if self.cmd[0] == "dim":
+			if len(self.cmd) >= 4:
+				timedDimmer.startDim(int(self.cmd[1]), self.cmd[2], self.cmd[3])
+			else:
+				timedDimmer.startDim(int(self.cmd[1]), self.cmd[2])
+				
+		elif self.cmd[0] == "fade":
+			timedDimmer.fadeCurrentColor(int(self.cmd[1]), self.cmd[2])
 	def stop(self):
-		print "stopping "+self.name
-		timedDimmer.stopDim()
+		timedDimmer.stopDim() 
+		
+
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -76,7 +70,7 @@ def readcommands(threadName, intervall):
 	
 	#bind the socket to a public host,
 	# and a well-known port
-	serversocket.bind(('', 4321)) # socket.gethostname()
+	serversocket.bind(('', config.SERVER_PORT)) # socket.gethostname()
 	
 	#become a server socket
 	serversocket.listen(5)
@@ -96,12 +90,9 @@ def readcommands(threadName, intervall):
 			elif command[0] == "rf":
 				CURRENTTHREAD = FadeThread(1, "fade thread", command)
 				CURRENTTHREAD.start()
-			elif command[0] == "dim":
-				CURRENTTHREAD = DimThread(2, "dim thread", command)
+			elif command[0] == "dim" or command[0] == "fade":
+				CURRENTTHREAD = DimFadeThread(2, "dim and fade thread", command)
 				CURRENTTHREAD.start()
-			elif command[0] == "doff":
-				CURRENTTHREAD = DimOFFThread(3, "dim off thread", command)
-				CURRENTTHREAD.start()	
 			else:
 				print "unknown command: '", command, "'"
 				

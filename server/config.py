@@ -6,6 +6,5 @@ RED_PIN_1 = 2
 GREEN_PIN_1 = 5
 BLUE_PIN_1 = 6
 
-def RED():
-	global RED_PIN_1
-	return RED_PIN_1
+#server port
+SERVER_PORT = 4321

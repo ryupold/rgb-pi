@@ -18,7 +18,9 @@ import rgbthreads
 
 RUN = 1
 
-
+rgbfunctions.RED = 0
+rgbfunctions.GREEN = 0
+rgbfunctions.BLUE = 0
 		
 #command line options		
 

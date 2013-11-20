@@ -18,10 +18,16 @@ startColor = 'FF4444'		#Color to start with
 
 RUN = 0
 
+#dims/fades the current color to black 000000 over 'secondsToDim'
 def dimCurrentColor(secondsToDim):
 	startDim(secondsToDim, utils.getColorString([int(rgbfunctions.RED*255), int(rgbfunctions.GREEN*255), int(rgbfunctions.BLUE*255)]))
 
-def startDim(secondsToDim, startColor):
+#dims/fades the current color to the 'endColorHex' over 'secondsToDim'
+def fadeCurrentColor(secondsToDim, endColorHex):
+	startDim(secondsToDim, utils.getColorString([int(rgbfunctions.RED*255), int(rgbfunctions.GREEN*255), int(rgbfunctions.BLUE*255)]), endColorHex)
+	
+#dims/fades the 'startColor' over 'secondsToDim' to 'endColor' (default is black 000000)
+def startDim(secondsToDim, startColor, endColor=None):
 	global RUN
 	myrun = RUN
 
@@ -29,8 +35,6 @@ def startDim(secondsToDim, startColor):
 
 	#Now, in seconds
 	startTime = int(time.time())
-
-	#time to dim, seconds
 	
 
 	#time, when lights should go out
@@ -38,6 +42,16 @@ def startDim(secondsToDim, startColor):
 
 	#startColor as Array
 	startColorArray = utils.getIntComponents(startColor)
+	R = startColorArray[0] / 255.0
+	G = startColorArray[1] / 255.0
+	B = startColorArray[2] / 255.0
+	rgbfunctions.changeColor(R, G, B)
+	
+	#endColor is a defaultValue
+	if endColor is None:
+		endColor = '000000'
+	endColorArray = utils.getIntComponents(endColor)
+	
 
 	#time between two steps for R
 	secondsBetweenRChange = (sys.maxint if startColorArray[0] == 0 else secondsToDim / float(startColorArray[0]))
@@ -50,36 +64,30 @@ def startDim(secondsToDim, startColor):
 
 	#time between to steps
 	secondsBetweenChange = min(min(secondsBetweenRChange, secondsBetweenGChange), secondsBetweenBChange)
-		
-	while ((myrun == RUN) and ((currentColor[0] > 0) or (currentColor[1] > 0) or (currentColor[2] > 0))):
+	
+	secondsPassed = 0
+	
+	while ((myrun == RUN) and secondsPassed < secondsToDim):
 
 		now = time.time()
 		secondsPassed = now - startTime
-		secondsToGo = endTime - secondsPassed
 		
-		#Set new color (startcolor - (seconds passed * stepsPerSecond))
-		#currentColor[0] = max(0, startColorArray[0] - int((secondsPassed * float(startColorArray[0] / secondsToDim))))
-		#currentColor[1] = max(0, startColorArray[1] - int((secondsPassed * float(startColorArray[1] / secondsToDim))))
-		#currentColor[2] = max(0, startColorArray[2] - int((secondsPassed * float(startColorArray[2] / secondsToDim))))
-		currentColor[0] = max(0, interpolateColor(startColorArray[0], 0, 1.0*secondsPassed/(secondsToDim)))
-		currentColor[1] = max(0, interpolateColor(startColorArray[1], 0, 1.0*secondsPassed/(secondsToDim)))
-		currentColor[2] = max(0, interpolateColor(startColorArray[2], 0, 1.0*secondsPassed/(secondsToDim)))
+		#interpolate new color		
+		currentColor[0] = max(0, utils.interpolateColor(startColorArray[0], endColorArray[0], 1.0*secondsPassed/(secondsToDim)))
+		currentColor[1] = max(0, utils.interpolateColor(startColorArray[1], endColorArray[1], 1.0*secondsPassed/(secondsToDim)))
+		currentColor[2] = max(0, utils.interpolateColor(startColorArray[2], endColorArray[2], 1.0*secondsPassed/(secondsToDim)))
 		
-		
-		print currentColor
+		#print currentColor
 
 		R = currentColor[0] / 255.0
 		G = currentColor[1] / 255.0
 		B = currentColor[2] / 255.0
 		
-
 		rgbfunctions.changeColor(R, G, B)
 
 		#next step
 		time.sleep(secondsBetweenChange)
 
-def interpolateColor(fc, tc, percent):
-	return fc + (tc-fc)*percent
 		
 def stopDim():
 	global RUN

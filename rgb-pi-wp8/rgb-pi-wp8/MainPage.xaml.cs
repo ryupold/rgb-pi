@@ -25,7 +25,7 @@ namespace RGB
             ChangeColor = 1,
             RandomFader = 2,
             DimColor = 3,
-            DimCurrentColor = 4
+            FadeCurrentColor = 4
         }
 
         private struct RGBCommand
@@ -116,8 +116,8 @@ namespace RGB
                         case RGBCommandType.DimColor:
                             client.Send("dim " + c.Command);
                             break;
-                        case RGBCommandType.DimCurrentColor:
-                            client.Send("doff " + c.Command);
+                        case RGBCommandType.FadeCurrentColor:
+                            client.Send("fade " + c.Command);
                             break;
                     }
                     client.Close();
@@ -149,10 +149,9 @@ namespace RGB
             abbOn.Text = "On";
             abbOn.Click += delegate(object s, EventArgs ea)
             {
-                System.Windows.Media.Color color = System.Windows.Media.Color.FromArgb(255, 255, 255, 255);
                 lock (commandQ)
                 {
-                    commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "5 FFFFFF"));
+                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeCurrentColor, "2 FFFFFF"));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -162,10 +161,9 @@ namespace RGB
             abbOff.Text = "Off";
             abbOff.Click += delegate(object s, EventArgs ea)
             {
-                System.Windows.Media.Color color = System.Windows.Media.Color.FromArgb(255, 0, 0, 0);
                 lock (commandQ)
                 {
-                    commandQ.Enqueue(new RGBCommand(RGBCommandType.DimCurrentColor, "2"));
+                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeCurrentColor, "2 000000"));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -189,7 +187,7 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "5 "+txtDimColor.Text));
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "900 "+txtDimColor.Text));
                 Monitor.PulseAll(commandQ);
             }
         }
