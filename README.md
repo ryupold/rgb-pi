@@ -30,7 +30,9 @@
 		<pre><code>#rgb representing pins on the raspberry pi GPIO interface. See: https://github.com/sarfata/pi-blaster 
 RED_PIN_1 = 2 
 GREEN_PIN_1 = 5 
-BLUE_PIN_1 = 6</code></pre>
+BLUE_PIN_1 = 6
+
+SERVER_PORT = 4321</code></pre>
 		<h3>use</h3>
 		<p>simply changing color<p>
 		<pre><code>python rgb.py c 1.0 0.2 0.4</code></pre>
