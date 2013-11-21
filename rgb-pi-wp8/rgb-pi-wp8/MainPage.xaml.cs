@@ -25,7 +25,8 @@ namespace RGB
             ChangeColor = 1,
             RandomFader = 2,
             DimColor = 3,
-            FadeCurrentColor = 4
+            FadeCurrentColor = 4,
+            Specials = 5
         }
 
         private struct RGBCommand
@@ -119,6 +120,9 @@ namespace RGB
                         case RGBCommandType.FadeCurrentColor:
                             client.Send("fade " + c.Command);
                             break;
+                        case RGBCommandType.Specials:
+                            client.Send("special " + c.Command);
+                            break;
                     }
                     client.Close();
                 }
@@ -188,6 +192,15 @@ namespace RGB
             lock (commandQ)
             {
                 commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "900 "+txtDimColor.Text));
+                Monitor.PulseAll(commandQ);
+            }
+        }
+
+        private void btnSpecialsJamaica_Click(object sender, RoutedEventArgs e)
+        {
+            lock (commandQ)
+            {
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.Specials, "jamaica 2"));
                 Monitor.PulseAll(commandQ);
             }
         }

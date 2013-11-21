@@ -67,6 +67,14 @@
                 </Grid>
             </phone:PivotItem>
 
+            <phone:PivotItem Header="specials" Name="piSpecials">
+                <Grid Name="gridSpecials">
+
+                    <Button Content="Jamaica" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.633,0.535" Name="btnSpecialsJamaica" HorizontalAlignment="Left" Width="180" Click="btnSpecialsJamaica_Click"/>
+
+                </Grid>
+            </phone:PivotItem>
+
         </phone:Pivot>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are

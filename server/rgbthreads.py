@@ -15,6 +15,8 @@ import config
 #programme
 import colorFader
 import timedDimmer
+import pulse
+import specials
 
 
 RUN = 1
@@ -55,7 +57,35 @@ class DimFadeThread (threading.Thread):
 	def stop(self):
 		timedDimmer.stopDim() 
 		
-
+class PulseThread (threading.Thread):
+	def __init__(self, threadID, name, cmd):
+		threading.Thread.__init__(self)
+		self.threadID = threadID
+		self.name = name
+		self.cmd = cmd
+	def run(self):
+		print "Starting Thread: " + self.name
+		##this is a test
+		pulse.startPulse(int(self.cmd[1]), self.cmd[2], self.cmd[3])
+		print "Exiting:" + self.name
+	def stop(self):
+		print "stopping "+self.name
+		pulse.stopPulse()
+		
+class SpecialThread (threading.Thread):
+	def __init__(self, threadID, name, cmd):
+		threading.Thread.__init__(self)
+		self.threadID = threadID
+		self.name = name
+		self.cmd = cmd
+	def run(self):
+		print "Starting Thread: " + self.name
+		if self.cmd[1] == "jamaica":
+			specials.startJamaica(self.cmd)
+		print "Exiting:" + self.name
+	def stop(self):
+		print "stopping "+self.name
+		specials.stop()
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -92,6 +122,12 @@ def readcommands(threadName, intervall):
 				CURRENTTHREAD.start()
 			elif command[0] == "dim" or command[0] == "fade":
 				CURRENTTHREAD = DimFadeThread(2, "dim and fade thread", command)
+				CURRENTTHREAD.start()
+			elif command[0] == "pulse":
+				CURRENTTHREAD = PulseThread(3, "pulse thread", command)
+				CURRENTTHREAD.start()
+			elif command[0] == "special":
+				CURRENTTHREAD = SpecialThread(3, "special thread", command)
 				CURRENTTHREAD.start()
 			else:
 				print "unknown command: '", command, "'"

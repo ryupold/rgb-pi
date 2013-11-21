@@ -5,55 +5,9 @@ import time
 import rgbfunctions
 import math
 import utils
+import sys
 
 RUN = 0
-
-def pulse():
-	try:
-		i = 0
-		global RUN
-		myrun = RUN
-		while (myrun == RUN):
-			global speed
-			global endColor
-			global colorToPulse
-			
-			current = utils.getIntComponents(getCurrentColor())
-			end = utils.getIntComponents(endColor)
-			
-			
-			#If is already same color, start fade to new random color
-			if ((abs(current[0] - end[0]) <= 4) and (abs(current[1] - end[1]) <= 4) and (abs(current[2] - end[2]) <= 4)):
-				if (getCurrentColor() == colorToPulse):
-					endColor = '000000'
-				else:
-					endColor = colorToPulse
-			else:
-				
-
-				
-				#####################################
-				##### XTC Fader!!!!!!!!!! ###########
-				#####################################
-				#current[0] = random.randint(0, 255)
-				#current[1] = random.randint(0, 255)
-				#current[2] = random.randint(0, 255)
-				#####################################
-				#####################################
-				
-				setColor(utils.getColorString(current))
-
-				i = i + 1
-				if (i == changeSpeedAfter):
-					speed = random.randint(minSpeed, maxSpeed)
-					i = 1
-					
-				#print 'speed: '+str(speed)
-				#print 'i: '+str(i)
-				time.sleep(speed / 1000.0)
-			#fade(endColor)
-	except:
-		print 'FEHLER!!!', sys.exc_info()[0]
 
 
 #Set new color
@@ -64,7 +18,7 @@ def setColor(color):
 	G = c[1] / 255.0
 	B = c[2] / 255.0
 	global currentColor
-	#print currentColor+'test'
+	#print color
 	currentColor = color
 	rgbfunctions.changeColor(R, G, B)
 
@@ -92,13 +46,71 @@ def stopPulse():
 	global RUN
 	RUN = RUN + 1
 
-def startPulse(color, pulseSpeed):
-	global speed
-	speed = pulseSpeed
-	global endColor
-	endColor = color
-	global colorToPulse
-	colorToPulse = color
-	setColor('000000')
+def startPulse(secondsToDim, startColor, endColor=None):
+	global RUN
+	myrun = RUN
+
+	currentColor = utils.getIntComponents(startColor)
+
+	#Now, in seconds
+	startTime = int(time.time())
 	
-	pulse()
+
+	#time, when lights should go out
+	endTime = startTime + secondsToDim
+
+	#startColor as Array
+	startColorArray = utils.getIntComponents(startColor)
+	R = startColorArray[0] / 255.0
+	G = startColorArray[1] / 255.0
+	B = startColorArray[2] / 255.0
+	rgbfunctions.changeColor(R, G, B)
+	
+	#endColor is a defaultValue
+	if endColor is None:
+		endColor = '000000'
+	endColorArray = utils.getIntComponents(endColor)
+		#time between two steps for R
+	secondsBetweenRChange = (sys.maxint if startColorArray[0] == 0 else secondsToDim / float(startColorArray[0]))
+
+	#time between two steps for G
+	secondsBetweenGChange = (sys.maxint if startColorArray[1] == 0 else secondsToDim / float(startColorArray[1]))
+
+	#time between two steps for B
+	secondsBetweenBChange = (sys.maxint if startColorArray[2] == 0 else secondsToDim / float(startColorArray[2]))
+
+	#time between to steps
+	secondsBetweenChange = min(min(secondsBetweenRChange, secondsBetweenGChange), secondsBetweenBChange)
+	
+	secondsPassed = 0
+	
+	while (myrun == RUN):
+
+		now = time.time()
+		secondsPassed = now - startTime
+		
+		#interpolate new color		
+		currentColor[0] = max(0, utils.interpolateColor(startColorArray[0], endColorArray[0], 1.0*secondsPassed/(secondsToDim)))
+		currentColor[1] = max(0, utils.interpolateColor(startColorArray[1], endColorArray[1], 1.0*secondsPassed/(secondsToDim)))
+		currentColor[2] = max(0, utils.interpolateColor(startColorArray[2], endColorArray[2], 1.0*secondsPassed/(secondsToDim)))
+		
+
+		R = currentColor[0] / 255.0
+		G = currentColor[1] / 255.0
+		B = currentColor[2] / 255.0
+
+		
+		rgbfunctions.changeColor(R, G, B)
+		
+		if (secondsPassed >= secondsToDim):
+			tempColor = endColorArray
+			endColorArray = startColorArray
+			startColorArray = tempColor
+			startTime = time.time()
+
+		#next step
+		time.sleep(secondsBetweenChange)
+	
+def stopPulse():
+	global RUN
+	RUN = RUN + 1
