@@ -37,7 +37,7 @@ if sys.argv[1] == "server":
 	#readcommands("socket thread", 0.01)
 	thread.start_new_thread(rgbthreads.readcommands, ("socket thread", 0.01, ))
 	while RUN:
-		pass
+		time.sleep(1)
 
 		
 			
