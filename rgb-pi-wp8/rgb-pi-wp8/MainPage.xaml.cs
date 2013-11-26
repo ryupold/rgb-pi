@@ -17,6 +17,8 @@ namespace RGB
     {
         private SocketClient client = new SocketClient();
         private Thread worker;
+        private ColorPicker copickDimColor;
+        private ColorPicker colorPicker;
 
         private readonly Queue<RGBCommand> commandQ = new Queue<RGBCommand>();
 
@@ -65,9 +67,12 @@ namespace RGB
             // Sample code to localize the ApplicationBar
             BuildLocalizedApplicationBar();
 
-            ColorPicker colorPicker = new ColorPicker();
+            colorPicker = new ColorPicker();
             colorPicker.ColorChanged += colorPicker_ColorChanged;
             gridChooseColor.Children.Add(colorPicker);
+
+            copickDimColor = new ColorPicker();
+            gridDimColor.Children.Add(copickDimColor);
 
             worker = new Thread(rgbWorking);
             worker.IsBackground = true;
@@ -105,14 +110,15 @@ namespace RGB
                         c = commandQ.Dequeue();
                     }
 
-                    
+
                     client.Connect("192.168.1.150", 4321);
-                    switch(c.Type){
+                    switch (c.Type)
+                    {
                         case RGBCommandType.ChangeColor:
                             client.Send("cc " + c.R.ToString("F3") + " " + c.G.ToString("F3") + " " + c.B.ToString("F3"));
                             break;
                         case RGBCommandType.RandomFader:
-                            client.Send("rf "+c.Command);
+                            client.Send("rf " + c.Command);
                             break;
                         case RGBCommandType.DimColor:
                             client.Send("dim " + c.Command);
@@ -174,15 +180,21 @@ namespace RGB
             ApplicationBar.Buttons.Add(abbOff);
 
             // Create a new menu item with the localized string from AppResources.
-            //ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-            //ApplicationBar.MenuItems.Add(appBarMenuItem);
+            ApplicationBarMenuItem appBarMISettings = new ApplicationBarMenuItem("settings");
+            appBarMISettings.Click += delegate(object s, EventArgs ea)
+            {
+                NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
+            };
+            ApplicationBar.MenuItems.Add(appBarMISettings);
         }
+
+        
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, slMinSpeed.Value+" "+slMaxSpeed.Value+" "+slMinBrightness.Value+ " "+slMaxBrightness.Value));
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, slMinSpeed.Value + " " + slMaxSpeed.Value + " " + slMinBrightness.Value + " " + slMaxBrightness.Value));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -191,7 +203,7 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, "900 "+txtDimColor.Text));
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, ((int)slideDimTime.Value) + " " + copickDimColor.Color.R.ToString("X2") + copickDimColor.Color.G.ToString("X2") + copickDimColor.Color.B.ToString("X2")));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -203,6 +215,20 @@ namespace RGB
                 commandQ.Enqueue(new RGBCommand(RGBCommandType.Specials, "jamaica 2"));
                 Monitor.PulseAll(commandQ);
             }
+        }
+
+        private void slideDimTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (slideDimTime == null)
+                return;
+
+            int s = (int)slideDimTime.Value;
+            
+
+            if(s <= 60)
+                btnDim.Content = "Dim over "+s+" seconds";
+            else
+                btnDim.Content = "Dim over " + (s/60) + " minutes";
         }
 
 

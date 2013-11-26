@@ -37,7 +37,7 @@
          -->
 
         <!--Pivot Control-->
-        <phone:Pivot Title="RGB">
+        <phone:Pivot Title="RGB-Pi">
             <!--Pivot item: choose color-->
             <phone:PivotItem Header="choose color" Name="piChooseColor">
                 <Grid Name="gridChooseColor"/>
@@ -61,8 +61,10 @@
 
             <phone:PivotItem Header="Dim" Name="piDim">
                 <Grid Name="gridDim">
-                    <TextBox Name="txtDimColor" Height="72" Margin="10,308,93,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                    <Button Content="Dim" Margin="363,310,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.633,0.535" Name="btnDim" Click="btnDim_Click"/>
+                    <Grid Name="gridDimColor" Margin="0,0,0,293"/>
+
+                    <Button Content="Dim over 15 minutes" Margin="20,404,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.506" Name="btnDim" Click="btnDim_Click" Height="79"/>
+                    <Slider  HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Width="436" Name="slideDimTime" Minimum="1" SmallChange="1" Value="900" Maximum="7200" ValueChanged="slideDimTime_ValueChanged"/>
 
                 </Grid>
             </phone:PivotItem>

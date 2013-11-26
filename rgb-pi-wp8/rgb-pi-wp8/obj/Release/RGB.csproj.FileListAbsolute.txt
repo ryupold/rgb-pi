@@ -22,3 +22,4 @@ C:\Dropbox\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\rgb-pi.dll
 C:\Dropbox\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\rgb-pi.pdb
 C:\Dropbox\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\XapCacheFile.xml
 C:\Dropbox\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\RGB.csprojResolveAssemblyReference.cache
+C:\Dropbox\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\Settings.g.cs
