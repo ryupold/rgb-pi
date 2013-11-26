@@ -78,5 +78,3 @@ def fade(timeInSecs, endColor, startColor=None):
 def stopFade():
     global RUN
     RUN = RUN + 1
-
-fade(5, "{b:0,0,0}")
