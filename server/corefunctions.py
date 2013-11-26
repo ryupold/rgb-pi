@@ -15,7 +15,7 @@ def fade(timeInSecs, endColor, startColor=None):
 
 
     if startColor is None:
-        startColor = led.COLOR
+        startColor = [led.COLOR.RED, led.COLOR.GREEN, led.COLOR.BLUE]
 
 
     currentColor = utils.getIntComponents(startColor)
@@ -78,3 +78,5 @@ def fade(timeInSecs, endColor, startColor=None):
 def stopFade():
     global RUN
     RUN = RUN + 1
+
+fade(5, "{b:0,0,0}")
