@@ -15,7 +15,7 @@ def fade(timeInSecs, endColor, startColor=None):
 
 
     if startColor is None:
-        startColor = [led.COLOR.RED, led.COLOR.GREEN, led.COLOR.BLUE]
+        startColor = [led.COLOR.R, led.COLOR.G, led.COLOR.B]
 
 
     currentColor = utils.getIntComponents(startColor)
