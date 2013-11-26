@@ -54,7 +54,10 @@ class FadeThread(threading.Thread):
         self.cmd = cmd
 
     def run(self):
-        if len(self.cmd) > 2:
+
+        print self.cmd
+
+        if len(self.cmd) > 4:
             corefunctions.fade(int(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
         else:
             corefunctions.fade(int(self.cmd[1]), led.Color(self.cmd[2]))

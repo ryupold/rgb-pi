@@ -6,10 +6,17 @@ import sys
 import led
 import utils
 
+RUN = 0
+
 
 def fade(timeInSecs, endColor, startColor=None):
     global RUN
     myrun = RUN
+
+
+    if startColor is None:
+        startColor = led.COLOR
+
 
     currentColor = utils.getIntComponents(startColor)
 
