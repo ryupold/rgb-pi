@@ -71,6 +71,10 @@ example: <pre><code>rf 50 150 10 200</code></pre></li>
 <pre><code>fade timeInSeconds endColor [startColor]</code></pre>
 example smooth turn off: <pre><code>fade 2 {x:000000}</code></pre>
 example fade green to red over 5 minutes: <pre><code>fade 300 {b:255,0,0} {b:0,255,0}</code></pre></li>
+<li><strong>pulse</strong> - fades from start color to end color and vice versa:
+<pre><code>pulse timeInSeconds endColor [startColor]</code></pre>
+example fast blue-black pulse: <pre><code>pulse 1 {f:0,0,1}</code></pre>
+example pulse red to green over a minute: <pre><code>pulse 60 {b:255,0,0} {b:0,255,0}</code></pre></li>
 </ul>
 <p>There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.</p>
 </body>
