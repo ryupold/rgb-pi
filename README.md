@@ -62,14 +62,15 @@ example2 byte:		<strong>{b:255,0,161}</strong><br/>
 example3 float:	<strong>{f:1,0,0.63}</strong></p>
 <ul>
 <li><strong>cc</strong> - set a specific color (red, green and blue are float values from 0.0 to 1.0):
-<pre><code>cc red green blue</code></pre>
-example (violet): <pre><code>cc 0.5 0 1</code></pre></li>
+<pre><code>cc color</code></pre>
+example (violet): <pre><code>cc {f:0.5,0,1}</code></pre></li>
 <li><strong>rf</strong> - randomized fader (all values are integer | speed values must be bigger than 0 | brightness has to be between 0 and 255):
 <pre><code>rf minSpeed maxSpeed minBrightness maxBrightness</code></pre>
 example: <pre><code>rf 50 150 10 200</code></pre></li>
 <li><strong>fade</strong> - fades the current color, over a certain time (time is given in seconds as an integer) to the endColor:
-<pre><code>fade timeInSeconds endColorHex</code></pre>
-example smooth turn off: <pre><code>fade 2 000000</code></pre></li>
+<pre><code>fade timeInSeconds endColor [startColor]</code></pre>
+example smooth turn off: <pre><code>fade 2 {x:000000}</code></pre>
+example fade red to green: <pre><code>fade 2 {b:255,0,0} {b:0,255,0}</code></pre></li>
 </ul>
 <p>There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.</p>
 </body>
