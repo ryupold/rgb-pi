@@ -70,7 +70,7 @@ example: <pre><code>rf 50 150 10 200</code></pre></li>
 <li><strong>fade</strong> - fades the current color, over a certain time (time is given in seconds as an integer) to the endColor:
 <pre><code>fade timeInSeconds endColor [startColor]</code></pre>
 example smooth turn off: <pre><code>fade 2 {x:000000}</code></pre>
-example fade red to green: <pre><code>fade 2 {b:255,0,0} {b:0,255,0}</code></pre></li>
+example fade red to green over 5 minutes: <pre><code>fade 300 {b:255,0,0} {b:0,255,0}</code></pre></li>
 </ul>
 <p>There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.</p>
 </body>
