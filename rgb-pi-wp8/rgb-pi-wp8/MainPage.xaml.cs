@@ -19,6 +19,7 @@ namespace RGB
         private Thread worker;
         private ColorPicker copickDimColor;
         private ColorPicker colorPicker;
+        private ColorPicker copickPulseStart, copickPulseEnd;
 
         private readonly Queue<RGBCommand> commandQ = new Queue<RGBCommand>();
 
@@ -26,33 +27,36 @@ namespace RGB
         {
             ChangeColor = 1,
             RandomFader = 2,
-            DimColor = 3,
-            FadeCurrentColor = 4,
-            Specials = 5
+            FadeColor = 3,
+            Specials = 4,
+            Pulse = 5
         }
 
         private struct RGBCommand
         {
-            public float R, G, B;
+            public LEDColor Color;
             public RGBCommandType Type;
             public string Command;
+
+            public RGBCommand(RGBCommandType type, LEDColor color)
+            {
+                Command = string.Empty;
+                Type = type;
+                Color = color;
+            }
 
             public RGBCommand(RGBCommandType type, float r, float g, float b)
             {
                 Command = string.Empty;
                 Type = type;
-                R = r;
-                G = g;
-                B = b;
+                Color = new LEDColor(r, g, b);
             }
 
             public RGBCommand(RGBCommandType type, string command)
             {
                 this.Command = command;
                 Type = type;
-                R = 0;
-                G = 0;
-                B = 0;
+                Color = new LEDColor();
             }
         }
 
@@ -73,6 +77,12 @@ namespace RGB
 
             copickDimColor = new ColorPicker();
             gridDimColor.Children.Add(copickDimColor);
+
+            copickPulseStart = new ColorPicker();
+            copickPulseEnd = new ColorPicker();
+            gridPulseStartColor.Children.Add(copickPulseStart);
+            gridPulseEndColor.Children.Add(copickPulseEnd);
+
 
             worker = new Thread(rgbWorking);
             worker.IsBackground = true;
@@ -115,19 +125,19 @@ namespace RGB
                     switch (c.Type)
                     {
                         case RGBCommandType.ChangeColor:
-                            client.Send("cc " + c.R.ToString("F3") + " " + c.G.ToString("F3") + " " + c.B.ToString("F3"));
+                            client.Send("cc " + c.Color);
                             break;
                         case RGBCommandType.RandomFader:
                             client.Send("rf " + c.Command);
                             break;
-                        case RGBCommandType.DimColor:
-                            client.Send("dim " + c.Command);
-                            break;
-                        case RGBCommandType.FadeCurrentColor:
+                        case RGBCommandType.FadeColor:
                             client.Send("fade " + c.Command);
                             break;
                         case RGBCommandType.Specials:
                             client.Send("special " + c.Command);
+                            break;
+                        case RGBCommandType.Pulse:
+                            client.Send("pulse " + c.Command);
                             break;
                     }
                     client.Close();
@@ -161,7 +171,7 @@ namespace RGB
             {
                 lock (commandQ)
                 {
-                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeCurrentColor, "2 FFFFFF"));
+                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor(1f, 1f, 1f)));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -173,7 +183,7 @@ namespace RGB
             {
                 lock (commandQ)
                 {
-                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeCurrentColor, "2 000000"));
+                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor()));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -188,22 +198,13 @@ namespace RGB
             ApplicationBar.MenuItems.Add(appBarMISettings);
         }
 
-        
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            lock (commandQ)
-            {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, slMinSpeed.Value + " " + slMaxSpeed.Value + " " + slMinBrightness.Value + " " + slMaxBrightness.Value));
-                Monitor.PulseAll(commandQ);
-            }
-        }
+       
 
         private void btnDim_Click(object sender, RoutedEventArgs e)
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.DimColor, ((int)slideDimTime.Value) + " " + copickDimColor.Color.R.ToString("X2") + copickDimColor.Color.G.ToString("X2") + copickDimColor.Color.B.ToString("X2")));
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, ((int)slideDimTime.Value - (((int)slideDimTime.Value)%60)) + " " + new LEDColor() + " " + new LEDColor(copickDimColor.Color)));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -229,6 +230,25 @@ namespace RGB
                 btnDim.Content = "Dim over "+s+" seconds";
             else
                 btnDim.Content = "Dim over " + (s/60) + " minutes";
+        }
+
+        private void piDim_GotFocus(object sender, RoutedEventArgs e)
+        {
+            copickDimColor.Color = colorPicker.Color;
+        }
+
+        private void sliderPulseTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (btnPulseStart != null) btnPulseStart.Content = "start pulse (interval = " + ((int)sliderPulseTime.Value) + " second" + (sliderPulseTime.Value >= 2 ? "s" : "") + ")";
+        }
+
+        private void btnPulseStart_Click(object sender, RoutedEventArgs e)
+        {
+            lock (commandQ)
+            {
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.Pulse, ((int)sliderPulseTime.Value)+" "+new LEDColor(copickPulseStart.Color)+" "+new LEDColor(copickPulseEnd.Color)));
+                Monitor.PulseAll(commandQ);
+            }
         }
 
 

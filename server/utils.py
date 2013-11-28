@@ -1,3 +1,15 @@
+import led
+
+
+# clips the value between 0 and 1
+def clip(value):
+    if value < 0.0:
+        return 0.0
+    elif value > 1.0:
+        return 1.0
+    else:
+        return value
+
 #Returns an array containing RGB values as integers
 #Param: Color string (i.e. "FF0000")
 def getIntComponents(color):
@@ -23,5 +35,16 @@ def getColorString(c):
     return R + G + B
 
 
-def interpolateColor(fc, tc, percent):
-    return fc + (tc - fc) * percent
+def interpolateColor(startColor, endColor, percent, resultColor=None):
+    if resultColor is None:
+        resultColor = led.Color(0, 0, 0)
+
+    resultColor.R = startColor.R + (endColor.R - startColor.R) * percent
+    resultColor.G = startColor.G + (endColor.G - startColor.G) * percent
+    resultColor.B = startColor.B + (endColor.B - startColor.B) * percent
+
+    return resultColor
+
+def interpolateFloat(start, end, percent):
+    return start + (end - start) * percent
+

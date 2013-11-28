@@ -26,10 +26,17 @@
       <file leaf-file-name="led.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/led.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="20" selection-start="613" selection-end="613" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1700">
-              <folding>
-                <element signature="e#16#27#0" expanded="true" />
-              </folding>
+            <state line="91" column="58" selection-start="2866" selection-end="2866" vertical-scroll-proportion="0.0" vertical-offset="1547" max-vertical-offset="2040">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="18" selection-start="513" selection-end="513" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="459">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -37,16 +44,7 @@
       <file leaf-file-name="utils.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="19" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+            <state line="10" column="20" selection-start="174" selection-end="174" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="952">
               <folding />
             </state>
           </provider>
@@ -55,30 +53,37 @@
       <file leaf-file-name="rgbthreads.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rgbthreads.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="22" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.0" vertical-offset="656" max-vertical-offset="2703">
-              <folding>
-                <element signature="e#33#44#0" expanded="true" />
-              </folding>
+            <state line="87" column="0" selection-start="1996" selection-end="1996" vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="2771">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="corefunctions.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="rgb.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rgb.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="7" selection-start="277" selection-end="277" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="867">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="corefunctions.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/corefunctions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="19" selection-start="448" selection-end="463" vertical-scroll-proportion="-0.058352403" vertical-offset="561" max-vertical-offset="1445">
-              <folding>
-                <element signature="e#16#27#0" expanded="true" />
-              </folding>
+            <state line="34" column="34" selection-start="724" selection-end="724" vertical-scroll-proportion="0.0" vertical-offset="578" max-vertical-offset="782">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="timedDimmer.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/timedDimmer.py">
+      <file leaf-file-name="pulse.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pulse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="0" selection-start="916" selection-end="916" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-              <folding />
+            <state line="37" column="0" selection-start="651" selection-end="651" vertical-scroll-proportion="0.6224256" vertical-offset="85" max-vertical-offset="1156">
+              <folding>
+                <element signature="e#40#53#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,9 +102,11 @@
         <option value="$PROJECT_DIR$/timedDimmer.py" />
         <option value="$PROJECT_DIR$/animations.py" />
         <option value="$PROJECT_DIR$/utils.py" />
-        <option value="$PROJECT_DIR$/led.py" />
-        <option value="$PROJECT_DIR$/rgbthreads.py" />
         <option value="$PROJECT_DIR$/corefunctions.py" />
+        <option value="$PROJECT_DIR$/led.py" />
+        <option value="$PROJECT_DIR$/config.py" />
+        <option value="$PROJECT_DIR$/rgbthreads.py" />
+        <option value="$PROJECT_DIR$/pulse.py" />
       </list>
     </option>
   </component>
@@ -357,13 +364,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24986821" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14654718" sideWeight="0.6" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14654718" sideWeight="0.6" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -392,52 +399,42 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/corefunctions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="18" selection-start="2252" selection-end="2252" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="1445">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/led.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="62" column="26" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1377">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="204">
-          <folding />
-        </state>
+        <state line="4" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="204" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rgbthreads.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="136" column="50" selection-start="3804" selection-end="3804" vertical-scroll-proportion="0.0" vertical-offset="537" max-vertical-offset="2686">
-          <folding>
-            <element signature="e#33#44#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/corefunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="0" selection-start="18" selection-end="33" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="255">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/timedDimmer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0" vertical-offset="578" max-vertical-offset="1683">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/string.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="4" selection-start="8193" selection-end="8193" vertical-scroll-proportion="0.33295193" vertical-offset="3908" max-vertical-offset="11016">
-          <folding />
-        </state>
+        <state line="247" column="4" selection-start="8193" selection-end="8193" vertical-scroll-proportion="0.33295193" vertical-offset="3908" max-vertical-offset="11016" />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.PyCharm30/system/python_stubs/-762174762/exceptions.py">
@@ -445,50 +442,63 @@
         <state line="586" column="0" selection-start="18607" selection-end="18607" vertical-scroll-proportion="0.48855835" vertical-offset="9535" max-vertical-offset="13651" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/timedDimmer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="916" selection-end="916" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
-          <folding />
-        </state>
+        <state line="4" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="19" selection-start="545" selection-end="545" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
+        <state line="10" column="20" selection-start="174" selection-end="174" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/copy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="144" column="18" selection-start="4007" selection-end="4007" vertical-scroll-proportion="0.27459955" vertical-offset="2174" max-vertical-offset="7429" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rgb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="7" selection-start="277" selection-end="277" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/led.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="20" selection-start="613" selection-end="613" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1700">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
+        <state line="91" column="58" selection-start="2866" selection-end="2866" vertical-scroll-proportion="0.0" vertical-offset="1098" max-vertical-offset="1972">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rgbthreads.py">
+    <entry file="file://$PROJECT_DIR$/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="22" selection-start="1572" selection-end="1572" vertical-scroll-proportion="0.0" vertical-offset="656" max-vertical-offset="2703">
-          <folding>
-            <element signature="e#33#44#0" expanded="true" />
-          </folding>
+        <state line="21" column="18" selection-start="513" selection-end="513" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/corefunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="19" selection-start="448" selection-end="463" vertical-scroll-proportion="-0.058352403" vertical-offset="561" max-vertical-offset="1445">
+        <state line="34" column="34" selection-start="724" selection-end="724" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rgbthreads.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="0" selection-start="1996" selection-end="1996" vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="2771">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pulse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="0" selection-start="651" selection-end="651" vertical-scroll-proportion="0.6224256" vertical-offset="85" max-vertical-offset="1156">
           <folding>
-            <element signature="e#16#27#0" expanded="true" />
+            <element signature="e#40#53#0" expanded="true" />
           </folding>
         </state>
       </provider>

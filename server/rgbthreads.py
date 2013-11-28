@@ -57,7 +57,7 @@ class FadeThread(threading.Thread):
 
         print self.cmd
 
-        if len(self.cmd) > 4:
+        if len(self.cmd) > 3:
             corefunctions.fade(int(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
         else:
             corefunctions.fade(int(self.cmd[1]), led.Color(self.cmd[2]))
@@ -76,7 +76,10 @@ class PulseThread(threading.Thread):
     def run(self):
         print "Starting Thread: " + self.name
         ##this is a test
-        pulse.startPulse(int(self.cmd[1]), self.cmd[2], self.cmd[3])
+        if len(self.cmd) > 3:
+            pulse.startPulse(int(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
+        else:
+            pulse.startPulse(int(self.cmd[1]), led.Color(self.cmd[2]))
         print "Exiting:" + self.name
 
     def stop(self):
@@ -130,7 +133,8 @@ def readcommands(threadName, intervall):
                 CURRENTTHREAD = None
 
             if command[0] == "cc":
-                led.changeColor(float(command[1]), float(command[2]), float(command[3]))
+                #led.changeColor(float(command[1]), float(command[2]), float(command[3]))
+                led.setColor(led.Color(command[1]))
             elif command[0] == "rf":
                 CURRENTTHREAD = FadeThread(1, "fade thread", command)
                 CURRENTTHREAD.start()
