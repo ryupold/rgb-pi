@@ -16,8 +16,6 @@ import led
 import config
 import corefunctions
 
-import colorFader
-import timedDimmer
 import pulse
 import specials
 
@@ -28,23 +26,6 @@ COMMAND_RUN = 0
 CURRENTTHREAD = None
 
 
-class FadeThread(threading.Thread):
-    def __init__(self, threadID, name, cmd):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.cmd = cmd
-
-    def run(self):
-        print "Starting Thread: " + self.name
-        ##this is a test
-        colorFader.startFade(int(self.cmd[1]), int(self.cmd[2]), int(self.cmd[3]), int(self.cmd[4]))
-        print "Exiting:" + self.name
-
-    def stop(self):
-        print "stopping " + self.name
-        colorFader.stopFade()
-
 
 class FadeThread(threading.Thread):
     def __init__(self, threadID, name, cmd):
@@ -54,13 +35,13 @@ class FadeThread(threading.Thread):
         self.cmd = cmd
 
     def run(self):
-
         print self.cmd
 
-        if len(self.cmd) > 3:
-            corefunctions.fade(int(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
-        else:
-            corefunctions.fade(int(self.cmd[1]), led.Color(self.cmd[2]))
+        if self.cmd[0] == "fade":
+            corefunctions.fade(float(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]) if len(self.cmd) > 3 else None)
+
+        elif self.cmd[0] == "rf":
+            corefunctions.startRandomFade(float(self.cmd[1]), float(self.cmd[2]), float(self.cmd[3]) if len(self.cmd) > 3 else None, float(self.cmd[4]) if len(self.cmd) > 4 else None)
 
     def stop(self):
         corefunctions.stopFade()
@@ -77,9 +58,9 @@ class PulseThread(threading.Thread):
         print "Starting Thread: " + self.name
         ##this is a test
         if len(self.cmd) > 3:
-            pulse.startPulse(int(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
+            pulse.startPulse(float(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
         else:
-            pulse.startPulse(int(self.cmd[1]), led.Color(self.cmd[2]))
+            pulse.startPulse(float(self.cmd[1]), led.Color(self.cmd[2]))
         print "Exiting:" + self.name
 
     def stop(self):
