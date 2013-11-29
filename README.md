@@ -66,7 +66,8 @@ example3 float:	<strong>{f:1,0,0.63}</strong></p>
 example (violet): <pre><code>cc {f:0.5,0,1}</code></pre></li>
 <li><strong>rf</strong> - random color fader, fades in a random time between min and max (in seconds, as float) within the optional brightness limits:
 <pre><code>rf minSpeed maxSpeed [minBrightness [maxBrightness]]</code></pre>
-example random fade color between a brightness level of minimum 0.1 and maximum 0.5 within random times between 2 and 60 seconds after each fade: <pre><code>rf 2 60 0.1 0.5</code></pre></li>
+example random fade color between a brightness level of minimum 0.1 and maximum 0.5 within random times between 2 and 60 seconds after each fade: <pre><code>rf 2 60 0.1 0.5</code></pre>
+example random fade all color with constant 10 seconds per fade: <pre><code>rf 10 10</code></pre></li>
 <li><strong>fade</strong> - fades the current color, over a certain time (time is given in seconds as an integer) to the endColor:
 <pre><code>fade timeInSeconds endColor [startColor]</code></pre>
 example smooth turn off: <pre><code>fade 2 {x:000000}</code></pre>
