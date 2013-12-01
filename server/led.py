@@ -42,9 +42,9 @@ class Color():
 
             if colorParts[0] == 'b':
                 rgbcomps = string.split(colorParts[1], ',')
-                self.R = int(rgbcomps[0])
-                self.G = int(rgbcomps[1])
-                self.B = int(rgbcomps[2])
+                self.R = int(rgbcomps[0]) / 255.0
+                self.G = int(rgbcomps[1]) / 255.0
+                self.B = int(rgbcomps[2]) / 255.0
 
             if colorParts[0] == 'f':
                 rgbcomps = string.split(colorParts[1], ',')

@@ -204,7 +204,7 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, ((int)slideDimTime.Value - (((int)slideDimTime.Value)%60)) + " " + new LEDColor() + " " + new LEDColor(copickDimColor.Color)));
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value) + " " + new LEDColor() + " " + new LEDColor(copickDimColor.Color)));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -232,10 +232,6 @@ namespace RGB
                 btnDim.Content = "Dim over " + (s/60) + " minutes";
         }
 
-        private void piDim_GotFocus(object sender, RoutedEventArgs e)
-        {
-            copickDimColor.Color = colorPicker.Color;
-        }
 
         private void sliderPulseTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -251,6 +247,23 @@ namespace RGB
             }
         }
 
+        
+
+        private void piDim_Loaded(object sender, RoutedEventArgs e)
+        {
+            copickDimColor.Color = colorPicker.Color;
+        }
+
+        private void btnRF_Click(object sender, RoutedEventArgs e)
+        {
+            lock (commandQ)
+            {
+                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, ((int)slideMinTime.Value) + " " + ((int)slideMaxTime.Value) + " " + (slideMinBrightness.Value / 100f).ToString("F3").Replace(",", ".") + " " + (slideMaxBrightness.Value / 100f).ToString("F3").Replace(",", ".")));
+                Monitor.PulseAll(commandQ);
+            }
+        }
+
 
     }
+
 }

@@ -1,4 +1,5 @@
 import led
+import random
 
 
 # clips the value between 0 and 1
@@ -9,6 +10,7 @@ def clip(value):
         return 1.0
     else:
         return value
+
 
 #Returns an array containing RGB values as integers
 #Param: Color string (i.e. "FF0000")
@@ -35,13 +37,16 @@ def getColorString(c):
     return R + G + B
 
 
+def randfloat(min, max):
+    return random.randint(int(min*1000), int(max*1000))/1000.0
+
 def interpolateColor(startColor, endColor, percent, resultColor=None):
     if resultColor is None:
         resultColor = led.Color(0, 0, 0)
 
-    resultColor.R = startColor.R + (endColor.R - startColor.R) * percent
-    resultColor.G = startColor.G + (endColor.G - startColor.G) * percent
-    resultColor.B = startColor.B + (endColor.B - startColor.B) * percent
+    resultColor.R = clip(startColor.R + (endColor.R - startColor.R) * percent)
+    resultColor.G = clip(startColor.G + (endColor.G - startColor.G) * percent)
+    resultColor.B = clip(startColor.B + (endColor.B - startColor.B) * percent)
 
     return resultColor
 

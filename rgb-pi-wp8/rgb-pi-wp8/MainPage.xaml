@@ -53,12 +53,35 @@
                 </Grid>
             </phone:PivotItem>
 
-            <phone:PivotItem Header="dim" Name="piDim" GotFocus="piDim_GotFocus" >
+            <phone:PivotItem Header="dim" Name="piDim" Loaded="piDim_Loaded" >
                 <Grid Name="gridDim">
                     <Grid Name="gridDimColor" Margin="0,0,0,293"/>
 
                     <Button Content="Dim over 15 minutes" Margin="20,404,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.506" Name="btnDim" Click="btnDim_Click" Height="79"/>
                     <Slider  HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Width="436" Name="slideDimTime" Minimum="1" SmallChange="1" Value="900" Maximum="7200" ValueChanged="slideDimTime_ValueChanged"/>
+
+                </Grid>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="random fader" Name="piRF" >
+                <Grid Name="gridRF">
+
+                    <Slider Orientation="Vertical"  HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="95" Name="slideMinTime" Minimum="1" SmallChange="1" Value="10" Maximum="600" Height="324"/>
+                    <Button Content="random fade" Margin="0,439,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.506" Name="btnRF"  Height="79" Click="btnRF_Click"/>
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="256,10,5,0" TextWrapping="Wrap" Text="brightness" VerticalAlignment="Top" Width="195"/>
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="256,42,0,0" TextWrapping="Wrap" Text="min" VerticalAlignment="Top" Width="95" Height="29"/>
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="351,42,0,0" TextWrapping="Wrap" Text="max" VerticalAlignment="Top" Width="90" Height="29"/>
+                    <Slider Orientation="Vertical"  HorizontalAlignment="Left" Margin="105,110,0,0" VerticalAlignment="Top" Width="95" x:Name="slideMaxTime" Minimum="1" SmallChange="1" Value="60" Maximum="600" Height="324"/>
+                    <Slider Orientation="Vertical"  HorizontalAlignment="Left" Margin="351,110,0,0" VerticalAlignment="Top" Width="95" x:Name="slideMaxBrightness" SmallChange="1" Value="100" Maximum="100" Height="324"/>
+                    <Slider Orientation="Vertical"  HorizontalAlignment="Left" Margin="256,110,0,0" VerticalAlignment="Top" Width="95" x:Name="slideMinBrightness" SmallChange="1" Value="0" Maximum="100" Height="324"/>
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="10,10,251,0" TextWrapping="Wrap" Text="speed" VerticalAlignment="Top" Width="195"/>
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="min" VerticalAlignment="Top" Width="95" Height="29"/>
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="105,42,0,0" TextWrapping="Wrap" Text="max" VerticalAlignment="Top" Width="90" Height="29"/>
+                    <TextBlock x:Name="lblMinSpeed" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,76,0,0" TextWrapping="Wrap" Text="{Binding ElementName=slideMinTime, Path=Value}" VerticalAlignment="Top" Width="95" Height="29"/>
+                    <TextBlock x:Name="lblMaxSpeed" TextAlignment="Center" HorizontalAlignment="Left" Margin="105,76,0,0" TextWrapping="Wrap" Text="{Binding ElementName=slideMaxTime, Path=Value}" VerticalAlignment="Top" Width="90" Height="29"/>
+                    <TextBlock x:Name="lblMinBrightness" TextAlignment="Center" HorizontalAlignment="Left" Margin="256,76,0,0" TextWrapping="Wrap" Text="{Binding ElementName=slideMinBrightness, Path=Value}" VerticalAlignment="Top" Width="95" Height="29"/>
+                    <TextBlock x:Name="lblMaxBrightness" TextAlignment="Center" HorizontalAlignment="Left" Margin="351,76,0,0" TextWrapping="Wrap" Text="{Binding ElementName=slideMaxBrightness, Path=Value}" VerticalAlignment="Top" Width="90" Height="29"/>
+
 
                 </Grid>
             </phone:PivotItem>

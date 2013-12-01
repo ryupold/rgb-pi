@@ -1,6 +1,9 @@
 
+#system modules
+
+#rgb-pi modules
+import corefunctions
 import led
 
-testColor = led.Color('{x:FF0022}')
-
-
+led.changeColor(0.3, 0, 0.2)
+corefunctions.fadeToRandom(5)
