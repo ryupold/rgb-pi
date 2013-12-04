@@ -121,7 +121,7 @@ namespace RGB
                     }
 
 
-                    client.Connect("192.168.1.150", 4321);
+                    client.Connect(Settings.GetSetting("ip").ToString(), int.Parse(Settings.GetSetting("port").ToString()));
                     switch (c.Type)
                     {
                         case RGBCommandType.ChangeColor:

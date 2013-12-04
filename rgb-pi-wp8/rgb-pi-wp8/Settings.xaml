@@ -32,6 +32,7 @@
             <TextBlock HorizontalAlignment="Left" Margin="10,97,0,0" TextWrapping="Wrap" Text="Port" VerticalAlignment="Top"/>
             <TextBox x:Name="txtSettingsIP" HorizontalAlignment="Left" Height="72" Margin="97,0,0,0" TextWrapping="Wrap" Text="192.168.1.150" VerticalAlignment="Top" Width="349"/>
             <TextBox x:Name="txtSettingsPort" HorizontalAlignment="Left" Height="72" Margin="97,72,0,0" TextWrapping="Wrap" Text="4321" VerticalAlignment="Top" Width="154" InputScope="PostalCode"/>
+            <phone:LongListSelector Name="listHosts" Margin="10,149,10,10"/>
 
         </Grid>
     </Grid>

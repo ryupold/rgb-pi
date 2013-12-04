@@ -1,62 +1,56 @@
-﻿<xapCache source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\RGB-Pi-WP8.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="01.12.2013 22:31:53">
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\rgb-pi.dll" archivePath="rgb-pi.dll" lastWriteTime="01.12.2013 22:31:52" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\off.png" archivePath="Assets\Icons\off.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\on.png" archivePath="Assets\Icons\on.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\add.png" archivePath="Assets\Icons\WP8\add.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\back.png" archivePath="Assets\Icons\WP8\back.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\basecircle.png" archivePath="Assets\Icons\WP8\basecircle.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\cancel.png" archivePath="Assets\Icons\WP8\cancel.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\check.png" archivePath="Assets\Icons\WP8\check.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\close.png" archivePath="Assets\Icons\WP8\close.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\delete.png" archivePath="Assets\Icons\WP8\delete.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\download.png" archivePath="Assets\Icons\WP8\download.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\edit.png" archivePath="Assets\Icons\WP8\edit.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\favs.addto.png" archivePath="Assets\Icons\WP8\favs.addto.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\favs.png" archivePath="Assets\Icons\WP8\favs.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.alarm.png" archivePath="Assets\Icons\WP8\feature.alarm.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.calendar.png" archivePath="Assets\Icons\WP8\feature.calendar.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.camera.png" archivePath="Assets\Icons\WP8\feature.camera.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.email.png" archivePath="Assets\Icons\WP8\feature.email.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.phone.png" archivePath="Assets\Icons\WP8\feature.phone.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.search.png" archivePath="Assets\Icons\WP8\feature.search.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.settings.png" archivePath="Assets\Icons\WP8\feature.settings.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.video.png" archivePath="Assets\Icons\WP8\feature.video.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\folder.png" archivePath="Assets\Icons\WP8\folder.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\like.png" archivePath="Assets\Icons\WP8\like.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\microphone.png" archivePath="Assets\Icons\WP8\microphone.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\minus.png" archivePath="Assets\Icons\WP8\minus.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\new.png" archivePath="Assets\Icons\WP8\new.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\next.png" archivePath="Assets\Icons\WP8\next.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\overflowdots.png" archivePath="Assets\Icons\WP8\overflowdots.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\questionmark.png" archivePath="Assets\Icons\WP8\questionmark.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\refresh.png" archivePath="Assets\Icons\WP8\refresh.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\save.png" archivePath="Assets\Icons\WP8\save.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\share.png" archivePath="Assets\Icons\WP8\share.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\stop.png" archivePath="Assets\Icons\WP8\stop.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\sync.png" archivePath="Assets\Icons\WP8\sync.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.ff.png" archivePath="Assets\Icons\WP8\transport.ff.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.pause.png" archivePath="Assets\Icons\WP8\transport.pause.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.play.png" archivePath="Assets\Icons\WP8\transport.play.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.rew.png" archivePath="Assets\Icons\WP8\transport.rew.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\upload.png" archivePath="Assets\Icons\WP8\upload.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\ApplicationIcon.png" archivePath="Assets\Tiles\ApplicationIcon.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="30.11.2013 03:50:14" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="30.11.2013 00:30:18" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="30.11.2013 00:30:18" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="30.11.2013 00:30:18" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="30.11.2013 00:30:18" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="30.11.2013 00:30:18" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="30.11.2013 00:30:18" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Audio.dll" archivePath="Coding4Fun.Toolkit.Audio.dll" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Controls.dll" archivePath="Coding4Fun.Toolkit.Controls.dll" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Net.dll" archivePath="Coding4Fun.Toolkit.Net.dll" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Storage.dll" archivePath="Coding4Fun.Toolkit.Storage.dll" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="30.11.2013 00:30:17" />
-  <file source="C:\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="30.11.2013 00:30:18" />
+﻿<xapCache source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\RGB-Pi-WP8.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="04.12.2013 20:54:35">
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\obj\Release\rgb-pi.dll" archivePath="rgb-pi.dll" lastWriteTime="04.12.2013 20:54:34" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="09.11.2013 22:11:22" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\off.png" archivePath="Assets\Icons\off.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\on.png" archivePath="Assets\Icons\on.png" lastWriteTime="10.11.2013 03:00:43" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\add.png" archivePath="Assets\Icons\WP8\add.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\back.png" archivePath="Assets\Icons\WP8\back.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\basecircle.png" archivePath="Assets\Icons\WP8\basecircle.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\cancel.png" archivePath="Assets\Icons\WP8\cancel.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\check.png" archivePath="Assets\Icons\WP8\check.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\close.png" archivePath="Assets\Icons\WP8\close.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\delete.png" archivePath="Assets\Icons\WP8\delete.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\download.png" archivePath="Assets\Icons\WP8\download.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\edit.png" archivePath="Assets\Icons\WP8\edit.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\favs.addto.png" archivePath="Assets\Icons\WP8\favs.addto.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\favs.png" archivePath="Assets\Icons\WP8\favs.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.alarm.png" archivePath="Assets\Icons\WP8\feature.alarm.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.calendar.png" archivePath="Assets\Icons\WP8\feature.calendar.png" lastWriteTime="03.03.2013 18:40:36" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.camera.png" archivePath="Assets\Icons\WP8\feature.camera.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.email.png" archivePath="Assets\Icons\WP8\feature.email.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.phone.png" archivePath="Assets\Icons\WP8\feature.phone.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.search.png" archivePath="Assets\Icons\WP8\feature.search.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.settings.png" archivePath="Assets\Icons\WP8\feature.settings.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\feature.video.png" archivePath="Assets\Icons\WP8\feature.video.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\folder.png" archivePath="Assets\Icons\WP8\folder.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\like.png" archivePath="Assets\Icons\WP8\like.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\microphone.png" archivePath="Assets\Icons\WP8\microphone.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\minus.png" archivePath="Assets\Icons\WP8\minus.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\new.png" archivePath="Assets\Icons\WP8\new.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\next.png" archivePath="Assets\Icons\WP8\next.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\overflowdots.png" archivePath="Assets\Icons\WP8\overflowdots.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\questionmark.png" archivePath="Assets\Icons\WP8\questionmark.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\refresh.png" archivePath="Assets\Icons\WP8\refresh.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\save.png" archivePath="Assets\Icons\WP8\save.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\share.png" archivePath="Assets\Icons\WP8\share.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\stop.png" archivePath="Assets\Icons\WP8\stop.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\sync.png" archivePath="Assets\Icons\WP8\sync.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.ff.png" archivePath="Assets\Icons\WP8\transport.ff.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.pause.png" archivePath="Assets\Icons\WP8\transport.pause.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.play.png" archivePath="Assets\Icons\WP8\transport.play.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\transport.rew.png" archivePath="Assets\Icons\WP8\transport.rew.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\WP8\upload.png" archivePath="Assets\Icons\WP8\upload.png" lastWriteTime="03.03.2013 18:40:38" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\ApplicationIcon.png" archivePath="Assets\Tiles\ApplicationIcon.png" lastWriteTime="22.11.2013 19:13:25" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="09.11.2013 22:11:22" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="22.11.2013 19:14:13" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="09.11.2013 22:11:22" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="09.11.2013 22:11:22" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="22.11.2013 19:14:27" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="22.11.2013 15:56:34" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="22.11.2013 19:13:55" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Audio.dll" archivePath="Coding4Fun.Toolkit.Audio.dll" lastWriteTime="03.08.2013 17:27:48" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Controls.dll" archivePath="Coding4Fun.Toolkit.Controls.dll" lastWriteTime="03.08.2013 17:27:48" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Net.dll" archivePath="Coding4Fun.Toolkit.Net.dll" lastWriteTime="03.08.2013 17:27:48" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Storage.dll" archivePath="Coding4Fun.Toolkit.Storage.dll" lastWriteTime="03.08.2013 17:27:48" />
+  <file source="C:\Users\realr_000\Dropbox\Public\Raspberry Pi\rgb-pi\rgb-pi-wp8\rgb-pi-wp8\Bin\Release\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="22.11.2013 19:14:27" />
 </xapCache>
