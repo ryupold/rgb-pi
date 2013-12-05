@@ -19,7 +19,7 @@ To control the whole thing there are mobile apps planned for various platforms:
   * 3 x TIP120 power transistors for each LED strip (in case you wanna controll them seperatly)
   * RGB LED strip
   * Perfboard/Breadboard or Dupont cables
-  * 12V power supply (__Watt amount needed depends on the used LED-stripe and its lenght__)
+  * 12V power supply (_Watt amount needed depends on the used LED-stripe and its lenght_)
 	
 **sources & helpful links:**
   * [michael at mitchtech.net - Assembly](http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip)
@@ -39,7 +39,7 @@ GREEN_PIN_1 = 5
 BLUE_PIN_1 = 6
 ```
 
-This value indicates the minimum value of the sum of red, green and blue channels.
+This value indicates the minimum value of the sum of red, green and blue channels.  
 If a Color is set with **R + G + B < MIN_VALUE**, rgb-pi will set black (off) as color to prevent the LEDs from blinking.
 			
 ```python
