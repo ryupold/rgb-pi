@@ -3,7 +3,7 @@
 	<body>
 		<h1>rgb-pi</h1>
 		<p >Controlling RGB LED Stripes using a Raspberry Pi and a mobile Device</p>
-		<p>This project was build on the work of sarfata and his project <a href="https://github.com/sarfata/pi-blaster">pi-blaster</a></p>
+		<p>This project was build on the work of Michael Vitousek and his project <a href="https://github.com/mvitousek/pi-blaster">pi-blaster</a></p>
 		<p>This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings. (protocoll in development)</p>
 		<p>To control the whole thing there are mobile apps planned for various platforms:</p>
 		<ul>
@@ -21,8 +21,8 @@
 			</ul>
 		<p style="font-size: 1em;">sources & helpful links:</p>
 		<ul>
-			<li><a href="http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip/">michael@mitchtech.net-Assembly</a></li>
-			<li><a href="http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi/">thomas@tbideas.com-PWM</a></li>
+			<li><a href="http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip/">michael at mitchtech.net - Assembly</a></li>
+			<li><a href="http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi/">thomas at tbideas.com - PWM</a></li>
 		</ul>
 		<h2>rgb-pi server</h2>
 		<h3>configure</h3>
