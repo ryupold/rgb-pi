@@ -106,7 +106,7 @@ color string format **{x|b|f:string}**
 There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.
 
 ## Contributors
-realkyton (https://github.com/realkyton)
+realkyton (https://github.com/realkyton)  
 realriu (https://github.com/realriu)
 
 ## License
