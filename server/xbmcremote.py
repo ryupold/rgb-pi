@@ -92,5 +92,3 @@ def volumeUp():
 def volumeDown():
 	volume = int(getVolume()) - 5
 	setVolume(max(volume, 0))
-
-stop()
