@@ -92,7 +92,7 @@ color string format **{x|b|f:string}**
   1. example random fade color between a brightness level of minimum 0.1 and maximum 0.5 within random times between 2 and 60 seconds after each fade: `rf 2 60 0.1 0.5`  
   2. example random fade all color with constant 10 seconds per fade: `rf 10 10`
 
-* **fade** - fades the current color, over a certain time (time is given in seconds as an integer) to the endColor:  
+* **fade** - fades the start color (or current color if no start is given), over a certain time (time is given in seconds as an integer) to the endColor:  
   `fade timeInSeconds endColor [startColor]`  
   1. example smooth turn off: `fade 2 {x:000000}`  
   2. example fade green to red over 5 minutes: `fade 300 {b:255,0,0} {b:0,255,0}`
