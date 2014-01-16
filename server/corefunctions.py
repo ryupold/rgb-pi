@@ -8,6 +8,7 @@ import random
 import led
 import utils
 import config
+import xbmcremote
 
 RUN = 0
 
@@ -19,6 +20,13 @@ def fade(timeInSecs, endColor, startColor=None):
 
     global RUN
     myrun = RUN
+    fadeXBMCVolume = 0
+    startVolume = 0
+    timeInSecs = 20
+    if config.ENABLE_XBMC_REMOTE and endColor.R == 0 and endColor.G == 0 and endColor.B == 0:
+        fadeXBMCVolume = 1
+        startVolume = xbmcremote.getVolume()
+        print startVolume		
 
     if startColor is None:
         startColor = led.Color(led.COLOR.R, led.COLOR.G, led.COLOR.B)
@@ -28,12 +36,24 @@ def fade(timeInSecs, endColor, startColor=None):
     startTime = time.time()
 
     secondsPassed = 0.0
+    lastVolume = startVolume
 
     while ((myrun == RUN) and secondsPassed <= timeInSecs):
 
         secondsPassed = time.time() - startTime
         #interpolate new color
         utils.interpolateColor(startColor, endColor, secondsPassed/timeInSecs, currentColor)
+        
+        if fadeXBMCVolume:
+            #interpolate new volume
+            newVolume = int(startVolume - startVolume * (secondsPassed/timeInSecs))
+            if newVolume > 0 and newVolume < lastVolume:
+                #print newVolume
+                lastVolume = newVolume
+                xbmcremote.setVolume(newVolume)
+            elif newVolume <= 0:
+                print "pause"
+                xbmcremote.stop()
         time.sleep(config.DELAY)
         #print startColor," ", endColor, "     ", secondsPassed/timeInSecs
         led.setColor(currentColor)

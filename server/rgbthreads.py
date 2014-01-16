@@ -17,6 +17,7 @@ import config
 import corefunctions
 
 import pulse
+import jump
 import specials
 
 
@@ -67,6 +68,26 @@ class PulseThread(threading.Thread):
         print "stopping " + self.name
         pulse.stopPulse()
 
+
+class JumpThread(threading.Thread):
+    def __init__(self, threadID, name, cmd):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.cmd = cmd
+
+    def run(self):
+        print "Starting Thread: " + self.name
+        ##this is a test
+        if len(self.cmd) > 3:
+            jump.startJump(float(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
+        else:
+            jump.startJump(float(self.cmd[1]), led.Color(self.cmd[2]))
+        print "Exiting:" + self.name
+
+    def stop(self):
+        print "stopping " + self.name
+        jump.stopJump()
 
 class SpecialThread(threading.Thread):
     def __init__(self, threadID, name, cmd):
@@ -127,6 +148,9 @@ def readcommands(threadName, intervall):
                 CURRENTTHREAD.start()
             elif command[0] == "special":
                 CURRENTTHREAD = SpecialThread(4, "special thread", command)
+                CURRENTTHREAD.start()
+            elif command[0] == "jump":
+                CURRENTTHREAD = JumpThread(5, "jump thread", command)
                 CURRENTTHREAD.start()
             else:
                 print "unknown command: '", command, "'"
