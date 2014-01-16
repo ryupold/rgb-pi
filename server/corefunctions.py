@@ -22,7 +22,7 @@ def fade(timeInSecs, endColor, startColor=None):
     myrun = RUN
     fadeXBMCVolume = 0
     startVolume = 0
-    timeInSecs = 20
+    ##timeInSecs = 20
     if config.ENABLE_XBMC_REMOTE and endColor.R == 0 and endColor.G == 0 and endColor.B == 0:
         fadeXBMCVolume = 1
         startVolume = xbmcremote.getVolume()
