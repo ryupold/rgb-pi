@@ -20,7 +20,6 @@ import pulse
 import specials
 
 
-
 RUN = 1
 COMMAND_RUN = 0
 CURRENTTHREAD = None

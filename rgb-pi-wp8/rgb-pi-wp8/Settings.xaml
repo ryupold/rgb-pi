@@ -13,6 +13,93 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
+
+
+    <phone:PhoneApplicationPage.Resources>
+
+        <phone:JumpListItemBackgroundConverter x:Key="BackgroundConverter"/>
+        <phone:JumpListItemForegroundConverter x:Key="ForegroundConverter"/>
+
+        <Style x:Key="LongListSelectorJumpListStyle" TargetType="phone:LongListSelector">
+            <Setter Property="GridCellSize"  Value="111,111"/>
+            <Setter Property="LayoutMode" Value="Grid" />
+            <Setter Property="Margin" Value="18,12,0,0"/>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border Background="{Binding Converter={StaticResource BackgroundConverter}}" Margin="6" >
+                            <TextBlock Text="{Binding Key}" 
+                                           FontFamily="{StaticResource PhoneFontFamilySemiBold}"
+                                           FontSize="48" Padding="11,0,0,0"
+                                           Foreground="{Binding Converter={StaticResource ForegroundConverter}}" VerticalAlignment="Bottom" />
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <DataTemplate x:Key="LongListSelectorHeaderTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="65"/>
+
+
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="185"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="active" Style="{StaticResource PhoneTextTitle1Style}"
+                            Grid.Row="0" Grid.Column="0" Height="80" Grid.ColumnSpan="2" Margin="12,0,10,0"/>
+                <TextBlock Name="txtActive" Text="RyU" 
+                           Grid.Row="1" TextWrapping="Wrap" Margin="10" Grid.ColumnSpan="2" RenderTransformOrigin="0.495,0.607" Height="163" VerticalAlignment="Top"/>
+
+                <TextBlock Name="txtActiveIP" Text="IP: 192.168.1.150"
+                           Grid.Row="2" TextWrapping="Wrap" Margin="12,0,10,0" Grid.ColumnSpan="2" RenderTransformOrigin="0.495,0.607" Height="163" VerticalAlignment="Top"/>
+                <TextBlock Name="txtActivePort" Text="Port: 192.168.1.150"
+                           Grid.Row="3" TextWrapping="Wrap" Margin="12,0,10,0" Grid.ColumnSpan="2" RenderTransformOrigin="0.495,0.607" Height="163" VerticalAlignment="Top"/>
+
+                <TextBlock Text="hosts" Style="{StaticResource PhoneTextExtraLargeStyle}"
+                          Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"/>
+
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LongListSelectorGroupHeaderTemmplate">
+            <Border Background="Transparent" Padding="5">
+                <Border Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="2"	
+                                       Width="62" Height="62" Margin="0,0,18,0"  				 
+                                        HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding Key}" 
+                                               Foreground="{StaticResource PhoneForegroundBrush}" 
+                                               FontSize="48"
+                                               Padding="6"
+                                               FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"/>
+                </Border>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LongListSelectorItemTemplate">
+            <StackPanel Orientation="Horizontal" Margin="4,4">
+                <Image Width="62" Height="62" Source="{Binding ImageUrl}" VerticalAlignment="Top"  Margin="0,0,15,0"/>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </DataTemplate>
+
+    </phone:PhoneApplicationPage.Resources>
+
+
+
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -28,11 +115,14 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="gridSettings" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock HorizontalAlignment="Left" Margin="10,25,0,0" TextWrapping="Wrap" Text="IP" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="10,97,0,0" TextWrapping="Wrap" Text="Port" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtSettingsIP" HorizontalAlignment="Left" Height="72" Margin="97,0,0,0" TextWrapping="Wrap" Text="192.168.1.150" VerticalAlignment="Top" Width="349"/>
-            <TextBox x:Name="txtSettingsPort" HorizontalAlignment="Left" Height="72" Margin="97,72,0,0" TextWrapping="Wrap" Text="4321" VerticalAlignment="Top" Width="154" InputScope="PostalCode"/>
-            <phone:LongListSelector Name="listHosts" Margin="10,149,10,10"/>
+            <phone:LongListSelector Name="listHosts"   
+                                           ItemsSource="{Binding GroupedPeople}"
+                                           JumpListStyle="{StaticResource LongListSelectorJumpListStyle}"  
+                                           ListHeaderTemplate="{StaticResource LongListSelectorHeaderTemplate}"
+                                           GroupHeaderTemplate="{StaticResource LongListSelectorGroupHeaderTemmplate}"
+                                           ItemTemplate="{StaticResource LongListSelectorItemTemplate}"
+                                           HideEmptyGroups ="true" IsGroupingEnabled ="true" LayoutMode="List">
+            </phone:LongListSelector>
 
         </Grid>
     </Grid>

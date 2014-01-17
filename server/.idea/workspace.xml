@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c84bce53-e1aa-4f70-8d06-f9dbb678f3c1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/DesignTimeResolveAssemblyReferences.cache" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/DesignTimeResolveAssemblyReferences.cache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/DesignTimeResolveAssemblyReferencesInput.cache" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/DesignTimeResolveAssemblyReferencesInput.cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Bin/Release/RGB-Pi-WP8.xap" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Bin/Release/RGB-Pi-WP8.xap" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/RGB.csproj.GenerateResource.Cache" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/RGB.csproj.GenerateResource.Cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/RGB.csprojResolveAssemblyReference.cache" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/RGB.csprojResolveAssemblyReference.cache" />
@@ -15,19 +17,22 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/rgb-pi.pdb" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/rgb-pi.pdb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/App.g.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/App.g.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/App.g.i.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/App.g.i.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Bin/Release/AppManifest.xaml" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Bin/Release/AppManifest.xaml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MDILCacheFile.xml" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MDILCacheFile.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MDIL/MDILXapCompileLog.txt" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MDIL/MDILXapCompileLog.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MainPage.g.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MainPage.g.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MainPage.g.i.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/MainPage.g.i.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/MainPage.xaml.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/MainPage.xaml.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/MainPage.xaml" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/MainPage.xaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/RGB.csproj.FileListAbsolute.txt" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/RGB.csproj.FileListAbsolute.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/RGB.csproj" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/RGB.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/Settings.g.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/Settings.g.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/Settings.g.i.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/Settings.g.i.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Settings.xaml.cs" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Settings.xaml.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Settings.xaml" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/Settings.xaml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/XapCacheFile.xml" afterPath="$PROJECT_DIR$/../rgb-pi-wp8/rgb-pi-wp8/obj/Release/XapCacheFile.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/corefunctions.py" afterPath="$PROJECT_DIR$/corefunctions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/led.py" afterPath="$PROJECT_DIR$/led.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rgbthreads.py" afterPath="$PROJECT_DIR$/rgbthreads.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/server.iml" afterPath="$PROJECT_DIR$/.idea/server.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils.py" afterPath="$PROJECT_DIR$/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="server.iws" />
@@ -55,9 +60,7 @@
         <entry file="file://$PROJECT_DIR$/corefunctions.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="34" column="30" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="1360">
-              <folding>
-                <element signature="e#16#27#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -65,10 +68,8 @@
       <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="28" selection-start="124" selection-end="124" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-              <folding>
-                <element signature="e#34#54#0" expanded="true" />
-              </folding>
+            <state line="8" column="28" selection-start="124" selection-end="124" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="255">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -76,7 +77,7 @@
       <file leaf-file-name="utils.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="0" selection-start="989" selection-end="989" vertical-scroll-proportion="0.0" vertical-offset="110" max-vertical-offset="1020">
+            <state line="45" column="0" selection-start="989" selection-end="989" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1037">
               <folding />
             </state>
           </provider>
@@ -94,7 +95,7 @@
       <file leaf-file-name="config.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="16" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+            <state line="10" column="16" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="459">
               <folding />
             </state>
           </provider>
@@ -112,7 +113,7 @@
       <file leaf-file-name="rgbthreads.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rgbthreads.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="0" selection-start="1611" selection-end="1611" vertical-scroll-proportion="0.036599763" vertical-offset="1006" max-vertical-offset="2312">
+            <state line="60" column="13" selection-start="1413" selection-end="1413" vertical-scroll-proportion="1.588785" vertical-offset="170" max-vertical-offset="2431">
               <folding />
             </state>
           </provider>
@@ -151,9 +152,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="960" />
-    <option name="width" value="960" />
-    <option name="height" value="1040" />
+    <option name="width" value="768" />
+    <option name="height" value="728" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -213,29 +213,29 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="69" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="C:/Python27/python2.exe" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="68" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="670" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="681" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="670" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="65" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="59" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
-      <PyConsoleSettings>
+      <console-settings module-name="server" is-module-sdk="true">
         <option name="myUseModuleSdk" value="true" />
         <option name="myModuleName" value="server" />
-      </PyConsoleSettings>
+      </console-settings>
     </option>
   </component>
   <component name="RunManager" selected="Python.test">
@@ -414,14 +414,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="0" width="960" height="1040" extended-state="1" />
-    <editor active="true" />
+    <frame x="0" y="0" width="768" height="728" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24986821" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16395223" sideWeight="0.6710875" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28989363" sideWeight="0.6710875" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -453,9 +453,7 @@
     <entry file="file://$PROJECT_DIR$/corefunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="0" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.0" vertical-offset="657" max-vertical-offset="1173">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -476,9 +474,7 @@
     <entry file="file://$PROJECT_DIR$/corefunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="73" column="18" selection-start="2252" selection-end="2252" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="1445">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -499,9 +495,7 @@
     <entry file="file://$PROJECT_DIR$/corefunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="0" selection-start="18" selection-end="33" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="255">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -546,24 +540,20 @@
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="28" selection-start="124" selection-end="124" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <folding>
-            <element signature="e#34#54#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/corefunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="30" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="1360">
-          <folding>
-            <element signature="e#16#27#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rgbthreads.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="1611" selection-end="1611" vertical-scroll-proportion="0.036599763" vertical-offset="1006" max-vertical-offset="2312">
+        <state line="60" column="13" selection-start="1413" selection-end="1413" vertical-scroll-proportion="1.588785" vertical-offset="170" max-vertical-offset="2431">
           <folding />
         </state>
       </provider>

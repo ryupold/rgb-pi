@@ -68,6 +68,9 @@ namespace RGB
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
 
+            Settings.SetSetting("ip", "192.168.1.150");
+            Settings.SetSetting("port", "4321");
+
             // Sample code to localize the ApplicationBar
             BuildLocalizedApplicationBar();
 
@@ -87,6 +90,8 @@ namespace RGB
             worker = new Thread(rgbWorking);
             worker.IsBackground = true;
             worker.Start();
+
+
 
         }
 

@@ -18,19 +18,7 @@ namespace RGB
             InitializeComponent();
 
             InitializeAppBar();
-
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             
-            if (!settings.Contains("ip"))
-            {
-                settings.Add("ip", txtSettingsIP.Text);
-            }
-            else
-            {
-                txtSettingsIP.Text = settings["ip"].ToString();
-            }
-
-
         }
 
         private void InitializeAppBar()
@@ -42,8 +30,8 @@ namespace RGB
             abbSave.Text = "save";
             abbSave.Click += delegate(object s, EventArgs ea)
             {
-                SetSetting("ip", txtSettingsIP.Text);
-                SetSetting("port", txtSettingsPort.Text);
+                //SetSetting("ip", txtSettingsIP.Text);
+                //SetSetting("port", txtSettingsPort.Text);
 
                 NavigationService.GoBack();
             };
@@ -55,10 +43,7 @@ namespace RGB
             base.OnNavigatedTo(e);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
+        
 
         public static object GetSetting(string name)
         {
