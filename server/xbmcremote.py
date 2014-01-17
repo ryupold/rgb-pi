@@ -75,7 +75,6 @@ def previous():
 def setVolume(vol):
 	request = sendCommand('{"jsonrpc":"2.0","method":"Application.SetVolume","params":%20{"volume":'+str(vol)+'},"id":1}')
 	decoded = json.loads(request)
-	return decoded["result"]
 
 #get Volume
 def getVolume():
