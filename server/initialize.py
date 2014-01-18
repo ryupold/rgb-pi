@@ -25,19 +25,23 @@ CONFIG = {
     'XBMC_HOST':'127.0.0.1',
     'XBMC_PORT':'80'
 }
-
+#contains a string with the contents of the config file
 configData = ''
 
 #clears console
 def cls():
     os.system(['clear','cls'][os.name == 'nt'])
 
+#shows a message box with question and the choices 'y' for yes and 'n' for no
+#returns 1 if yes was chosen and 0 if no, otherwise it loops til one of them was chosen
 def messageBoxYesNo(question):
     while 1:
         answer = string.lower(raw_input(question + ' (y | n): '))
         if answer == 'y': return 1
         if answer == 'n': return 0
 
+#shows a message box with a question for an integer number
+#returns the
 def messageBoxINT(question, min=-2147483648, max=2147483647):
     while 1:
         try:
