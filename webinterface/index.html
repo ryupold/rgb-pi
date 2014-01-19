@@ -1,0 +1,167 @@
+<html>
+	<head>
+		<title>RGB-PI Webinterface</title>
+		<script type="text/javascript" src="lib/colorpicker.js"></script>
+						
+		<style type="text/css">
+			#colorpicker { width:230px; height:200px; background-color:#ff0000; }
+			#picker { width: 200px; height: 200px; float:left; }
+			#slide { width: 30px; height: 200px; float:left; }
+			#colors { clear:both; }
+			.color { width:200px; height:30px; border-style:solid; border-width:2px; }
+        </style>
+		
+		<script>
+			window.dhx_globalImgPath = "lib/dhtmlxSlider/codebase/imgs/";
+		</script>
+		<script  src="lib/dhtmlxSlider/codebase/dhtmlxcommon.js"></script>
+		<script  src="lib/dhtmlxSlider/codebase/dhtmlxslider.js"></script>
+		<script  src="lib/dhtmlxSlider/codebase/ext/dhtmlxslider_start.js"></script>
+		<link rel="STYLESHEET" type="text/css" href="lib/dhtmlxSlider/codebase/dhtmlxslider.css">  
+	</head>
+	
+	<body>
+		<h1>RGB-PI Webinterface</h1>
+		<hr />
+		
+		<!--
+		
+			SELECT COLORS BLOCK
+		
+		-->
+		<h2>SELECT COLORS</h2>
+		
+		<div id="colorpicker">
+			<div id="picker"></div>
+			<div id="slide"></div>
+		</div>
+		<div id="colors">
+			<table>
+				<tr>
+					<td id="colorOneHeader">
+						COLOR ONE
+					</td>
+					<td id="colorTwoHeader">
+						COLOR TWO
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div id="colorOne" class="color" onclick="selectColorOne()"><input type="hidden" id="colorOneHidden" /></div>
+					</td>
+					<td>
+						<div id="colorTwo" class="color" onclick="selectColorTwo()"><input type="hidden" id="colorTwoHidden" /></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<hr />
+		
+		
+		
+		<!--
+		
+			PULSE BLOCK
+		
+		-->		
+		<p>
+			<h2>Pulse</h2>
+			<table>
+				<tr>
+					<td>
+						<p id="textPulseSpeed">TIME: 1s</p>
+						<input type="hidden" id="pulseSpeed" value="1" />
+					</td>
+					<td>
+						<div id="pulseSliderBox"></div>
+					</td>
+				</tr>
+			</table>
+			<script>
+			
+				function pulseHandler(pos, slider) {
+					document.getElementById("textPulseSpeed").innerHTML = "TIME: " + pos + "s";
+					document.getElementById('pulseSpeed').value = pos;
+				}
+				var slider = new dhtmlxSlider("pulseSliderBox", {
+					skin: "dhx_skyblue",
+					min: 0.5,
+					max: 30,
+					step: 0.5,
+					size: 400,
+					vertical: false
+				});
+				slider.attachEvent("onChange", pulseHandler);
+				slider.init();
+			</script>
+			<input type="submit" onclick="pulse()" value="START" />
+		</p>
+		<hr />
+		
+		
+		
+		<!--
+		
+			RANDOM FADER BLOCK
+		
+		-->
+		<p>
+			<h2>Random Fader</h2>
+			<h3>Speed</h3>
+			<table>
+				<tr>
+					<td>
+						Min:
+					</td>
+					<td>
+						<input type="text" id="rf_speed_min" value="0.5" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Max:
+					</td>
+					<td>
+						<input type="text" id="rf_speed_max" value="2" />
+					</td>
+				</tr>
+			</table>
+			<h3>Brightness</h3>
+			Min: <input type="text" id="rf_value_min" value="20" /><br />
+			Max: <input type="text" id="rf_value_max" value="255" /><br />
+			<input type="submit" onclick="rf()" value="START" />
+			
+		</p>
+		<hr />
+		
+		
+		
+		<!--
+		
+			SHUTDOWN BLOCK
+		
+		-->
+		<p><h2>Shutdown</h2><a href="#" onclick="shutDown()"><img src="img/shutdown.png" alt="Shutdown" title="Shutdown" /></a></p>
+		
+		
+		<script type="text/javascript" src="rgb-pi.js"></script>
+		<script type="text/javascript">
+			//Initalize color one and color two
+			setColorOne("#FF0000");
+			setColorTwo("#110000");
+			selectColorOne();
+
+			ColorPicker(
+				document.getElementById('slide'),
+				document.getElementById('picker'),
+				function(hex, hsv, rgb) {
+					if (getSelectedColor() == 1) {
+						setColorOne(hex);
+					}
+					else {
+						setColorTwo(hex);
+					}
+				
+			});
+		</script>
+	</body>

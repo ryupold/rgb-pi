@@ -1,0 +1,652 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+ lang="en" dir="ltr">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><link rel="stylesheet" href="../codebase/default.css" type="text/css" media="screen" title="no title" charset="utf-8"><title>
+    dhtmlxslider:initialization_of_dhtmlxslider    [DHX documentation]
+  </title></head>
+
+<body>
+<div class="dokuwiki">
+  
+  <div class="stylehead">
+
+    <div class="header">
+    <a class="logo" href="http://dhtmlx.com" title="DHTMLX Home Page"></a>
+    <span class="tittle-dhtmlx">DHTMLX Docs & Samples Explorer</span>
+
+    <div class="search-field">
+        <form action="/dhtmlx/docs/doku.php" accept-charset="utf-8" id="dw__search"><div class="no"><input type="hidden" name="do" value="search" /><input type="text" id="qsearch__in" accesskey="f" name="id" title="Search" /><button type="submit"></button><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>    </div>
+        <div class="buttons">
+                <a class="doc"></a>
+                <a title="DHTMLX Samples homepage" href="../samples.html" class="sample"/></a>
+        </div>
+     <!-- <div class="pagename">
+        [[<a href="#"  title="Backlinks">dhtmlxslider:initialization_of_dhtmlxslider</a>]]
+      </div>
+      <div class="logo">
+        <a href="/dhtmlx/docs/doku.php"  name="dokuwiki__top" id="dokuwiki__top" accesskey="h" title="[H]">DHX documentation</a>      </div>
+
+      <div class="clearer"></div>-->
+        
+    </div>
+
+    
+<!--   <div class="bar" id="bar__top">
+      <div class="bar-left" id="bar__topleft">
+        <form class="button btn_edit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="rev" value="" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit this page" class="button" accesskey="e" title="Edit this page [E]" /></div></form>        <form class="button btn_revs" method="get" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="revisions" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Old revisions" class="button" accesskey="o" title="Old revisions [O]" /></div></form>      </div>
+
+      <div class="bar-right" id="bar__topright">
+        <form class="button btn_recent" method="get" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="recent" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Recent changes" class="button" accesskey="r" title="Recent changes [R]" /></div></form>        <form action="/dhtmlx/docs/doku.php" accept-charset="utf-8" id="dw__search"><div class="no"><input type="hidden" name="do" value="search" /><input type="text" id="qsearch__in" accesskey="f" name="id" title="Search" /><button type="submit"></button><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>&nbsp;
+      </div>
+
+      <div class="clearer"></div>
+    </div> -->
+
+<!--        <div class="breadcrumbs">
+      <span class="bchead">Trace:</span> <span class="bcsep">&raquo;</span> <span class="curid"><a href="/dhtmlx/docs/doku.php?id=dhtmlxslider:initialization_of_dhtmlxslider"  class="breadcrumbs" title="dhtmlxslider:initialization_of_dhtmlxslider">initialization_of_dhtmlxslider</a></span>    </div>
+    -->
+
+    
+  </div>
+  
+  
+  <div class="page">
+    <!-- wikipage start -->
+    <!-- TOC START -->
+<div class="toc">
+<div class="tocheader toctoggle" id="toc__header">Table of Contents</div>
+<div id="toc__inside">
+
+<ul class="toc">
+<li class="clear">
+
+<ul class="toc">
+<li class="level2"><div class="li"><span class="li"><a href="#initialization_of_dhtmlxslider" class="toc">Initialization of dhtmlxSlider</a></span></div>
+<ul class="toc">
+<li class="level3"><div class="li"><span class="li"><a href="#setting_image_path" class="toc">Setting Image Path</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#minimal_initialization" class="toc">Minimal Initialization</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#extended_initialization" class="toc">Extended Initialization</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#initialization_by_object_notation" class="toc">Initialization by Object Notation</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#inline_initialization" class="toc">Inline Initialization</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#initialization_from_html_input" class="toc">Initialization from HTML Input</a></span></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><span class="li"><a href="#dhtmlxslider_configuration" class="toc">dhtmlxSlider Configuration</a></span></div>
+<ul class="toc">
+<li class="level3"><div class="li"><span class="li"><a href="#setting_skin" class="toc">Setting Skin</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#integration_with_form" class="toc">Integration with Form</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#setting_minimum_maximum_current_values" class="toc">Setting Minimum/Maximum/Current Values</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#setting_step" class="toc">Setting Step</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#setting_tooltip" class="toc">Setting Tooltip</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#linking_slider_to_object" class="toc">Linking Slider to Object</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#setting_stepping_mode" class="toc">Setting Stepping Mode</a></span></div></li></ul>
+</li></ul>
+</li></ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<p>
+<div class='backlinks'><div class='backlink last_backlink'><img src="icons___file.gif"  class="media" alt="" /><a href="../index.html" class="wikilink1" title="start">Index</a></div><div class='arrow'></div><div class='backlink last_backlink'><img src="icons___slider.gif"  class="media" alt="" /><a href="index.html" class="wikilink1" title="dhtmlxslider:toc">dhtmlxslider</a></div></div>
+
+</p>
+
+<h2><a name="initialization_of_dhtmlxslider" id="initialization_of_dhtmlxslider">Initialization of dhtmlxSlider</a></h2>
+<div class="level2">
+
+<p>
+dhtmlxSlider can be initialized on page using one of the following initialization schemes:
+</p>
+<ul>
+<li class="level1"><div class="li">  Minimal Initialization;</div>
+</li>
+<li class="level1"><div class="li">  Extended Initialization;</div>
+</li>
+<li class="level1"><div class="li">  Initialization by Object Notation;</div>
+</li>
+<li class="level1"><div class="li">  Inline Initialization;</div>
+</li>
+<li class="level1"><div class="li">  Initialization from <acronym title="HyperText Markup Language">HTML</acronym> Input.</div>
+</li>
+</ul>
+
+<p>
+
+The first things that need to be done for any type of dhtmlxSlider&#039;s initialization are the following:
+</p>
+<ul>
+<li class="level1"><div class="li">  Download the dhtmlxSlider package from the server and place it in a folder;</div>
+</li>
+<li class="level1"><div class="li">  Create an html file;</div>
+</li>
+<li class="level1"><div class="li">  Place the full paths to dhtmlxSlider&#039;s <acronym title="Cascading Style Sheets">CSS</acronym> and <acronym title="JavaScript">JS</acronym> files into the header of the created html file;</div>
+</li>
+</ul>
+<pre class="code javascript">  <span class="sy0">&lt;</span>head<span class="sy0">&gt;</span>   
+      <span class="sy0">&lt;</span>link rel<span class="sy0">=</span><span class="st0">&quot;stylesheet&quot;</span> type<span class="sy0">=</span><span class="st0">&quot;text/css&quot;</span> href<span class="sy0">=</span><span class="st0">&quot;[full path to this file]/dhtmlxslider.css&quot;</span><span class="sy0">&gt;</span>
+      <span class="sy0">&lt;</span>script src<span class="sy0">=</span><span class="st0">&quot;[full path to this file/dhtmlxcommon.js&quot;</span><span class="sy0">&gt;&lt;/</span>script<span class="sy0">&gt;</span>
+        <span class="sy0">&lt;</span>script src<span class="sy0">=</span><span class="st0">&quot;[full path to this file]/dhtmlxslider.js&quot;</span><span class="sy0">&gt;&lt;/</span>script<span class="sy0">&gt;</span>    
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="55-966" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Initialization of dhtmlxSlider" /></div></form></div>
+<h3><a name="setting_image_path" id="setting_image_path">Setting Image Path</a></h3>
+<div class="level3">
+
+<p>
+The following ways of setting image path are available in dhtmlxSlider:
+</p>
+<ul>
+<li class="level1"><div class="li">  Through setImagePath() - this method should be used to set the full path to the directory, where slider image files are located:</div>
+</li>
+</ul>
+<pre class="code javascript">  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+      sld.<span class="me1">setImagePath</span><span class="br0">&#40;</span><span class="st0">&quot;[full path to this category]/codeabse/imgs/&quot;</span><span class="br0">&#41;</span>; <span class="co1">// should be used after creation of slider's object</span>
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre><ul>
+<li class="level1"><div class="li">  As global <acronym title="JavaScript">JS</acronym> variable window.dhx_globalImagePath:</div>
+</li>
+</ul>
+<pre class="code javascript">  <span class="sy0">&lt;</span>head<span class="sy0">&gt;</span>
+      ...
+      <span class="sy0">&lt;</span>script src<span class="sy0">=</span><span class="st0">&quot;[full path to this file]/dhtmlxslider.js&quot;</span><span class="sy0">&gt;&lt;/</span>script<span class="sy0">&gt;</span> 
+      <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>window.<span class="me1">dhx_globalImgPath</span><span class="sy0">=</span><span class="st0">&quot;[full path to this category]/codebase/imgs/&quot;</span>;&lt;/script<span class="sy0">&gt;</span> <span class="co1">// sets image path</span>
+  <span class="sy0">&lt;/</span>head<span class="sy0">&gt;</span></pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="967-1685" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Setting Image Path" /></div></form></div>
+<h3><a name="minimal_initialization" id="minimal_initialization">Minimal Initialization</a></h3>
+<div class="level3">
+
+<p>
+The user needs to create an object where dhtmlxSlider will be placed later. In this example the object is a &lt;div&gt; element on page which is placed in the &lt;body&gt; tag:
+</p>
+<pre class="code javascript">  <span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;slider&quot;</span><span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span></pre>
+<p>
+
+The next step is to create a new dhtmlxSlider and place it after the &lt;div&gt; element (object) that we&#039;ve just created:
+
+</p>
+<pre class="code javascript">  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+     <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span>container<span class="sy0">,</span> size<span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+<p>
+
+The parameters in the above mentioned code string are the following:
+</p>
+<ul>
+<li class="level1"><div class="li">  container(id) - id of the object inside which the Slider will be created;</div>
+</li>
+<li class="level1"><div class="li">  size(px) - size of the slider (in pixels).</div>
+</li>
+</ul>
+
+<p>
+
+The last command that should be called in order to initialize the component is:
+
+</p>
+<pre class="code javascript">  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+      sld.<span class="me1">init</span><span class="br0">&#40;</span><span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+<p>
+
+When the page is loaded, the slider will be displayed on page with the minimum value set in it.
+
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="1686-2599" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Minimal Initialization" /></div></form></div>
+<h3><a name="extended_initialization" id="extended_initialization">Extended Initialization</a></h3>
+<div class="level3">
+
+<p>
+Creating a Slider with extended initialization, the user should call the same commands described in Minimal initialization. 
+</p>
+
+<p>
+
+The code for extended initialization should be like this:
+</p>
+<pre class="code javascript">  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+      <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span>container<span class="sy0">,</span> size<span class="sy0">,</span> skin<span class="sy0">,</span> vertical<span class="sy0">,</span> min<span class="sy0">,</span> max<span class="sy0">,</span> value<span class="sy0">,</span> step<span class="br0">&#41;</span>;
+      sld.<span class="me1">init</span><span class="br0">&#40;</span><span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+<p>
+
+The parameters the user should indicate are as follows:
+</p>
+<ul>
+<li class="level1"><div class="li">  container(id) - id of the object inside which the Slider will be created;</div>
+</li>
+<li class="level1"><div class="li">  size(px) - size of the slider (in pixels);</div>
+</li>
+<li class="level1"><div class="li">  skin(skin_name) - name of the skin applied;</div>
+</li>
+<li class="level1"><div class="li">  vertical(true|false) - vertical orientation flag, set to false by default;</div>
+</li>
+<li class="level1"><div class="li">  minValue (value) - minimum slider&#039;s value;</div>
+</li>
+<li class="level1"><div class="li">  maxValue (value) - maximum slider&#039;s value;</div>
+</li>
+<li class="level1"><div class="li">  value (value) - slider&#039;s current value;</div>
+</li>
+<li class="level1"><div class="li">  step(value) - step of the slider.</div>
+</li>
+</ul>
+
+<p>
+
+When the page is loaded, the slider will be displayed on page with the current value set in it.
+
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="2600-3574" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Extended Initialization" /></div></form></div>
+<h3><a name="initialization_by_object_notation" id="initialization_by_object_notation">Initialization by Object Notation</a></h3>
+<div class="level3">
+
+<p>
+Initialization of this kind is similar to the above mentioned types. The only difference is that the second parameter is an object containing all the initialization parameters:
+
+</p>
+<pre class="code javascript">  <span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;slider&quot;</span><span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+      <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="st0">&quot;slider&quot;</span><span class="sy0">,</span> <span class="br0">&#123;</span>
+              size<span class="sy0">:</span><span class="nu0">100</span><span class="sy0">,</span>           
+                 skin<span class="sy0">:</span> <span class="st0">&quot;ball&quot;</span><span class="sy0">,</span>
+                 vertical<span class="sy0">:</span><span class="kw2">false</span><span class="sy0">,</span>
+                 step<span class="sy0">:</span><span class="nu0">1</span><span class="sy0">,</span>
+                 min<span class="sy0">:</span><span class="nu0">1</span><span class="sy0">,</span>
+                 max<span class="sy0">:</span><span class="nu0">100</span><span class="sy0">,</span>
+                 value<span class="sy0">:</span><span class="nu0">50</span>           
+          <span class="br0">&#125;</span><span class="br0">&#41;</span>;
+      sld.<span class="me1">init</span><span class="br0">&#40;</span><span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="3575-4162" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Initialization by Object Notation" /></div></form></div>
+<h3><a name="inline_initialization" id="inline_initialization">Inline Initialization</a></h3>
+<div class="level3">
+
+<p>
+This type of initialization presupposes that the Slider can be created without indicating the object for it. It should be noted that the slider will be created at the same place where the initialization script was called:
+
+</p>
+<pre class="code javascript">  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+      <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="kw2">null</span><span class="sy0">,</span> <span class="nu0">300</span><span class="br0">&#41;</span>;
+          <span class="co1">//or</span>
+      <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="kw2">null</span><span class="sy0">,</span> <span class="br0">&#123;</span>
+              size<span class="sy0">:</span><span class="nu0">100</span><span class="sy0">,</span>           
+              skin<span class="sy0">:</span> <span class="st0">&quot;ball&quot;</span><span class="sy0">,</span>
+              vertical<span class="sy0">:</span><span class="kw2">false</span><span class="sy0">,</span>
+              step<span class="sy0">:</span><span class="nu0">1</span><span class="sy0">,</span>
+              min<span class="sy0">:</span><span class="nu0">1</span><span class="sy0">,</span>
+              max<span class="sy0">:</span><span class="nu0">100</span><span class="sy0">,</span>
+              value<span class="sy0">:</span><span class="nu0">50</span>           
+          <span class="br0">&#125;</span><span class="br0">&#41;</span>;
+      sld.<span class="me1">init</span><span class="br0">&#40;</span><span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="4163-4795" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Inline Initialization" /></div></form></div>
+<h3><a name="initialization_from_html_input" id="initialization_from_html_input">Initialization from HTML Input</a></h3>
+<div class="level3">
+
+<p>
+The user can initialize the Slider from some existing <acronym title="HyperText Markup Language">HTML</acronym> input. The thing that needs to be done for that is adding dhtmlxSlider&#039;s <acronym title="Cascading Style Sheets">CSS</acronym> class to it. The user should do the following:
+</p>
+<ul>
+<li class="level1"><div class="li">  Add full path to dhtmlxslider_start.js file to activate auto-initialization;</div>
+</li>
+<li class="level1"><div class="li">  Set class attribute value of the input element to “dhtmlxSlider”.</div>
+</li>
+</ul>
+<pre class="code javascript">  <span class="sy0">&lt;</span>head<span class="sy0">&gt;</span>
+      <span class="sy0">&lt;</span>script src<span class="sy0">=</span><span class="st0">&quot;[full path to this file]/codebase/ext/dhtmlxslider_start.js&quot;</span><span class="sy0">&gt;&lt;/</span>script<span class="sy0">&gt;</span>
+  <span class="sy0">&lt;/</span>head<span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>input <span class="kw2">class</span><span class="sy0">=</span><span class="st0">&quot;dhtmlxSlider&quot;</span> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;slider&quot;</span> skin<span class="sy0">=</span><span class="st0">&quot;ball&quot;</span> style<span class="sy0">=</span><span class="st0">&quot;width:200px&quot;</span> min<span class="sy0">=</span><span class="st0">&quot;1&quot;</span> max<span class="sy0">=</span><span class="st0">&quot;200&quot;</span> step<span class="sy0">=</span><span class="st0">&quot;1&quot;</span> value<span class="sy0">=</span><span class="st0">&quot;10&quot;</span><span class="sy0">&gt;</span></pre>
+<p>
+
+The parameters of the input element the user should indicate are the following:
+</p>
+<ul>
+<li class="level1"><div class="li">  class - class attribute value;</div>
+</li>
+<li class="level1"><div class="li">  name - id of the input;</div>
+</li>
+<li class="level1"><div class="li">  style - specify the style of the input;</div>
+</li>
+<li class="level1"><div class="li">  skin - name of the applied skin;</div>
+</li>
+<li class="level1"><div class="li">  min - slider&#039;s minimum value;</div>
+</li>
+<li class="level1"><div class="li">  max - slider&#039;s maximum value;</div>
+</li>
+<li class="level1"><div class="li">  step - slider&#039;s step;</div>
+</li>
+<li class="level1"><div class="li">  value - slider&#039;s current value.</div>
+</li>
+</ul>
+
+<p>
+
+Note: Any slider object which was initialized from the input will not be available.
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="4796-5884" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Initialization from HTML Input" /></div></form></div>
+<h2><a name="dhtmlxslider_configuration" id="dhtmlxslider_configuration">dhtmlxSlider Configuration</a></h2>
+<div class="level2">
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="5885-5927" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="dhtmlxSlider Configuration" /></div></form></div>
+<h3><a name="setting_skin" id="setting_skin">Setting Skin</a></h3>
+<div class="level3">
+
+<p>
+The skin can be set for dhtmlxSlider in one of the following ways:
+</p>
+<ul>
+<li class="level1"><div class="li">  Through one of initialization parameters:</div>
+</li>
+</ul>
+<pre class="code javascript">  <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+      <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="st0">&quot;slider&quot;</span><span class="sy0">,</span> <span class="nu0">100</span><span class="sy0">,</span> <span class="st0">&quot;ball&quot;</span><span class="sy0">,</span> ...<span class="br0">&#41;</span>;
+          <span class="co1">//or</span>
+      <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="st0">&quot;slider&quot;</span><span class="sy0">,</span> <span class="br0">&#123;</span>                    
+                 skin<span class="sy0">:</span> <span class="st0">&quot;ball&quot;</span><span class="sy0">,</span>
+                 ...
+          <span class="br0">&#125;</span><span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre><ul>
+<li class="level1"><div class="li">  Through setSkin() method called after slider&#039;s initialization:</div>
+</li>
+</ul>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+        sld.<span class="me1">setSkin</span><span class="br0">&#40;</span>skin<span class="br0">&#41;</span>;
+  <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span></pre>
+<p>
+
+Note: to set the default skin, the user should write an empty string as the parameter for setSkin() method.
+</p>
+
+</div>
+
+<h4><a name="available_skins" id="available_skins">Available Skins</a></h4>
+<div class="level4">
+
+<p>
+The following skins are available for this component:
+
+</p>
+<ul>
+<li class="level1"><div class="li">  the default one</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_209d332t3f4_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  ball</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_217htqskzgr_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  zipper</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_211fj4r2xfh_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  arrow</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_212fz7nwmcc_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  arrowgreen</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_213cpg632dc_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  simplesilver</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_214349t32hm_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  simplegray</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_215dtkscj83_b.gif"  class="media" alt="" />
+
+</p>
+<ul>
+<li class="level1"><div class="li">  bar</div>
+</li>
+</ul>
+
+<p>
+<img src="dhtmlxslider___dgr5rjkf_216ctvq9kgh_b.gif"  class="media" alt="" />
+
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="5928-7151" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Setting Skin" /></div></form></div>
+<h3><a name="integration_with_form" id="integration_with_form">Integration with Form</a></h3>
+<div class="level3">
+
+<p>
+If dhtmlxSlider is created inside a form, the slider integrates itself into it by default. So, no additional commands are required. If the form is sent, the data of the slider will be sent with it.
+
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="7152-7385" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Integration with Form" /></div></form></div>
+<h3><a name="setting_minimum_maximum_current_values" id="setting_minimum_maximum_current_values">Setting Minimum/Maximum/Current Values</a></h3>
+<div class="level3">
+
+<p>
+Two ways are responsible for setting minimum, maximum, and current values in dhtmlxSlider:
+</p>
+<ul>
+<li class="level1"><div class="li">  Through one of initialization parameters:</div>
+</li>
+</ul>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+        <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span>container<span class="sy0">,</span> size<span class="sy0">,</span> skin<span class="sy0">,</span> vertical<span class="sy0">,</span> min<span class="sy0">,</span> max<span class="sy0">,</span> value<span class="sy0">,</span> ...<span class="br0">&#41;</span>;
+            <span class="co1">//or</span>
+        <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="st0">&quot;slider&quot;</span><span class="sy0">,</span> <span class="br0">&#123;</span>                    
+                   min<span class="sy0">:</span><span class="nu0">1</span><span class="sy0">,</span>
+                max<span class="sy0">:</span><span class="nu0">100</span><span class="sy0">,</span>
+                value<span class="sy0">:</span> <span class="nu0">50</span><span class="sy0">,</span>
+                   ...
+            <span class="br0">&#125;</span><span class="br0">&#41;</span>;
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre><ul>
+<li class="level1"><div class="li">  Through setMin(), setMax(), and setValue() methods called after slider&#039;s initialization:</div>
+</li>
+</ul>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+         sld.<span class="me1">setMin</span><span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span>; <span class="co1">// leftmost position</span>
+         sld.<span class="me1">setMax</span><span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span>; <span class="co1">// rightmost position</span>
+         sld.<span class="me1">setValue</span><span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span>; <span class="co1">// current position</span>
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+<p>
+
+The current slider&#039;s value can be got with the help of method getValue():
+
+</p>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+         <span class="kw2">var</span> value <span class="sy0">=</span> sld.<span class="me1">getValue</span><span class="br0">&#40;</span><span class="br0">&#41;</span>; <span class="co1">// returns current slider's position</span>
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="7386-8420" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Setting Minimum/Maximum/Current Values" /></div></form></div>
+<h3><a name="setting_step" id="setting_step">Setting Step</a></h3>
+<div class="level3">
+
+<p>
+It is possible to set minimal allowed difference between slider&#039;s values (step) in the following way:
+</p>
+<ul>
+<li class="level1"><div class="li">  Through one of initialization parameters:</div>
+</li>
+</ul>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+        <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span>container<span class="sy0">,</span> size<span class="sy0">,</span> skin<span class="sy0">,</span> vertical<span class="sy0">,</span> min<span class="sy0">,</span> max<span class="sy0">,</span> value<span class="sy0">,</span> step<span class="br0">&#41;</span>;
+            <span class="co1">//or</span>
+        <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="st0">&quot;slider&quot;</span><span class="sy0">,</span> <span class="br0">&#123;</span>                    
+                   step<span class="sy0">:</span> <span class="nu0">1</span><span class="sy0">,</span>
+                   ...
+            <span class="br0">&#125;</span><span class="br0">&#41;</span>;
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre><ul>
+<li class="level1"><div class="li">  Through setStep() method called after slider&#039;s initialization:</div>
+</li>
+</ul>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+         sld.<span class="me1">setStep</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span>;
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="8421-9047" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Setting Step" /></div></form></div>
+<h3><a name="setting_tooltip" id="setting_tooltip">Setting Tooltip</a></h3>
+<div class="level3">
+
+<p>
+There is a method that enables/disables slider&#039;s tooltip easily:
+
+</p>
+<pre class="code javascript">     <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+          sld.<span class="me1">enableTooltip</span><span class="br0">&#40;</span><span class="kw2">true</span>|false<span class="br0">&#41;</span>; <span class="co1">// true by default</span>
+      <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+<p>
+
+This tooltip displays changeable values of the slider when the user moves the slider&#039;s thumb.
+
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="9048-9354" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Setting Tooltip" /></div></form></div>
+<h3><a name="linking_slider_to_object" id="linking_slider_to_object">Linking Slider to Object</a></h3>
+<div class="level3">
+
+<p>
+The slider can be linked to some objects on page. In this case, linkTo() method is used. The slider can be linked to:
+</p>
+<ul>
+<li class="level1"><div class="li">  An <acronym title="HyperText Markup Language">HTML</acronym> input;</div>
+</li>
+<li class="level1"><div class="li">  An <acronym title="HyperText Markup Language">HTML</acronym> textarea;</div>
+</li>
+<li class="level1"><div class="li">  An <acronym title="HyperText Markup Language">HTML</acronym> select;</div>
+</li>
+<li class="level1"><div class="li">  Any <acronym title="HyperText Markup Language">HTML</acronym> container tag.</div>
+</li>
+</ul>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+        sld.<span class="me1">linkTo</span><span class="br0">&#40;</span>pbjectId<span class="br0">&#41;</span>;
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+<p>
+
+The example provided below shows the way how the slider can be linked to an <acronym title="HyperText Markup Language">HTML</acronym> input:
+
+</p>
+<pre class="code javascript">    <span class="sy0">&lt;</span>input type<span class="sy0">=</span><span class="st0">&quot;text&quot;</span> id<span class="sy0">=</span><span class="st0">&quot;input&quot;</span>
+   <span class="sy0">&gt;</span> <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+        <span class="kw2">var</span> sld <span class="sy0">=</span> <span class="kw2">new</span> dhtmlxSlider<span class="br0">&#40;</span><span class="kw2">null</span><span class="sy0">,</span> <span class="nu0">500</span><span class="br0">&#41;</span>;
+        sld.<span class="me1">linkTo</span><span class="br0">&#40;</span><span class="st0">&quot;input&quot;</span><span class="br0">&#41;</span>;
+        sld.<span class="me1">init</span><span class="br0">&#40;</span><span class="br0">&#41;</span>;
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="9355-9963" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Linking Slider to Object" /></div></form></div>
+<h3><a name="setting_stepping_mode" id="setting_stepping_mode">Setting Stepping Mode</a></h3>
+<div class="level3">
+
+<p>
+Method setSteppingMode() sets slider&#039;s stepping mode.
+
+</p>
+<pre class="code javascript">    <span class="sy0">&lt;</span>script<span class="sy0">&gt;</span>
+        sld.<span class="me1">setSteppingMode</span><span class="br0">&#40;</span><span class="kw2">true</span>|false<span class="br0">&#41;</span>; <span class="co1">// false by default</span>
+    <span class="sy0">&lt;/</span>script<span class="sy0">&gt;</span>
+&nbsp;</pre>
+<p>
+
+setSteppingMode() - if set to true, the slider&#039;s thumb moves by one step in the direction of the click area, if set to false, by click any mouse press sets any appropriate value.
+</p>
+
+</div>
+<div class="secedit"><form class="button btn_secedit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="lines" value="9964-" /><input type="hidden" name="rev" value="1335474000" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit" class="button" title="Setting Stepping Mode" /></div></form></div>
+    <!-- wikipage stop -->
+  </div>
+
+  <div class="clearer">&nbsp;</div>
+
+  
+  <div class="stylefoot">
+
+    <div class="meta">
+      <div class="user">
+              </div>
+     <!-- <div class="doc">
+        dhtmlxslider/initialization_of_dhtmlxslider.txt &middot; Last modified: 2012/04/27 00:00 (external edit)      </div>
+    </div>-->
+
+   
+    <!--<div class="bar" id="bar__bottom">-->
+      <!--<div class="bar-left" id="bar__bottomleft">-->
+        <!--<form class="button btn_edit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="rev" value="" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit this page" class="button" accesskey="e" title="Edit this page [E]" /></div></form>-->
+        <!--<form class="button btn_revs" method="get" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="revisions" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Old revisions" class="button" accesskey="o" title="Old revisions [O]" /></div></form>-->
+      <!--</div>-->
+      <!--<div class="bar-right" id="bar__bottomright">-->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!---->
+        <!--<form class="button btn_index" method="get" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="index" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Index" class="button" accesskey="x" title="Index [X]" /></div></form>-->
+        <!--<a class="nolink" href="#dokuwiki__top"><input type="button" class="button" value="Back to top" onclick="window.scrollTo(0, 0)" title="Back to top" /></a>&nbsp;-->
+      <!--</div>-->
+      <!--<div class="clearer"></div>-->
+    <!--</div>-->
+
+  </div>
+
+  
+
+</div>
+
+<div class="footerinc">
+
+
+</div>
+
+<div class="no"><img src="/dhtmlx/docs/lib/exe/indexer.php?id=dhtmlxslider%3Ainitialization_of_dhtmlxslider&amp;1382608647" width="1" height="1" alt=""  /></div>
+     <div class="footer">
+        <div class="footer-logo"></div>
+        <div class="copyright">Copyright © 2013 Dinamenta, UAB<br />All rights reserved.</div>
+        <form class="button btn_edit" method="post" action="/dhtmlx/docs/doku.php"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="rev" value="" /><input type="hidden" name="id" value="dhtmlxslider:initialization_of_dhtmlxslider" /><input type="submit" value="Edit this page" class="button" accesskey="e" title="Edit this page [E]" /></div></form>    	    </div>
+</body>
+</html>
