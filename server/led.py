@@ -113,13 +113,14 @@ COLOR = [Color('{x:000000}'),
 # elementary function to change the color of the LED strip
 def changeColor(r, g, b, address=0xF):
     global COLOR
-
+    
     cmd = ''
+
     #iterate over all led stripes and set the given color if the stripe address matches
     #the length auf config.RED_PINS is used to determine the stripe amount (could also be config.BLUE PINS or the green one)
     #TODO: think about a better way to do this :)
     for i in range(0, len(config.RED_PINS)):
-        if (i & address) != 0:
+        if ((i+1) & address) != 0:
             COLOR[i].R = r
             COLOR[i].G = g
             COLOR[i].B = b
