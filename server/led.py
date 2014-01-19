@@ -113,7 +113,7 @@ COLOR = [Color('{x:000000}'),
 # elementary function to change the color of the LED strip
 def changeColor(r, g, b, address=0xF):
     global COLOR
-    
+
     cmd = ''
 
     #iterate over all led stripes and set the given color if the stripe address matches
