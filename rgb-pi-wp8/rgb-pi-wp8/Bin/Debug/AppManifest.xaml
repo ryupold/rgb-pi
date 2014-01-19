@@ -1,9 +1,0 @@
-﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" EntryPointAssembly="rgb-pi" EntryPointType="rgb_pi_wp8.App" RuntimeVersion="4.7.50308.0">
-  <Deployment.Parts>
-    <AssemblyPart x:Name="rgb-pi" Source="rgb-pi.dll" />
-    <AssemblyPart x:Name="Coding4Fun.Toolkit.Audio" Source="Coding4Fun.Toolkit.Audio.dll" />
-    <AssemblyPart x:Name="Coding4Fun.Toolkit.Controls" Source="Coding4Fun.Toolkit.Controls.dll" />
-    <AssemblyPart x:Name="Coding4Fun.Toolkit.Net" Source="Coding4Fun.Toolkit.Net.dll" />
-    <AssemblyPart x:Name="Coding4Fun.Toolkit.Storage" Source="Coding4Fun.Toolkit.Storage.dll" />
-  </Deployment.Parts>
-</Deployment>
