@@ -84,7 +84,7 @@ def showMenu():
 def ledConfig():
     pass
 
-#reads the config file (if not existent, it's created with the data of the 'defaultconfig.py')
+#reads the config file (if not existent, it's created with the data of the 'defaultconfig'-file)
 #checks if config data is complete and contains only valid data. if not it tries to autocorrect the data
 def readConfig():
     cFile = open('config.py', 'r+')
