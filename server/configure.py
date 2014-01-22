@@ -6,31 +6,35 @@
 import string
 import os
 import time
+import re
 
 #rgb-pi modules
-import defaultconfig
+
 
 
 #config parameters
 CONFIG = {
-    'RED_PINS':'[5]',
-    'GREEN_PINS':'[2]',
-    'BLUE_PINS':'[6]',
+    'RED_PINS': '[5]',
+    'GREEN_PINS': '[2]',
+    'BLUE_PINS': '[6]',
 
-    'MIN_VALUE':'0.08',
+    'MIN_VALUE': '0.08',
 
-    'SERVER_PORT':'4321',
+    'SERVER_PORT': '4321',
 
-    'ENABLE_XBMC_REMOTE':'0',
-    'XBMC_HOST':'127.0.0.1',
-    'XBMC_PORT':'80'
+    'ENABLE_XBMC_REMOTE': '0',
+    'XBMC_HOST': '127.0.0.1',
+    'XBMC_PORT': '80'
 }
 #contains a string with the contents of the config file
 configData = ''
 
+
+##### MESSAGE BOXES START #####
+
 #clears console
 def cls():
-    os.system(['clear','cls'][os.name == 'nt'])
+    os.system(['clear', 'cls'][os.name == 'nt'])
 
 
 def messageBoxAnyKey():
@@ -44,6 +48,16 @@ def messageBoxYesNo(question):
         if answer == 'y': return 1
         if answer == 'n': return 0
 
+#shows a message box with question and the choices 'r' for RED, 'g' for GREEN and 'b' for BLUE
+#returns 'r', 'g' or 'b' corresponding to the pressed key.
+#cycles questioning 'til the user answers with one of the 3 choises
+def messageBoxRGB():
+    while 1:
+        answer = string.lower(raw_input('' + ' (r=RED | g=GREEN | b=BLUE): '))
+        if answer == 'r': return 'r'
+        if answer == 'g': return 'g'
+        if answer == 'b': return 'b'
+
 #shows a message box with a question for an integer number
 #returns the
 def messageBoxINT(question, min=-2147483648, max=2147483647):
@@ -55,31 +69,35 @@ def messageBoxINT(question, min=-2147483648, max=2147483647):
             else:
                 return answer
         except ValueError:
-            print 'please input an integer between '+str(min)+' and '+str(max)
+            print 'please input an integer between ' + str(min) + ' and ' + str(max)
 
 
 def messageBoxChoose(question, **answers):
     choises = ''
     for key in answers:
-        choises += '\n'+key+ ': '+answers[key]
+        choises += '\n' + key + ': ' + answers[key]
 
     while 1:
         cls()
-        answer = string.lower(raw_input(question+'\n'+choises+'\n: '))
+        answer = string.lower(raw_input(question + '\n' + choises + '\n: '))
         for key in answers:
-            if(answer == string.lower(key)):
+            if (answer == string.lower(key)):
                 return answer
+
+##### MESSAGE BOXES END #####
 
 
 def showMenu():
-    choises = {'1':'install/uninstall pi-blaster (nessasary to control LEDs)',
-               '2':'configure LED-channels',
-               '3':'configure server',
-               '4':'configure xbmc remote control',
-               '5':'exit'
-              }
+    choises = {'1': 'install/uninstall pi-blaster (nessasary to control LEDs)',
+               '2': 'configure LED-channels',
+               '3': 'configure server',
+               '4': 'configure xbmc remote control',
+               '5': 'exit'
+    }
 
-    return messageBoxChoose('Welcome to the RGB-Pi configuration!\nChoose the configuration steps you want to proceed with:', **choises)
+    return messageBoxChoose(
+        'Welcome to the RGB-Pi configuration!\nChoose the configuration steps you want to proceed with:', **choises)
+
 
 def ledConfig():
     pass
@@ -87,24 +105,49 @@ def ledConfig():
 #reads the config file (if not existent, it's created with the data of the 'defaultconfig'-file)
 #checks if config data is complete and contains only valid data. if not it tries to autocorrect the data
 def readConfig():
+    if not os.path.exists('./config.py'):
+        dcFile = open('defaultconfig', 'r+')
+        cFile = open('config.py', 'w+')
+        cFile.write(dcFile.read())
+        cFile.close()
+        dcFile.close()
+
     cFile = open('config.py', 'r+')
     global configData
     configData = cFile.read()
-
+    neededCorrection = 0
     global CONFIG
     for k in CONFIG:
         index = configData.find(k)
         if index == -1:
-            configData += '\n'+k+' = '+CONFIG[k]
-        # TODO: autocorrect data
+            configData += '\n' + k + ' = ' + CONFIG[k]
+            neededCorrection = 1
+            index = configData.find(k)
+
+        #this extracts a relevant config line with the format: '%WHITESPACE%key%WHITESPACE%=%WHITESPACE%value%WHITESPACE%'
+        regex = re.compile('/s*[a-zA-Z]/w*/s*=/s*/w+]')
+        found = regex.match(configData[index:configData.find('\n', index)])
+
+        if found is None: #not a valid config entry
+            #TODO: remove invalid entry
+            configData += '\n' + k + ' = ' + CONFIG[k]
+            neededCorrection = 1
 
     cFile.close()
+    if neededCorrection:
+        writeConfig()
+
+
 
 def writeConfig():
-    cFile = open('config.py', 'r+')
-    global configData
-    cFile.write(configData)
-    cFile.close()
+    if not (configData is None) and len(configData) > 0:
+        cFile = open('config.py', 'w+')
+        global configData
+        cFile.write(configData)
+        cFile.close()
+    else:
+        raise IOError('configData variable is empty!')
+
 
 def createConfig():
     exit = 0
@@ -112,15 +155,15 @@ def createConfig():
         menuitem = showMenu()
 
         if menuitem == '1':
-            choises = {'1':'install pi-blaster',
-                       '2':'uninstall pi-blaster'}
+            choises = {'1': 'install pi-blaster',
+                       '2': 'uninstall pi-blaster'}
             a = messageBoxChoose('choose the next operation', **choises)
 
             if '1' == a:
                 print 'installing pi-blaster (with --pcm option...)'
                 time.sleep(1)
                 os.system("sudo make -C ../pi-blaster/ install")
-            elif a == '2' :
+            elif a == '2':
                 print 'uninstalling pi-blaster'
                 time.sleep(1)
                 os.system("sudo make -C ../pi-blaster/ uninstall")
@@ -128,11 +171,21 @@ def createConfig():
             messageBoxAnyKey()
 
         if menuitem == '2':
-            stripes = messageBoxINT('How many LED-stripes do you have?\n(If two stripes are connected to the same channels, they count as one)')
             readConfig()
+            stripes = messageBoxINT(
+                'How many LED-stripes do you have?\n(If two stripes are connected to the same channels, they count as one)')
+
+
+            for i in range(0, stripes):
+                pass
+
+
 
         if menuitem == '3':
             readConfig()
+            global configData
+
+            messageBoxAnyKey()
 
         if menuitem == '4':
             pass
