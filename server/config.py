@@ -2,9 +2,8 @@
 
 
 #GPIO pins for RGB
-RED_PINS = [5]
-GREEN_PINS = [2]
-BLUE_PINS = [6]
+LED_PINS = [[5, 2, 6]]
+
 
 # this value indicates the minimum value of the sum of
 # red, green and blue channels can be set to before the LEDs start blinking
@@ -25,3 +24,7 @@ SERVER_PORT = 4321
 ENABLE_XBMC_REMOTE = 0
 XBMC_HOST = "127.0.0.1"
 XBMC_PORT = 80
+
+BLUE_PINS = [6
+GREEN_PINS = [2
+RED_PINS = [5]

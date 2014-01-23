@@ -20,10 +20,12 @@ CONFIG = {
 
     'MIN_VALUE': '0.08',
 
+    'DELAY': '0.01',
+
     'SERVER_PORT': '4321',
 
     'ENABLE_XBMC_REMOTE': '0',
-    'XBMC_HOST': '127.0.0.1',
+    'XBMC_HOST': '\"127.0.0.1\"',
     'XBMC_PORT': '80'
 }
 #contains a string with the contents of the config file
@@ -87,20 +89,7 @@ def messageBoxChoose(question, **answers):
 ##### MESSAGE BOXES END #####
 
 
-def showMenu():
-    choises = {'1': 'install/uninstall pi-blaster (nessasary to control LEDs)',
-               '2': 'configure LED-channels',
-               '3': 'configure server',
-               '4': 'configure xbmc remote control',
-               '5': 'exit'
-    }
-
-    return messageBoxChoose(
-        'Welcome to the RGB-Pi configuration!\nChoose the configuration steps you want to proceed with:', **choises)
-
-
-def ledConfig():
-    pass
+##### READ/WRITE CONFIG START #####
 
 #reads the config file (if not existent, it's created with the data of the 'defaultconfig'-file)
 #checks if config data is complete and contains only valid data. if not it tries to autocorrect the data
@@ -124,14 +113,19 @@ def readConfig():
             neededCorrection = 1
             index = configData.find(k)
 
-        #this extracts a relevant config line with the format: '%WHITESPACE%key%WHITESPACE%=%WHITESPACE%value%WHITESPACE%'
-        regex = re.compile('/s*[a-zA-Z]/w*/s*=/s*/w+]')
-        found = regex.match(configData[index:configData.find('\n', index)])
+        #this extracts a relevant config line with the format: 'key = value'
+        line = configData[index:configData.find('\n', index)]
+        regex = re.compile(r"\s*[a-zA-Z]\w*\s*=\s*\S+\s*")
+        found = regex.search(line)
 
         if found is None: #not a valid config entry
-            #TODO: remove invalid entry
-            configData += '\n' + k + ' = ' + CONFIG[k]
+            print "ERROR in line: " + line + " ... corrected"
+            configData = configData.replace(line, k + ' = ' + CONFIG[k])
+            line = k + ' = ' + CONFIG[k]
             neededCorrection = 1
+
+        # set value of the key into the config array
+        CONFIG[k] = line.split("=", 1)[1].strip()
 
     cFile.close()
     if neededCorrection:
@@ -143,10 +137,38 @@ def writeConfig():
     if not (configData is None) and len(configData) > 0:
         cFile = open('config.py', 'w+')
         global configData
+        for k in CONFIG:
+            index = configData.find(k)
+            line = configData[index:configData.find('\n', index)]
+            configData = configData.replace(line, k + ' = ' + CONFIG[k])
+
         cFile.write(configData)
         cFile.close()
     else:
         raise IOError('configData variable is empty!')
+
+##### READ/WRITE CONFIG END #####
+
+##### LED CONFIG START #####
+def ledConfig():
+    pass
+
+##### LED CONFIG END #####
+
+
+##### MENU START #####
+def showMenu():
+    choises = {'1': 'install/uninstall pi-blaster (nessasary to control LEDs)',
+               '2': 'configure LED-channels',
+               '3': 'configure server',
+               '4': 'configure xbmc remote control',
+               '5': 'exit'
+    }
+
+    return messageBoxChoose(
+        'Welcome to the RGB-Pi configuration!\nChoose the configuration steps you want to proceed with:', **choises)
+
+
 
 
 def createConfig():
@@ -174,7 +196,9 @@ def createConfig():
             readConfig()
             stripes = messageBoxINT(
                 'How many LED-stripes do you have?\n(If two stripes are connected to the same channels, they count as one)')
-
+            testA = [[1, 2, 3]]
+            print testA[0][0]
+            raw_input()
 
             for i in range(0, stripes):
                 pass
@@ -192,6 +216,8 @@ def createConfig():
 
         if menuitem == '5':
             exit = 1
+
+##### MENU END #####
 
 # start
 createConfig()
