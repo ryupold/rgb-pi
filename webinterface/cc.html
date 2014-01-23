@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>RGB-PI Webinterface</title>
+		<script type="text/javascript" src="lib/colorpicker2.js"></script>
+						
+		<style type="text/css">
+			body {
+				margin:0px;
+				padding:0px;
+			}
+			#colorpicker { margin:0px; padding:0px; width:100%; height:700px; background-color:#ff0000; }
+			#picker { margin;0px; padding:0px; width: 0%; height: 700px float:left; }
+			#slide { margin;0px; padding:0px;  width: 100%; height: 700px; float:right; }
+        </style>
+		
+		<script>
+			window.dhx_globalImgPath = "lib/dhtmlxSlider/codebase/imgs/";
+		</script>
+		<script  src="lib/dhtmlxSlider/codebase/dhtmlxcommon.js"></script>
+		<script  src="lib/dhtmlxSlider/codebase/dhtmlxslider.js"></script>
+		<script  src="lib/dhtmlxSlider/codebase/ext/dhtmlxslider_start.js"></script>
+		<link rel="STYLESHEET" type="text/css" href="lib/dhtmlxSlider/codebase/dhtmlxslider.css">  
+	</head>
+	
+	<body>
+		<div id="colorpicker">
+					<div id="slide"></div>
+			<div id="picker"></div>
+
+		</div>
+		<script type="text/javascript" src="rgb-pi.js"></script>
+		<script type="text/javascript">
+			ColorPicker(
+				document.getElementById('slide'),
+				document.getElementById('picker'),
+				function(hex, hsv, rgb) {
+					c(hex);
+				
+			});
+		</script>
+	</body>

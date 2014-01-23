@@ -1,3 +1,6 @@
+var MEANTIME_BETWEEN_COMMANDS = 100;
+
+
 //RGB-PI Functions
 function shutDown() {
 	sendCommand('fade 2 {x:000000}');
@@ -14,24 +17,34 @@ function pulse() {
 	var timeInSeconds = document.getElementById('pulseSpeed').value;
 	sendCommand('pulse '+timeInSeconds+' '+hex2rgbpihex(getColorOne())+' '+hex2rgbpihex(getColorTwo()));
 }
-function c() {
-	sendCommand("cc  {x:8B5A2B}");
+
+function debugCommand() {
+	sendCommand(document.getElementById("debug").value);
+	return false;
+}
+function c(hex) {
+	sendCommand("cc  "+hex2rgbpihex(hex));
 }
 
-
+var lastTimeCommandSent = 0;
 //Send command to php-api
 function sendCommand(cmd) {
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-	  {// code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	  }
-	else
-	  {// code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	  }
-	xmlhttp.open("GET","sendCommand.php?cmd="+cmd,true);
-	xmlhttp.send();
+	var d = new Date();
+	var n = d.getTime();
+	if (n-lastTimeCommandSent >= MEANTIME_BETWEEN_COMMANDS) {
+		lastTimeCommandSent = n;
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		  {// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		  }
+		else
+		  {// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xmlhttp.open("GET","sendCommand.php?cmd="+cmd,true);
+		xmlhttp.send();
+	}
 }
 
 
