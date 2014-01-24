@@ -1,8 +1,22 @@
-#! /usr/bin/env python
-
+#!/usr/bin/env python
 
 #GPIO pins for RGB
-LED_PINS = [[5, 2, 6]]
+#Pin mapping: pi-blaster -> GPIO-interface on the Raspberry Pi
+#   Pin 0 -> 4
+#	Pin 1 -> 17
+#	Pin 2 -> 18
+#	Pin 3 -> 21
+#	Pin 4 -> 22
+#	Pin 5 -> 23
+#	Pin 6 -> 24
+#	Pin 7 -> 25
+#
+#this is a 2D-array.
+# First level represents the index of the LED-stripe
+#Seconds level contains the GPIO-pin addresses of [RED, GREEN, BLUE] of the corresponding stripe (always in this order)
+#If a LED-Stripe supports only 1 or 2 colors the other pins are set to a negative value, to be ignored by the server
+#e.g.: [[-1, -1, 3]] <- means a single-color blue led-stripe is connected to GPIO-Pin 3
+LED_PINS = [[0, 1, 2], [7, -1, -1]]
 
 
 # this value indicates the minimum value of the sum of
@@ -24,7 +38,3 @@ SERVER_PORT = 4321
 ENABLE_XBMC_REMOTE = 0
 XBMC_HOST = "127.0.0.1"
 XBMC_PORT = 80
-
-BLUE_PINS = [6
-GREEN_PINS = [2
-RED_PINS = [5]

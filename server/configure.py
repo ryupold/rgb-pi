@@ -14,9 +14,7 @@ import re
 
 #config parameters
 CONFIG = {
-    'RED_PINS': '[5]',
-    'GREEN_PINS': '[2]',
-    'BLUE_PINS': '[6]',
+    'LED_PINS' : '[[5, 2, 6]]',
 
     'MIN_VALUE': '0.08',
 
@@ -50,15 +48,16 @@ def messageBoxYesNo(question):
         if answer == 'y': return 1
         if answer == 'n': return 0
 
-#shows a message box with question and the choices 'r' for RED, 'g' for GREEN and 'b' for BLUE
+#shows a message box with question and the choices 'r' for RED, 'g' for GREEN, 'b' for BLUE or 'n' for NONE
 #returns 'r', 'g' or 'b' corresponding to the pressed key.
-#cycles questioning 'til the user answers with one of the 3 choises
+#cycles questioning 'til the user answers with one of the 4 choises
 def messageBoxRGB():
     while 1:
-        answer = string.lower(raw_input('' + ' (r=RED | g=GREEN | b=BLUE): '))
+        answer = string.lower(raw_input('What color do you see?' + ' (r=RED | g=GREEN | b=BLUE | n=NONE): '))
         if answer == 'r': return 'r'
         if answer == 'g': return 'g'
         if answer == 'b': return 'b'
+        if answer == 'n': return 'n'
 
 #shows a message box with a question for an integer number
 #returns the
@@ -151,18 +150,104 @@ def writeConfig():
 
 ##### LED CONFIG START #####
 def ledConfig():
-    pass
+    cls()
+    readConfig()
+    global CONFIG
+    stripes = messageBoxINT(
+        'How many LED-stripes do you have?\n(If two stripes are connected to the same channels, they count as one)', 0, 8)
+
+    stripeConfig = []
+    abort = 0
+
+    #filling array with disabled ports
+    for i in range(0, stripes):
+        stripeConfig.append([-1, -1, -1])
+
+    for i in range(0, 8):
+        #set one of the pins to '1', and let the user say which stripe/color it represents
+        for p in range(0, 8):
+            if i==p:
+                abort = os.system("echo \""+str(p)+"=1\" > /dev/pi-blaster")
+            else:
+                abort = os.system("echo \""+str(p)+"=0\" > /dev/pi-blaster")
+
+        if abort: break
+        cls()
+        rgb = messageBoxRGB()
+
+        if rgb != 'n':
+            if stripes > 1:
+                stripe = messageBoxINT('Which LED-stripe shows the color? (0 = None of them)', 0, stripes+1)
+            else:
+                stripe = 1
+
+        if stripe != 0:
+            if rgb == 'r': stripeConfig[stripe-1][0] = i
+            if rgb == 'g': stripeConfig[stripe-1][1] = i
+            if rgb == 'b': stripeConfig[stripe-1][2] = i
+
+    if not abort:
+        #configuration finished, now showing the configured values an let the user confirm it.
+        ledC = ""
+        for i in range(0, stripes):
+            ledC += "Stripe "+str(i+1)+": "
+            if stripeConfig[i][0] >= 0: ledC+="red = "+str(stripeConfig[i][0])+" "
+            if stripeConfig[i][1] >= 0: ledC+="green = "+str(stripeConfig[i][1])+" "
+            if stripeConfig[i][2] >= 0: ledC+="blue = "+str(stripeConfig[i][2])+" "
+            ledC+="\n\n"
+
+        cls()
+        ans = messageBoxYesNo("This is your new LED-Configuration:\n\n"+ledC+"\nDo you want to save this configuration?")
+
+        #write to config
+        if ans:
+            CONFIG['LED_PINS'] = str(stripeConfig)
+            writeConfig()
+            print "\n\n...configuration saved"
+            messageBoxAnyKey()
+        else:
+            choises = {'1': 'start over', '2': 'back to main menu'}
+            a = messageBoxChoose('Choose the next operation', **choises)
+            if a == '1':
+                ledConfig()
+    else:
+        print "\n\npi-blaster seems not to be running.\nYou need it to light up LEDs, that are connected to the GPIO interface.\nPlease install it via main menu, "
+        messageBoxAnyKey()
 
 ##### LED CONFIG END #####
+
+##### SERVER CONFIG START #####
+def serverConfig():
+    readConfig()
+    global CONFIG
+    exit = 0
+
+    while not exit:
+        choises = {'x': 'exit'}
+        i = 0
+        for k in CONFIG:
+            if k == 'SERVER_PORT' or k == 'MIN_VALUE' or k == 'DELAY':
+                choises[str(i)] = k
+                i = i+1
+        answer = messageBoxChoose('What property do you want to change?', **choises)
+        if answer == 'x':
+            exit = 1
+        else:
+            pass
+            #TODO: message box for float values (or numeric values with number style)
+
+    messageBoxAnyKey()
+
+##### SERVER CONFIG END #####
 
 
 ##### MENU START #####
 def showMenu():
-    choises = {'1': 'install/uninstall pi-blaster (nessasary to control LEDs)',
+    choises = {'1': 'install/uninstall pi-blaster (necessary to control LEDs)',
                '2': 'configure LED-channels',
                '3': 'configure server',
                '4': 'configure xbmc remote control',
-               '5': 'exit'
+               'x': 'exit'
     }
 
     return messageBoxChoose(
@@ -193,28 +278,15 @@ def createConfig():
             messageBoxAnyKey()
 
         if menuitem == '2':
-            readConfig()
-            stripes = messageBoxINT(
-                'How many LED-stripes do you have?\n(If two stripes are connected to the same channels, they count as one)')
-            testA = [[1, 2, 3]]
-            print testA[0][0]
-            raw_input()
-
-            for i in range(0, stripes):
-                pass
-
-
+            ledConfig()
 
         if menuitem == '3':
-            readConfig()
-            global configData
-
-            messageBoxAnyKey()
+            serverConfig()
 
         if menuitem == '4':
             pass
 
-        if menuitem == '5':
+        if menuitem == 'x':
             exit = 1
 
 ##### MENU END #####
