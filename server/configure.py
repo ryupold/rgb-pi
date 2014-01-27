@@ -60,7 +60,7 @@ def messageBoxRGB():
         if answer == 'n': return 'n'
 
 #shows a message box with a question for an integer number
-#returns the
+#returns the typed number
 def messageBoxINT(question, min=-2147483648, max=2147483647):
     while 1:
         try:
@@ -72,7 +72,8 @@ def messageBoxINT(question, min=-2147483648, max=2147483647):
         except ValueError:
             print 'please input an integer value between ' + str(min) + ' and ' + str(max)
 
-
+#shows a message box with a question for an float number
+#returns the typed number
 def messageBoxFLOAT(question, min=0.0, max=1.0):
     while 1:
         try:
@@ -82,12 +83,38 @@ def messageBoxFLOAT(question, min=0.0, max=1.0):
             else:
                 return answer
         except ValueError:
-            print 'please input an float value between ' + str(min) + ' and ' + str(max)
+            print 'please input a float value between ' + str(min) + ' and ' + str(max)
+
+#shows a message box with a question for a string with a min and max lenght and an optional pattern
+#returns the typed string
+def messageBoxSTRING(question, pattern = None, patternDescription = None, min=0, max=2147483647):
+    while 1:
+        try:
+            answer = raw_input(question + ': ')
+            if len(answer) < min or len(answer) > max:
+                raise ValueError
+            elif pattern is not None:
+                regX = re.compile(pattern)
+                if not regX.match(answer):
+                    raise SyntaxWarning
+                else:
+                    return answer
+            else:
+                return answer
+        except ValueError:
+            print 'please input a string with a length between ' + str(min) + ' and ' + str(max)+" characters"
+        except SyntaxWarning:
+            if patternDescription is None:
+                print "please input a string, that matches the given regex pattern: \'"+pattern+"\'"
+            else:
+                print "please input a string, that matches the pattern of: "+patternDescription
 
 
+#shows a message box with a question and multiple choises to answer (in the format key: description)
+#returns the entered key
 def messageBoxChoose(question, **answers):
     choises = ''
-    for key in answers:
+    for key in sorted(answers):
         choises += '\n' + key + ': ' + answers[key]
 
     while 1:
@@ -141,8 +168,6 @@ def readConfig():
     cFile.close()
     if neededCorrection:
         writeConfig()
-
-
 
 def writeConfig():
     if not (configData is None) and len(configData) > 0:
@@ -258,6 +283,35 @@ def serverConfig():
 
     messageBoxAnyKey()
 
+def xbmcConfig():
+    readConfig()
+    global CONFIG
+    exit = 0
+
+    while not exit:
+
+        preQ = "Current XBMC settings:\n"
+
+        choises = {'x': 'exit'}
+        i = 0
+        for k in CONFIG:
+            if k == 'ENABLE_XBMC_REMOTE' or k == 'XBMC_HOST' or k == 'XBMC_PORT':
+                choises[str(i+1)] = k
+                i = i+1
+                preQ += k+" = "+CONFIG[k]+"\n"
+        answer = messageBoxChoose(preQ+'\nWhat property do you want to change?', **choises)
+        if answer == 'x':
+            exit = 1
+        else:
+            v = None
+            if choises[answer] == 'ENABLE_XBMC_REMOTE': v = messageBoxYesNo('Enable XBMC remote control?')
+            if choises[answer] == 'XBMC_HOST': v = "\""+messageBoxSTRING('Enter the host/IP of the XBMC remote server (\'localhost\' in case it\'s locally on this Pi)', r'^(\d(1,3)\.\d(1,3)\.\d(1,3)\.\d(1,3))|(\w+(\w*|\.)*)$', "an IP-address, computer name or domain")+"\""
+            if choises[answer] == 'XBMC_PORT': v = messageBoxINT("Enter the XBMC remote port (usually \'80\' or \'8080\')", 1, 65535)
+            CONFIG[choises[answer]] = str(v)
+            writeConfig()
+
+    messageBoxAnyKey()
+
 ##### SERVER CONFIG END #####
 
 
@@ -304,7 +358,7 @@ def createConfig():
             serverConfig()
 
         if menuitem == '4':
-            pass
+            xbmcConfig()
 
         if menuitem == 'x':
             exit = 1
