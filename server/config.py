@@ -16,12 +16,12 @@
 #Seconds level contains the GPIO-pin addresses of [RED, GREEN, BLUE] of the corresponding stripe (always in this order)
 #If a LED-Stripe supports only 1 or 2 colors the other pins are set to a negative value, to be ignored by the server
 #e.g.: [[-1, -1, 3]] <- means a single-color blue led-stripe is connected to GPIO-Pin 3
-LED_PINS = [[0, 1, 2], [7, -1, -1]]
+LED_PINS = [[5, 2, 6]]
 
 
 # this value indicates the minimum value of the sum of
 # red, green and blue channels can be set to before the LEDs start blinking
-MIN_VALUE = 0.08
+MIN_VALUE = 0.1
 
 # this is the minimum value threads wait between their processing intervals
 # increase this value to get more cpu time for other programs

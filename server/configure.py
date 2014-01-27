@@ -70,7 +70,19 @@ def messageBoxINT(question, min=-2147483648, max=2147483647):
             else:
                 return answer
         except ValueError:
-            print 'please input an integer between ' + str(min) + ' and ' + str(max)
+            print 'please input an integer value between ' + str(min) + ' and ' + str(max)
+
+
+def messageBoxFLOAT(question, min=0.0, max=1.0):
+    while 1:
+        try:
+            answer = float(raw_input(question + ': '))
+            if answer < min or answer > max:
+                raise ValueError
+            else:
+                return answer
+        except ValueError:
+            print 'please input an float value between ' + str(min) + ' and ' + str(max)
 
 
 def messageBoxChoose(question, **answers):
@@ -206,7 +218,7 @@ def ledConfig():
             print "\n\n...configuration saved"
             messageBoxAnyKey()
         else:
-            choises = {'1': 'start over', '2': 'back to main menu'}
+            choises = {'1': 'start over', 'x': 'back to main menu'}
             a = messageBoxChoose('Choose the next operation', **choises)
             if a == '1':
                 ledConfig()
@@ -223,18 +235,26 @@ def serverConfig():
     exit = 0
 
     while not exit:
+
+        preQ = "Current properties:\n"
+
         choises = {'x': 'exit'}
         i = 0
         for k in CONFIG:
             if k == 'SERVER_PORT' or k == 'MIN_VALUE' or k == 'DELAY':
-                choises[str(i)] = k
+                choises[str(i+1)] = k
                 i = i+1
-        answer = messageBoxChoose('What property do you want to change?', **choises)
+                preQ += k+" = "+CONFIG[k]+"\n"
+        answer = messageBoxChoose(preQ+'\nWhat property do you want to change?', **choises)
         if answer == 'x':
             exit = 1
         else:
-            pass
-            #TODO: message box for float values (or numeric values with number style)
+            v = None
+            if choises[answer] == 'SERVER_PORT': v = messageBoxINT('Please enter the port, the server should be bound to', 1, 65535)
+            if choises[answer] == 'DELAY': v = messageBoxFLOAT('Enter the delay between fade-color-change-iterations (good value: 0.01)', 0.0001, 1)
+            if choises[answer] == 'MIN_VALUE': v = messageBoxFLOAT("Enter the minimum value the RGB Pins can be set to before the LEDs start \"blinking\"", 0.0, 0.999)
+            CONFIG[choises[answer]] = str(v)
+            writeConfig()
 
     messageBoxAnyKey()
 
