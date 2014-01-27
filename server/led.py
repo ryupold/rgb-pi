@@ -110,7 +110,7 @@ COLOR = [Color('{x:000000}'),
          Color('{x:000000}')]
 
 
-# elementary function to change the color of the LED strip
+# elementary function to change the color of LED stripes
 def changeColor(r, g, b, address=0xF):
     global COLOR
 
@@ -131,9 +131,9 @@ def changeColor(r, g, b, address=0xF):
                 g = 0.0
                 b = 0.0
 
-            cmdR = "echo " + str(config.RED_PINS[i]) + "=" + str(r) + " > /dev/pi-blaster"
-            cmdG = "echo " + str(config.GREEN_PINS[i]) + "=" + str(g) + " > /dev/pi-blaster"
-            cmdB = "echo " + str(config.BLUE_PINS[i]) + "=" + str(b) + " > /dev/pi-blaster"
+            cmdR = "echo " + str(config.LED_PINS[i][0]) + "=" + str(r) + " > /dev/pi-blaster"
+            cmdG = "echo " + str(config.LED_PINS[i][1]) + "=" + str(g) + " > /dev/pi-blaster"
+            cmdB = "echo " + str(config.LED_PINS[i][2]) + "=" + str(b) + " > /dev/pi-blaster"
             cmd += cmdR + " & " + cmdG + " & " + cmdB + " & "
 
     os.system(cmd)
