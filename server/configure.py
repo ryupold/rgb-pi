@@ -7,6 +7,7 @@ import string
 import os
 import time
 import re
+import sys
 
 #rgb-pi modules
 
@@ -170,9 +171,9 @@ def readConfig():
         writeConfig()
 
 def writeConfig():
+    global configData
     if not (configData is None) and len(configData) > 0:
         cFile = open('config.py', 'w+')
-        global configData
         for k in CONFIG:
             index = configData.find(k)
             line = configData[index:configData.find('\n', index)]
@@ -182,6 +183,13 @@ def writeConfig():
         cFile.close()
     else:
         raise IOError('configData variable is empty!')
+
+def printConfig():
+    readConfig()
+    print "RGB-Pi configuration:\n"
+    global CONFIG
+    for k in CONFIG:
+        print str(k)+((3-len(str(k))/8)*'\t')+"=\t"+str(CONFIG[k])
 
 ##### READ/WRITE CONFIG END #####
 
@@ -366,4 +374,6 @@ def createConfig():
 ##### MENU END #####
 
 # start
-createConfig()
+if len(sys.argv) > 1:
+    if sys.argv[1] == "config":
+        createConfig()

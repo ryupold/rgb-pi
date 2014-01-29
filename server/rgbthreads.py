@@ -15,10 +15,11 @@ import math
 import led
 import config
 import corefunctions
-
+import configure
 import pulse
 import jump
 import specials
+
 
 
 RUN = 1
@@ -108,7 +109,11 @@ class SpecialThread(threading.Thread):
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
 def readcommands(threadName, intervall):
-    print threadName + " started"
+    #print the config parameters
+    configure.cls()
+    configure.printConfig()
+
+    print "\n... starting server...\n\n"
 
     global CURRENTTHREAD
     CURRENTTHREAD = None
