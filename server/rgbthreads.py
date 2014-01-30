@@ -19,13 +19,13 @@ import configure
 import pulse
 import jump
 import specials
+import log
 
 
 
 RUN = 1
 COMMAND_RUN = 0
 CURRENTTHREAD = None
-
 
 
 class FadeThread(threading.Thread):
@@ -36,8 +36,6 @@ class FadeThread(threading.Thread):
         self.cmd = cmd
 
     def run(self):
-        print self.cmd
-
         if self.cmd[0] == "fade":
             corefunctions.fade(float(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]) if len(self.cmd) > 3 else None)
 
@@ -56,16 +54,16 @@ class PulseThread(threading.Thread):
         self.cmd = cmd
 
     def run(self):
-        print "Starting Thread: " + self.name
+        log.l("Starting Thread: " + self.name, log.LEVEL_START_STOP_THREADS)
         ##this is a test
         if len(self.cmd) > 3:
             pulse.startPulse(float(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
         else:
             pulse.startPulse(float(self.cmd[1]), led.Color(self.cmd[2]))
-        print "Exiting:" + self.name
+        log.l("Exiting:" + self.name, log.LEVEL_START_STOP_THREADS)
 
     def stop(self):
-        print "stopping " + self.name
+        log.l("stopping " + self.name, log.LEVEL_START_STOP_THREADS)
         pulse.stopPulse()
 
 
@@ -77,16 +75,16 @@ class JumpThread(threading.Thread):
         self.cmd = cmd
 
     def run(self):
-        print "Starting Thread: " + self.name
+        log.l("Starting Thread: " + self.name, log.LEVEL_START_STOP_THREADS)
         ##this is a test
         if len(self.cmd) > 3:
             jump.startJump(float(self.cmd[1]), led.Color(self.cmd[2]), led.Color(self.cmd[3]))
         else:
             jump.startJump(float(self.cmd[1]), led.Color(self.cmd[2]))
-        print "Exiting:" + self.name
+        log.l("Exiting:" + self.name, log.LEVEL_START_STOP_THREADS)
 
     def stop(self):
-        print "stopping " + self.name
+        log.l("stopping " + self.name, log.LEVEL_START_STOP_THREADS)
         jump.stopJump()
 
 class SpecialThread(threading.Thread):
@@ -97,13 +95,13 @@ class SpecialThread(threading.Thread):
         self.cmd = cmd
 
     def run(self):
-        print "Starting Thread: " + self.name
+        log.l("Starting Thread: " + self.name, log.LEVEL_START_STOP_THREADS)
         if self.cmd[1] == "jamaica":
             specials.startJamaica(self.cmd)
-        print "Exiting:" + self.name
+        log.l("Exiting:" + self.name, log.LEVEL_START_STOP_THREADS)
 
     def stop(self):
-        print "stopping " + self.name
+        log.l("stopping " + self.name, log.LEVEL_START_STOP_THREADS)
         specials.stop()
 
 
@@ -138,8 +136,11 @@ def readcommands(threadName, intervall):
                 CURRENTTHREAD.stop()
                 CURRENTTHREAD = None
 
+            if command[0] != "cc":
+                log.l(command, log.LEVEL_COMMANDS)
+
             if command[0] == "cc":
-                #led.changeColor(float(command[1]), float(command[2]), float(command[3]))
+                log.l(command, log.LEVEL_COMMAND_CC)
                 led.setColor(led.Color(command[1]))
             elif command[0] == "rf":
                 CURRENTTHREAD = FadeThread(1, "fade thread", command)
