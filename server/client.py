@@ -14,7 +14,8 @@ if len(sys.argv) > 1:
     if sys.argv[1] == "command" and len(sys.argv) > 2:
         try:
             clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            clientsocket.connect(("192.168.1.150", 4321))
+            #clientsocket.connect(("192.168.1.150", 4321))
+            clientsocket.connect(("localhost", 4321))
 
             cmdString = ""
             for s in range(2, len(sys.argv)):

@@ -118,10 +118,15 @@ class CommandQueue(threading.Thread):
                 if self.current is None:
                     self.current = self.startCMD
                     if self.current.state == constants.CMD_STATE_INIT:
+                        self.current.state = constants.CMD_STATE_STARTED
                         self.current.start()
                 else:
                     if self.current.next is not None and self.current.state == constants.CMD_STATE_EXPIRED:
                         self.current = self.current.next
+                        self.current.state = constants.CMD_STATE_STARTED
+                        self.current.start()
+                    elif self.current is not None and self.current.state == constants.CMD_STATE_INIT:
+                        self.current.state = constants.CMD_STATE_STARTED
                         self.current.start()
                     else:
                         self.current = None
@@ -144,29 +149,48 @@ class CommandQueue(threading.Thread):
 
     def enq(self, cmd):
         self.lock.acquire()
-        #if no command is running, take cmd as main command
+
+#CASE 1: if no command is running, take cmd as main command
         if self.startCMD is None:
             self.startCMD = cmd
 
-        #attach to last if possible
-        lastCMD = self.startCMD.next
-        while lastCMD is not None and lastCMD.next is not None and lastCMD.next is not self.startCMD:
-            lastCMD = lastCMD.next
+        else:
+            preLastCMD = self.startCMD
+            lastCMD = self.startCMD.next
 
-        if lastCMD.next is self.startCMD:
-            if lastCMD.runtime == 0:
-                lastCMD.next = cmd
-                cmd.next = self.startCMD
-            elif lastCMD.runtime < 0:
-                self.current.stop()
-                self.startCMD = cmd
-        elif lastCMD.runtime > 0:
-            lastCMD.next
+#CASE 2: if only one command is running, attach to it or replace it if its infinite
+            if lastCMD is None:
+                if self.current.runtime > 0:
+                    self.current.next = cmd
+                else:
+                    self.current.stop()
+                    self.current = None
+                    self.startCMD = cmd
+
+#CASE 3: if multiple commands in a queue, attach to the last or replace the last if its infinite
+            else:
+                while lastCMD is not None and lastCMD.next is not None and lastCMD.next is not self.startCMD:
+                    preLastCMD = lastCMD
+                    lastCMD = lastCMD.next
+                if lastCMD.runtime > 0:
+                    lastCMD.next = cmd
+                else:
+                    if self.current is lastCMD:
+                        self.current.stop()
+                        self.current = cmd
+                    preLastCMD.next = cmd
+
 
         self.notify()
         self.lock.release()
 
     def notify(self):
+        self.lock.acquire()
+        if self.current.state == constants.CMD_STATE_EXPIRED:
+            self.current = None
+        if self.startCMD.state == constants.CMD_STATE_EXPIRED:
+            self.startCMD = None
+        self.lock.release()
         self.monitor.set()
 
 CMDQ = CommandQueue()
@@ -196,6 +220,11 @@ def readcommands(threadName, intervall):
 
     #become a server socket
     serversocket.listen(5)
+
+    #start cmd queue
+    CMDQ.setDaemon(1)
+    CMDQ.start()
+
     while RUN:
         try:
             (clientsocket, address) = serversocket.accept()
@@ -209,11 +238,12 @@ def readcommands(threadName, intervall):
 
                 elif command[0] == "loop":
                     log.l(command, log.LEVEL_COMMANDS)
-                    lastCMD = CMDQ.startCMD.next
-                    while lastCMD is not None and lastCMD.next is not None and lastCMD.next is not CMDQ.startCMD:
-                        lastCMD = lastCMD.next
-                    if lastCMD.next is not CMDQ.startCMD:
-                        lastCMD.next = CMDQ.startCMD
+                    if CMDQ.startCMD is not None:
+                        lastCMD = CMDQ.startCMD.next
+                        while lastCMD is not None and lastCMD.next is not None and lastCMD.next is not CMDQ.startCMD:
+                            lastCMD = lastCMD.next
+                        if lastCMD.next is not CMDQ.startCMD:
+                            lastCMD.next = CMDQ.startCMD
 
                 else:
                     log.l(command, log.LEVEL_COMMANDS)
@@ -224,7 +254,7 @@ def readcommands(threadName, intervall):
                 raise AttributeError("no commands received!")
 
         except:
-            print "Unexpected error: ", sys.exc_info()[0], ": ", sys.exc_info()[1]
+            print "Unexpected ERROR: ", sys.exc_info()[0], ": ", sys.exc_info()[1]
         else:
             clientsocket.close()
 
