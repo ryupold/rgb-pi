@@ -6,7 +6,7 @@ import sys
 
 #rgb-pi modules
 import corefunctions
-import rgbthreads
+import server
 
 
 def stop():

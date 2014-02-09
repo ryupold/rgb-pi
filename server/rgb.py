@@ -12,7 +12,7 @@ import math
 
 #rgb-pi modules
 import led
-import rgbthreads
+import server
 import configure
 
 
@@ -35,15 +35,16 @@ if sys.argv[1] == "c":
 # starts server listening to commands: syntax: "./rgb.py server"
 if sys.argv[1] == "server":
     #readcommands("socket thread", 0.01)
-    thread.start_new_thread(rgbthreads.readcommands, ("socket thread", 0.01, ))
+    thread.start_new_thread(server.readcommands, ("socket thread", 0.01, ))
     time.sleep(1)
     print "'help' for commands\n\n"
     while RUN:
         input = raw_input(">")
         if(input == 'exit'):
-            if rgbthreads.serversocket is not None:
-                rgbthreads.serversocket.close()
-                rgbthreads.RUN = 0
+            if server.serversocket is not None:
+                server.serversocket.close()
+            server.RUN = 0
+            server.CMDQ.stop()
             RUN = 0
             led.changeColor(0,0,0,0xF)
 
