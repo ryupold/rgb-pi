@@ -13,6 +13,7 @@ import math
 #rgb-pi modules
 import led
 import rgbthreads
+import configure
 
 
 # rgb representing pins on the raspberry pi GPIO interface
@@ -35,5 +36,19 @@ if sys.argv[1] == "c":
 if sys.argv[1] == "server":
     #readcommands("socket thread", 0.01)
     thread.start_new_thread(rgbthreads.readcommands, ("socket thread", 0.01, ))
+    time.sleep(1)
+    print "'help' for commands\n\n"
     while RUN:
-        time.sleep(1)
+        input = raw_input(">")
+        if(input == 'exit'):
+            if rgbthreads.serversocket is not None:
+                rgbthreads.serversocket.close()
+                rgbthreads.RUN = 0
+            RUN = 0
+            led.changeColor(0,0,0,0xF)
+
+        if(input == 'help'):
+            print "\n\nCommand list:\nexit - stops the server end kills process\nclear - clears log\n"
+
+        if input == 'clear':
+            configure.cls()

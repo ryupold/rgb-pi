@@ -26,7 +26,7 @@ import log
 RUN = 1
 COMMAND_RUN = 0
 CURRENTTHREAD = None
-
+serversocket = None
 
 class FadeThread(threading.Thread):
     def __init__(self, threadID, name, cmd):
@@ -117,6 +117,7 @@ def readcommands(threadName, intervall):
     CURRENTTHREAD = None
 
     #create an INET, STREAMing socket
+    global serversocket
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     #bind the socket to a public host,

@@ -29,7 +29,7 @@ def fade(timeInSecs, endColor, startColor=None):
         print startVolume		
 
     if startColor is None:
-        startColor = led.Color(led.COLOR.R, led.COLOR.G, led.COLOR.B)
+        startColor = led.Color(led.COLOR[0].R, led.COLOR[0].G, led.COLOR[0].B)
 
     currentColor = led.Color(startColor.R, startColor.G, startColor.B)
 

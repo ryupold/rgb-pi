@@ -119,7 +119,7 @@ def changeColor(r, g, b, address=0xF):
     #iterate over all led stripes and set the given color if the stripe address matches
     #the length auf config.RED_PINS is used to determine the stripe amount (could also be config.BLUE PINS or the green one)
     #TODO: think about a better way to do this :)
-    for i in range(0, len(config.RED_PINS)):
+    for i in range(0, len(config.LED_PINS)):
         if ((i+1) & address) != 0:
             COLOR[i].R = r
             COLOR[i].G = g
