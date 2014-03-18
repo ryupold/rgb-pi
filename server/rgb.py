@@ -44,9 +44,9 @@ if sys.argv[1] == "server":
             if server.serversocket is not None:
                 server.serversocket.close()
             server.RUN = 0
-            server.CMDQ.stop()
+            #server.CMDQ.stop()
             RUN = 0
-            led.changeColor(0,0,0,0xF)
+            #led.changeColor(0,0,0,0xF)
 
         if(input == 'help'):
             print "\n\nCommand list:\nexit - stops the server end kills process\nclear - clears log\n"

@@ -11,6 +11,7 @@ import thread
 import threading
 import math
 import Queue
+import json
 
 #rgb-pi modules
 import led
@@ -27,7 +28,7 @@ import constants
 RUN = 1
 serversocket = None
 ID = 1
-#global variable 'CMDQ' is under class definition of QueueThread
+CurrentCMD = None
 
 
 
@@ -42,7 +43,6 @@ class CommandThread(threading.Thread):
         self.state = constants.CMD_STATE_INIT
         self.runtime = 0
         self.timer = None
-        self.next = None
 
     #method, which is executed when the .start() method of the thread is called
     def run(self):
@@ -57,27 +57,7 @@ class CommandThread(threading.Thread):
             self.timer = threading.Timer(self.runtime, self.stop())
 
         #decide which command should be executed
-
-# FADE
-        if self.name == 'fade':
-            corefunctions.fade(self, float(self.cmd[2]), led.Color(self.cmd[3]), led.Color(self.cmd[4]) if len(self.cmd) > 4 else None)
-
-# RANDOM FADE
-        elif self.name == "rf":
-            corefunctions.startRandomFade(self, float(self.cmd[2]), float(self.cmd[3]), float(self.cmd[4]) if len(self.cmd) > 4 else None, float(self.cmd[5]) if len(self.cmd) > 5 else None)
-
-# PULSE
-        elif self.name == "pulse":
-            if len(self.cmd) > 4:
-                pulse.startPulse(float(self.cmd[2]), led.Color(self.cmd[3]), led.Color(self.cmd[4]))
-            else:
-                pulse.startPulse(float(self.cmd[2]), led.Color(self.cmd[3]))
-# JUMP
-        elif self.name == "jump":
-            if len(self.cmd) > 4:
-                jump.startJump(float(self.cmd[2]), led.Color(self.cmd[3]), led.Color(self.cmd[4]))
-            else:
-                jump.startJump(float(self.cmd[2]), led.Color(self.cmd[3]))
+        #TODO
 
 
         self.stop()
@@ -92,110 +72,7 @@ class CommandThread(threading.Thread):
             self.timer.cancel()
             self.timer = None
 
-        if(self.state != constants.CMD_STATE_EXPIRED):
-            self.state = constants.CMD_STATE_EXPIRED
-        global CMDQ
-        CMDQ.notify()
-
-
-class CommandQueue(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        self.lock = threading.Semaphore()
-        self.monitor = threading.Event()
-        self.current = None
-        self.startCMD = None
-        self.alive = 1
-
-        self.monitor.clear()
-
-    def run(self):
-        while self.alive:
-            while self.startCMD is None and self.alive:
-                self.monitor.wait()
-            if self.alive:
-                self.lock.acquire()
-                if self.current is None:
-                    self.current = self.startCMD
-                    if self.current.state == constants.CMD_STATE_INIT:
-                        self.current.state = constants.CMD_STATE_STARTED
-                        self.current.start()
-                else:
-                    if self.current.next is not None and self.current.state == constants.CMD_STATE_EXPIRED:
-                        self.current = self.current.next
-                        self.current.state = constants.CMD_STATE_STARTED
-                        self.current.start()
-                    elif self.current is not None and self.current.state == constants.CMD_STATE_INIT:
-                        self.current.state = constants.CMD_STATE_STARTED
-                        self.current.start()
-                    else:
-                        self.current = None
-                        self.startCMD = None
-
-                self.lock.release()
-                while self.current is not None and self.current.state == constants.CMD_STATE_STARTED and self.alive:
-                    self.monitor.wait()
-
-    def stop(self):
-        self.lock.acquire()
-        self.startCMD = None
-        if self.current is not None:
-            self.current.stop()
-            self.current = None
-
-        self.alive = 0
-        self.notify()
-        self.lock.release()
-
-    def enq(self, cmd):
-        self.lock.acquire()
-
-#CASE 1: if no command is running, take cmd as main command
-        if self.startCMD is None:
-            self.startCMD = cmd
-
-        else:
-            preLastCMD = self.startCMD
-            lastCMD = self.startCMD.next
-
-#CASE 2: if only one command is running, attach to it or replace it if its infinite
-            if lastCMD is None:
-                if self.current.runtime > 0:
-                    self.current.next = cmd
-                else:
-                    self.current.stop()
-                    self.current = None
-                    self.startCMD = cmd
-
-#CASE 3: if multiple commands in a queue, attach to the last or replace the last if its infinite
-            else:
-                while lastCMD is not None and lastCMD.next is not None and lastCMD.next is not self.startCMD:
-                    preLastCMD = lastCMD
-                    lastCMD = lastCMD.next
-                if lastCMD.runtime > 0:
-                    lastCMD.next = cmd
-                else:
-                    if self.current is lastCMD:
-                        self.current.stop()
-                        self.current = cmd
-                    preLastCMD.next = cmd
-
-
-        self.notify()
-        self.lock.release()
-
-    def notify(self):
-        self.lock.acquire()
-        if self.current.state == constants.CMD_STATE_EXPIRED:
-            self.current = None
-        if self.startCMD.state == constants.CMD_STATE_EXPIRED:
-            self.startCMD = None
-        self.lock.release()
-        self.monitor.set()
-
-CMDQ = CommandQueue()
-
-
+        self.state = constants.CMD_STATE_EXPIRED
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -221,40 +98,39 @@ def readcommands(threadName, intervall):
     #become a server socket
     serversocket.listen(5)
 
-    #start cmd queue
-    CMDQ.setDaemon(1)
-    CMDQ.start()
 
     while RUN:
         try:
             (clientsocket, address) = serversocket.accept()
-            #command = string.split(string.replace(str(clientsocket.recv(1024)), ",", "."))
-            ## put this line in, if commas need to be sent in a command!!
-            command = string.split(string.strip(str(clientsocket.recv(1024))))
-            if len(command) > 0:
-                if command[0] == "cc":
-                    log.l(command, log.LEVEL_COMMAND_CC)
-                    led.setColor(led.Color(command[1]))
 
-                elif command[0] == "loop":
-                    log.l(command, log.LEVEL_COMMANDS)
-                    if CMDQ.startCMD is not None:
-                        lastCMD = CMDQ.startCMD.next
-                        while lastCMD is not None and lastCMD.next is not None and lastCMD.next is not CMDQ.startCMD:
-                            lastCMD = lastCMD.next
-                        if lastCMD.next is not CMDQ.startCMD:
-                            lastCMD.next = CMDQ.startCMD
+            rcvString = str(clientsocket.recv(1024))
 
-                else:
-                    log.l(command, log.LEVEL_COMMANDS)
-                    ID += 1
-                    cmdT = CommandThread(ID, string.lower(command[0]), command)
-                    CMDQ.enq(cmdT)
+            try:
+                print json.loads(rcvString)
+
+
+            except:
+                clientsocket.send("ERROR: "+ str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]))
             else:
-                raise AttributeError("no commands received!")
+                clientsocket.send("1")
+
+            ### old format
+            #command = string.split(string.strip(rcvString))
+            #if len(command) > 0:
+            #    if command[0] == "cc":
+            #        log.l(command, log.LEVEL_COMMAND_CC)
+            #    else:
+            #        log.l(command, log.LEVEL_COMMANDS)
+
+#                ID += 1
+#                cmdT = CommandThread(ID, string.lower(command[0]), command)
+#            else:
+#                raise AttributeError("no commands received!")
+            ### old format
+
 
         except:
-            print "Unexpected ERROR: ", sys.exc_info()[0], ": ", sys.exc_info()[1]
+            print "ERROR: ", sys.exc_info()[0], ": ", sys.exc_info()[1]
         else:
             clientsocket.close()
 

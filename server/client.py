@@ -9,9 +9,10 @@ import sys
 import log
 
 
+print sys.argv
 
 if len(sys.argv) > 1:
-    if sys.argv[1] == "command" and len(sys.argv) > 2:
+    if len(sys.argv) >= 2 and sys.argv[1] == "command":
         try:
             clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             #clientsocket.connect(("192.168.1.150", 4321))
@@ -22,6 +23,23 @@ if len(sys.argv) > 1:
                 if len(cmdString) > 0:
                     cmdString += " "
                 cmdString += str(sys.argv[s])
+
+            print "sending command "+ cmdString
+            clientsocket.send(cmdString)
+            clientsocket.close()
+        except socket.error:
+            log.l(str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]))
+
+
+    if len(sys.argv) >= 2 and sys.argv[1] == "test":
+        try:
+            clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            #clientsocket.connect(("192.168.1.150", 4321))
+            clientsocket.connect(("localhost", 4321))
+
+            print "connected to localhost"
+
+            cmdString = "{}"
 
             print "sending command "+ cmdString
             clientsocket.send(cmdString)
