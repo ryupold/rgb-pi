@@ -35,10 +35,14 @@ if len(sys.argv) > 1:
         try:
             clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             #clientsocket.connect(("192.168.1.150", 4321))
-            clientsocket.connect(("localhost", 4321))
+            if len(sys.argv) > 2:
+                clientsocket.connect((sys.argv[2], 4321))
+                print "connected to ", sys.argv[2]
+            else:
+                clientsocket.connect(("localhost", 4321))
+                print "connected to localhost"
 
-            print "connected to localhost"
-
+            cmdFile = open('test.js', 'r+')
             cmdString = "{}"
 
             print "sending command "+ cmdString

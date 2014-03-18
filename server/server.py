@@ -84,7 +84,6 @@ def readcommands(threadName, intervall):
     print "\n... starting server...\n\n"
 
     #globals
-    global CMDQ
     global ID
     global serversocket
 
@@ -106,7 +105,8 @@ def readcommands(threadName, intervall):
             rcvString = str(clientsocket.recv(1024))
 
             try:
-                print json.loads(rcvString)
+                cmd = json.loads(rcvString)
+
 
 
             except:

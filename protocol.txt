@@ -1,0 +1,55 @@
+//COMMANDS:
+
+# cc - change color
+{
+    "name":"cc",
+    "color":"<Color>"
+}
+
+# fade - fading [from color] to color over time
+{
+    "name":"fade",
+    "time":"<Time>",
+    ["start":"<Color>",]
+    "end":"<Color>"
+}
+
+# wait - waiting an amount of time without doing something
+{
+    "name":"wait",
+    "time":"<Time>"
+}
+
+# loop - loop till a condition stops the loop
+{
+    "name":"loop",
+    "condition":"<Condition>"
+}
+
+
+
+
+
+
+
+//DATA TYPES
+
+### <Color> ###
+{x|b|f|r:string}
+
+example1 hex-string:{x:FF00A1}
+example2 byte:      {b:255,0,161}
+example3 float:     {f:1,0,0.63}
+example4 random:    {r:0-1,0.4-0.6,1-1}
+
+
+### <Time> ###
+{c|r:string} | float
+
+example1 constant (5.6 seconds):                {c:5.6}
+example2 constant (10.9 seconds):               10.9
+example3 random (between 15 and 18.3 seconds):  {r:15,18.3}
+
+
+### Condition ###
+{t|c:string}
