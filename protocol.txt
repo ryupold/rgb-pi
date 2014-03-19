@@ -61,10 +61,12 @@ example3 random (between 15 and 18.3 seconds):  {r:15,18.3}
 
 
 ### <Condition> ###
-{t|c|i|b:string}
+{t|c|i|b:string} | bool
 
 example1 after time expires, since first check (5.8 seconds):   {t:5.8}
 example2 if a specific color is reached (black):                {c:{b:0,0,0}}
 example3 after the condition was checked (10 times):            {i:10}
 example4 constant condition value (true):                       {b:1}
 example5 constant condition value (false):                      {b:0}
+example6 constant condition value (true):                       1
+example7 constant condition value (false):                      0
