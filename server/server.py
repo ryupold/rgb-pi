@@ -81,7 +81,7 @@ def readcommands(threadName, intervall):
     configure.cls()
     configure.printConfig()
 
-    print "\n... starting server...\n\n"
+    log.l('\n... starting server...\n\n', log.LEVEL_UI)
 
     #globals
     global ID
@@ -130,7 +130,7 @@ def readcommands(threadName, intervall):
 
 
         except:
-            print "ERROR: ", sys.exc_info()[0], ": ", sys.exc_info()[1]
+            log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
         else:
             clientsocket.close()
 
