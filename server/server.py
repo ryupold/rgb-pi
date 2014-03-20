@@ -31,6 +31,11 @@ ID = 1
 CurrentCMD = None
 
 
+class Task():
+    def __init__(self, commands): # takes an array with commands (json encoded object)
+        if len(commands) > 1:
+            pass #TODO rekursive methode
+
 
 #mega thread class
 class CommandThread(threading.Thread):
@@ -103,6 +108,7 @@ def readcommands(threadName, intervall):
             (clientsocket, address) = serversocket.accept()
 
             rcvString = str(clientsocket.recv(1024))
+            log.l('RECEIVED: '+rcvString+'\n\n')
             answer = {}
 
             try:

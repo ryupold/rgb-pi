@@ -36,9 +36,11 @@ if len(sys.argv) > 1:
             clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             #clientsocket.connect(("192.168.1.150", 4321))
             if len(sys.argv) > 2:
-                clientsocket.connect((sys.argv[2], 4321))
-                print "connected to ", sys.argv[2]
+                print "connecting to ", str.strip(sys.argv[2])
+                clientsocket.connect((str.strip(sys.argv[2]), 4321))
+                print "connected to ", str.strip(sys.argv[2])
             else:
+                print "connecting to localhost"
                 clientsocket.connect(("localhost", 4321))
                 print "connected to localhost"
 
