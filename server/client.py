@@ -43,10 +43,12 @@ if len(sys.argv) > 1:
                 print "connected to localhost"
 
             cmdFile = open('test.js', 'r+')
-            cmdString = "{}"
+            cmdString = cmdFile.read()
+            cmdFile.close()
 
             print "sending command "+ cmdString
             clientsocket.send(cmdString)
+            print '\nanswer: ', clientsocket.recv(2048)
             clientsocket.close()
         except socket.error:
             log.l(str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]))

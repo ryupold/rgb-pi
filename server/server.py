@@ -23,7 +23,7 @@ import jump
 import specials
 import log
 import constants
-
+import datatypes
 
 RUN = 1
 serversocket = None
@@ -103,16 +103,36 @@ def readcommands(threadName, intervall):
             (clientsocket, address) = serversocket.accept()
 
             rcvString = str(clientsocket.recv(1024))
+            answer = {}
 
             try:
-                cmd = json.loads(rcvString)
+                r = json.loads(rcvString)
+
+                if r.has_key('commands') and len(r['commands']) > 0:
+                    try:
+                        log.l( 'commands: '+ str(len(r['commands'])), log.LEVEL_COMMANDS)
+
+                        for cmd in r['commands']:
+                            log.l( 'command type: '+ cmd['type'], log.LEVEL_COMMANDS)
+                            if cmd['type'] == constants.CMD_TYPE_CC:
+                                color = datatypes.Color(cmd['color'])
+                                led.setColor(color)
+                                if (log.LOG_LEVEL & log.LEVEL_COMMAND_CC)!= 0x0:
+                                    log.l('color: '+ str(color), log.LEVEL_COMMAND_CC)
+
+                        answer['commands'] = 1
+                    except:
+                        log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+                        answer['commands'] = 0
 
 
+                log.l('---ANSWER---', log.LEVEL_ANSWER)
+                log.l(str(answer), log.LEVEL_ANSWER)
 
             except:
-                clientsocket.send("ERROR: "+ str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]))
+                clientsocket.send(json.dumps(answer, separators=(',',':')))
             else:
-                clientsocket.send("1")
+                clientsocket.send(json.dumps(answer, separators=(',',':')))
 
             ### old format
             #command = string.split(string.strip(rcvString))

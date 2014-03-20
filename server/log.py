@@ -1,28 +1,32 @@
 #logging module with different logging levels (see below)
 
+#   0x0002 = print UI
 LEVEL_UI = 0x0002
 
-#   0x0001 = print critical errors
+#   0x0010 = print critical errors
 LEVEL_ERRORS = 0x0010
 
-#   0x0002 = print commands (except 'cc')
+#   0x0020 = print commands (except 'cc')
 LEVEL_COMMANDS = 0x0020
 
-#   0x0004 = print cc commands
+#   0x0040 = print cc commands
 LEVEL_COMMAND_CC = 0x0040
 
-#   0x0008 = starting and stopping threads
+#   0x0080 = starting and stopping threads
 LEVEL_START_STOP_THREADS = 0x0080
 
-#   0x0010 = changing color
+#   0x0100 = changing color
 LEVEL_CHANGE_COLOR = 0x0100
+
+#   0x0200 = answer to an received request
+LEVEL_ANSWER = 0x0200
 
 
 
 
 
 #set this variable to a value between 1 and 256 for debugging output
-LOG_LEVEL = LEVEL_UI + LEVEL_ERRORS + LEVEL_COMMANDS + LEVEL_COMMAND_CC + LEVEL_CHANGE_COLOR
+LOG_LEVEL = LEVEL_UI + LEVEL_ERRORS + LEVEL_COMMANDS + LEVEL_COMMAND_CC + LEVEL_CHANGE_COLOR + LEVEL_ANSWER
 
 
 
