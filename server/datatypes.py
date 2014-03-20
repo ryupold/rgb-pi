@@ -1,8 +1,11 @@
 #python modules
 import string
+import time
 
 #rgb-pi modules
 import utils
+import constants
+import led
 
 
 
@@ -107,6 +110,11 @@ class Color():
     def __div__(self, other):
         return Color(utils.clip(self.R/other.R), utils.clip(self.G/other.G), utils.clip(self.B/other.B))
 
+    def __eq__(self, other):
+        return self.R == other.R and self.G == other.G and self.B == other.B
+
+    def __ne__(self, other):
+        return self.R != other.R or self.G != other.G or self.B != other.B
 
 
 class Time():
@@ -149,50 +157,65 @@ class Time():
     def __div__(self, other):
         return Time(max(self.time / other.time, 0))
 
-#TODO fertig machen
+
 class Condition():
     def __init__(self, condition):
         self.conditionString = string.strip(str(condition))
         self.condition = 0
-        self.type = None
+        self.type = constants.CONDITION_BOOL
         self.time = 0
+        self.startTime = None
         self.color = None
-        self.count = 0
+        self.iterations = 0
 
         if not self.conditionString.isdigit() and self.conditionString[0] != '{' or self.conditionString[len(self.conditionString)-1] != '}':
             raise ValueError('condition must defined within {} brackets or be a bool value (1 or 0)' + self.conditionString)
 
         if self.conditionString.isdigit():
+            self.type = constants.CONDITION_BOOL
             self.condition = int(self.conditionString) != 0
         else:
             conditionString = self.conditionString[1:len(self.conditionString)-1]
-            timeParts = string.split(conditionString, ':')
+            conditionParts = string.split(conditionString, ':')
 
-            if not (timeParts[0] in ['c', 'r']):
-                raise ValueError('unknown time type: '+timeParts[0])
+            if not (conditionParts[0] in ['t','c', 'i', 'b']):
+                raise ValueError('unknown condition type: '+conditionParts[0])
 
-            #extracting time
-            if timeParts[0] == 'c':
-                self.condition = float(timeParts[1])
+            #extracting condition
+            if conditionParts[0] == 't':
+                self.type = constants.CONDITION_TIME
+                self.time = float(conditionParts[1])
 
-            if timeParts[0] == 'r':
-                timecomps = string.split(timeParts[1], ',')
-                self.condition = utils.randfloat(float(timecomps[0]), float(timecomps[1]))
+            if conditionParts[0] == 'c':
+                self.color = Color(conditionParts[1])
+
+            if conditionParts[0] == 'i':
+                self.iterations = int(conditionParts[1])
+                self.condition = self.iterations != 0
+
+            if conditionParts[0] == 'b':
+                self.condition = int(conditionParts[1]) != 0
 
     def isTrue(self):
         return self.condition != 0
 
+    def isFalse(self):
+        return self.condition == 0
+
+    def check(self):
+        if self.type == constants.CONDITION_TIME:
+            if self.startTime is None:
+                self.startTime = time.time()
+            self.condition = self.startTime+self.time >= time.time()
+
+        if self.type == constants.CONDITION_ITERATE:
+            self.iterations = max(self.iterations - 1, 0)
+            self.condition = self.iterations != 0
+
+        if self.type == constants.CONDITION_COLOR:
+            self.condition = led.COLOR[0] != self.color
+
+        return self.condition
+
     def __str__(self):
         return str(self.condition)
-
-    def __add__(self, other):
-        return Time(max(self.condition + other.time, 0))
-
-    def __sub__(self, other):
-        return Time(max(self.condition - other.time, 0))
-
-    def __mul__(self, other):
-        return Time(max(self.condition * other.time, 0))
-
-    def __div__(self, other):
-        return Time(max(self.condition / other.time, 0))

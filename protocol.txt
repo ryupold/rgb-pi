@@ -23,7 +23,7 @@
     "time":"<Time>"
 }
 
-# loop - loop till a condition stops the loop
+# loop - loop while a condition is true
 #returns 1 on success, otherwise 0
 {
     "type":"loop",
@@ -31,7 +31,7 @@
     "commands":[<COMMAND>, <COMMAND_2>, ...]
 }
 
-# request - returns runtime/configurated values
+# request - returns runtime/configured values
 # returns "dictionary" (json object) with the keys and their corresponding values
 {
     "type":"request"
