@@ -115,18 +115,19 @@ def readcommands(threadName, intervall):
             try:
                 r = json.loads(rcvString)
 
-                if r.has_key('commands') and len(r['commands']) > 0:
+                if isinstance(r, dict) and r.has_key('commands') and len(r['commands']) > 0:
                     try:
                         log.l( 'commands: '+ str(len(r['commands'])), log.LEVEL_COMMANDS)
 
                         if CurrentCMD is not None:
                             CurrentCMD.stop()
+
                         CurrentCMD = tasks.Task.createTask(r['commands'])
                         CurrentFilters = []
                         answer['commands'] = 1
 
                     except:
-                        log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+                        log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]) + str(sys.exc_info()[2]), log.LEVEL_ERRORS)
                         answer['commands'] = 0
                 else:
                     answer['commands'] = 0
