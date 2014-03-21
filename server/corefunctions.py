@@ -10,6 +10,7 @@ import utils
 import config
 import xbmcremote
 import constants
+import datatypes
 
 # fades the start color to the end color over time in seconds
 # if start color is not given, current color is used as start
@@ -30,9 +31,9 @@ def fade(task, timeInSecs, endColor, startColor=None):
         print startVolume		
 
     if startColor is None:
-        startColor = led.Color(led.COLOR[0].R, led.COLOR[0].G, led.COLOR[0].B)
+        startColor = datatypes.Color(led.COLOR[0].R, led.COLOR[0].G, led.COLOR[0].B)
 
-    currentColor = led.Color(startColor.R, startColor.G, startColor.B)
+    currentColor = datatypes.Color(startColor.R, startColor.G, startColor.B)
 
     startTime = time.time()
 
@@ -74,7 +75,7 @@ def fadeToRandom(task, timeInSecs, startColor=None, minBrightness=None, maxBrigh
     if maxBrightness is None:
         maxBrightness = 1.0
 
-    rndColor = led.Color(utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness))
+    rndColor = datatypes.Color(utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness))
     fade(task, timeInSecs, rndColor, startColor)
 
 def startRandomFade(task, minTimeBetweenFades, maxTimeBetweenFades, minBrightness=None, maxBrightness=None):

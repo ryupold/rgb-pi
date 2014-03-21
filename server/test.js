@@ -1,21 +1,19 @@
 {
     "commands":[
         {
-            "type":"wait",
-            "time":"5"
-        }
-        {
-            "type":"cc",
-            "color":"{x:ABCDEF}"
-        }
-        {
-            "type":"wait",
-            "time":"5"
-        }
-        {
-            "type":"fade",
-            "time":"{r:5,10}",
-            "end":"{f:1,1,1}"
+            "type":"loop",
+            "condition":"{i:5}",
+            "commands":
+            [
+                {
+                    "type":"cc",
+                    "color":"{r:0-1,0-1,0-1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"{r:0.1,10}"
+                }
+            ]
         }
     ]
 }

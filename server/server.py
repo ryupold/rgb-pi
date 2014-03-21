@@ -42,26 +42,15 @@ class CommandThread(threading.Thread):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
-        self.cmd = cmd
+        self.task = cmd
         self.state = constants.CMD_STATE_INIT
-        self.runtime = 0
-        self.timer = None
 
     #method, which is executed when the .start() method of the thread is called
     def run(self):
         log.l("Starting Thread: " + self.name, log.LEVEL_START_STOP_THREADS)
         self.state = constants.CMD_STATE_STARTED
 
-        #a command is alsways followed by a time (secs) after the command expires
-        #set runtime to '0' or below to run the command infinite
-        self.runtime = float(self.cmd[1])
-        if self.runtime > 0.0:
-            #set the timer for the given runtime
-            self.timer = threading.Timer(self.runtime, self.stop())
-
-        #decide which command should be executed
-        #TODO
-
+        self.task.start()
 
         self.stop()
         log.l("Exiting:" + self.name, log.LEVEL_START_STOP_THREADS)
@@ -69,13 +58,8 @@ class CommandThread(threading.Thread):
     #stops this thread, disregarding when its expiration should be
     def stop(self):
         log.l("stopping " + self.name, log.LEVEL_START_STOP_THREADS)
-
-        #stop timer
-        if self.timer is not None:
-            self.timer.cancel()
-            self.timer = None
-
-        self.state = constants.CMD_STATE_EXPIRED
+        self.task.stop()
+        self.state = constants.CMD_STATE_STOPPED
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -111,6 +95,7 @@ def readcommands(threadName, intervall):
             rcvString = str(clientsocket.recv(1024))
             log.l('RECEIVED: '+rcvString+'\n\n')
             answer = {}
+            answer['error'] = []
 
             try:
                 r = json.loads(rcvString)
@@ -122,13 +107,16 @@ def readcommands(threadName, intervall):
                         if CurrentCMD is not None:
                             CurrentCMD.stop()
 
-                        CurrentCMD = tasks.Task.createTask(r['commands'])
+                        task = tasks.Task.createTask(r['commands'])
+                        ID = ID + 1
+                        CurrentCMD = CommandThread(ID, 'command thread', task)
                         CurrentFilters = []
                         answer['commands'] = 1
 
                     except:
-                        log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]) + str(sys.exc_info()[2]), log.LEVEL_ERRORS)
+                        answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
                         answer['commands'] = 0
+                        log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
                 else:
                     answer['commands'] = 0
 
@@ -145,6 +133,8 @@ def readcommands(threadName, intervall):
                 log.l(str(answer), log.LEVEL_ANSWER)
 
             except:
+                log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+                answer['error'].append(str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
             else:
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
