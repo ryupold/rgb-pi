@@ -1,4 +1,4 @@
-//COMMANDS: "commands":[*]
+//COMMANDS: "commands":[*]  (implicit converted to a list command)
 
 # cc - change color
 #returns 1 on success, otherwise 0
@@ -21,6 +21,13 @@
 {
     "type":"wait",
     "time":"<Time>"
+}
+
+# list - a list of commands, executed in the given order
+#returns 1 on success, otherwise 0
+{
+    "type":"list"
+    "commands":[<COMMAND>, <COMMAND_2>, ...]
 }
 
 # loop - loop while a condition is true

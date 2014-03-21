@@ -14,10 +14,10 @@ import constants
 # fades the start color to the end color over time in seconds
 # if start color is not given, current color is used as start
 #(cmdThread can be set to None if no thread is responsible for this fade call)
-def fade(cmdThread, timeInSecs, endColor, startColor=None):
+def fade(task, timeInSecs, endColor, startColor=None):
 
-    if cmdThread is not None and cmdThread.state != constants.CMD_STATE_STARTED:
-        raise RuntimeError("the thread, which is responsible for this fade has an invalid state: "+str(cmdThread.state))
+    if task is not None and task.state != constants.CMD_STATE_STARTED:
+        raise RuntimeError("the thread, which is responsible for this fade has an invalid state: "+str(task.state))
     if timeInSecs <= 0:
         raise ValueError("time cannot be 0 or below: "+str(timeInSecs))
 
@@ -39,7 +39,7 @@ def fade(cmdThread, timeInSecs, endColor, startColor=None):
     secondsPassed = 0.0
     lastVolume = startVolume
 
-    while ((cmdThread is not None and cmdThread.state == constants.CMD_STATE_STARTED) and secondsPassed <= timeInSecs):
+    while ((task is not None and task.state == constants.CMD_STATE_STARTED) and secondsPassed <= timeInSecs):
 
         secondsPassed = time.time() - startTime
         #interpolate new color
@@ -59,7 +59,15 @@ def fade(cmdThread, timeInSecs, endColor, startColor=None):
         #print startColor," ", endColor, "     ", secondsPassed/timeInSecs
         led.setColor(currentColor)
 
-def fadeToRandom(cmdThread, timeInSecs, startColor=None, minBrightness=None, maxBrightness=None):
+def wait(task, timeInSecs):
+    startTime = time.time()
+    secondsPassed = 0.0
+    while ((task is not None and task.state == constants.CMD_STATE_STARTED) and secondsPassed <= timeInSecs):
+        time.sleep(config.DELAY)
+        secondsPassed = time.time() - startTime
+
+
+def fadeToRandom(task, timeInSecs, startColor=None, minBrightness=None, maxBrightness=None):
     if minBrightness is None:
         minBrightness = 0.0
 
@@ -67,11 +75,11 @@ def fadeToRandom(cmdThread, timeInSecs, startColor=None, minBrightness=None, max
         maxBrightness = 1.0
 
     rndColor = led.Color(utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness))
-    fade(cmdThread, timeInSecs, rndColor, startColor)
+    fade(task, timeInSecs, rndColor, startColor)
 
-def startRandomFade(cmdThread, minTimeBetweenFades, maxTimeBetweenFades, minBrightness=None, maxBrightness=None):
-    if cmdThread is not None and cmdThread.state != constants.CMD_STATE_STARTED:
-        raise RuntimeError("the thread, which is responsible for this random fade has an invalid state: "+str(cmdThread.state))
+def startRandomFade(task, minTimeBetweenFades, maxTimeBetweenFades, minBrightness=None, maxBrightness=None):
+    if task is not None and task.state != constants.CMD_STATE_STARTED:
+        raise RuntimeError("the thread, which is responsible for this random fade has an invalid state: "+str(task.state))
 
     if minBrightness is None:
         minBrightness = 0.0
@@ -84,6 +92,6 @@ def startRandomFade(cmdThread, minTimeBetweenFades, maxTimeBetweenFades, minBrig
     minBrightness = minB
     maxBrightness = maxB
 
-    while cmdThread is not None and cmdThread.state == constants.CMD_STATE_STARTED:
+    while task is not None and task.state == constants.CMD_STATE_STARTED:
         timeInSecs = random.randint(int(minTimeBetweenFades*1000), int(maxTimeBetweenFades*1000))/1000.0
-        fadeToRandom(cmdThread, timeInSecs, None, minBrightness, maxBrightness)
+        fadeToRandom(task, timeInSecs, None, minBrightness, maxBrightness)

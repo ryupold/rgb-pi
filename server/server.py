@@ -24,17 +24,15 @@ import specials
 import log
 import constants
 import datatypes
+import tasks
 
 RUN = 1
 serversocket = None
 ID = 1
 CurrentCMD = None
+CurrentFilters = []
 
 
-class Task():
-    def __init__(self, commands): # takes an array with commands (json encoded object)
-        if len(commands) > 1:
-            pass #TODO rekursive methode
 
 
 #mega thread class
@@ -107,6 +105,9 @@ def readcommands(threadName, intervall):
         try:
             (clientsocket, address) = serversocket.accept()
 
+            global CurrentCMD
+            global CurrentFilters
+
             rcvString = str(clientsocket.recv(1024))
             log.l('RECEIVED: '+rcvString+'\n\n')
             answer = {}
@@ -118,18 +119,25 @@ def readcommands(threadName, intervall):
                     try:
                         log.l( 'commands: '+ str(len(r['commands'])), log.LEVEL_COMMANDS)
 
-                        for cmd in r['commands']:
-                            log.l( 'command type: '+ cmd['type'], log.LEVEL_COMMANDS)
-                            if cmd['type'] == constants.CMD_TYPE_CC:
-                                color = datatypes.Color(cmd['color'])
-                                led.setColor(color)
-                                if (log.LOG_LEVEL & log.LEVEL_COMMAND_CC)!= 0x0:
-                                    log.l('color: '+ str(color), log.LEVEL_COMMAND_CC)
-
+                        if CurrentCMD is not None:
+                            CurrentCMD.stop()
+                        CurrentCMD = tasks.Task.createTask(r['commands'])
+                        CurrentFilters = []
                         answer['commands'] = 1
+
                     except:
                         log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
                         answer['commands'] = 0
+                else:
+                    answer['commands'] = 0
+
+                #TODO create filters
+
+                #TODO answer requests
+
+                #starting a new command if a new arrived and could be correctly decoded
+                if answer['commands'] == 1:
+                    CurrentCMD.start()
 
 
                 log.l('---ANSWER---', log.LEVEL_ANSWER)

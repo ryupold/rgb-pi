@@ -120,13 +120,13 @@ class Color():
 class Time():
     def __init__(self, seconds):
         self.timeString = string.strip(str(seconds))
-        self.time = 0.0
+        self.seconds = 0.0
 
         if not self.timeString.isdigit() and self.timeString[0] != '{' or self.timeString[len(self.timeString)-1] != '}':
             raise ValueError('time must defined within {} brackets or be a float value' + self.timeString)
 
         if self.timeString.isdigit():
-            self.time = float(self.timeString)
+            self.seconds = float(self.timeString)
         else:
             timeString = self.timeString[1:len(self.timeString)-1]
             timeParts = string.split(timeString, ':')
@@ -136,26 +136,26 @@ class Time():
 
             #extracting time
             if timeParts[0] == 'c':
-                self.time = float(timeParts[1])
+                self.seconds = float(timeParts[1])
 
             if timeParts[0] == 'r':
                 timecomps = string.split(timeParts[1], ',')
-                self.time = utils.randfloat(float(timecomps[0]), float(timecomps[1]))
+                self.seconds = utils.randfloat(float(timecomps[0]), float(timecomps[1]))
 
     def __str__(self):
-        return str(self.time)
+        return str(self.seconds)
 
     def __add__(self, other):
-        return Time(max(self.time + other.time, 0))
+        return Time(max(self.seconds + other.seconds, 0))
 
     def __sub__(self, other):
-        return Time(max(self.time - other.time, 0))
+        return Time(max(self.seconds - other.seconds, 0))
 
     def __mul__(self, other):
-        return Time(max(self.time * other.time, 0))
+        return Time(max(self.seconds * other.seconds, 0))
 
     def __div__(self, other):
-        return Time(max(self.time / other.time, 0))
+        return Time(max(self.seconds / other.seconds, 0))
 
 
 class Condition():
