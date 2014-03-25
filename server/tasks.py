@@ -70,12 +70,29 @@ class CC(Task):
         self.type = constants.CMD_TYPE_CC
         super(CC, self).__init__(command)
         self.color = None
+        self.operator = None
 
     def start(self):
         super(CC, self).start()
         self.color = datatypes.Color(self.command['color'])
-        log.l('color='+str(self.color), log.LEVEL_COMMAND_CC)
-        led.setColor(self.color)
+        if self.command.has_key('operator'):
+            self.operator = datatypes.Color(self.command['operator'])
+            log.l('color='+str(led.COLOR[0])+' '+self.operator+' '+str(self.color), log.LEVEL_COMMAND_CC)
+            for i in range(0, len(config.LED_PINS)):
+                if ((i+1) & self.color.Address) != 0:
+                    newColor = led.COLOR[i];
+                    if self.operator == '*':
+                        newColor = newColor * self.color
+                    if self.operator == '/':
+                        newColor = newColor / self.color
+                    if self.operator == '+':
+                        newColor = newColor + self.color
+                    if self.operator == '-':
+                        newColor = newColor - self.color
+                    led.setColor(newColor)
+        else:
+            log.l('color='+str(self.color), log.LEVEL_COMMAND_CC)
+            led.setColor(self.color)
         self.stop()
 
     def stop(self):

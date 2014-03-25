@@ -1,10 +1,11 @@
 //COMMANDS: "commands":[*]  (implicit converted to a list command)
 
-# cc - change color
+# cc - change color [or makes an arithmetic operation to the current color]
 #returns 1 on success, otherwise 0
 {
     "type":"cc",
     "color":"<Color>"
+    [,"operator"="*|/|+|-"]
 }
 
 # fade - fading [from color] to color over time
@@ -71,12 +72,18 @@
 //DATA TYPES
 
 ### <Color> ###
-{x|b|f|r:string[:int]}
+{x|b|f|r|a:string[:int]}
 
-example1 hex-string:{x:FF00A1}
-example2 byte:      {b:255,0,161}
-example3 float:     {f:1,0,0.63}
-example4 random:    {r:0-1,0.4-0.6,1-1}
+example1 hex-string:                                    {x:FF00A1}
+example2 byte:                                          {b:255,0,161}
+example3 float:                                         {f:1,0,0.63}
+example4 random:                                        {r:0-1,0.4-0.6,1-1}
+example5 set LED-stripe 2 to red:                       {f:1,0,0:0x2}
+
+note:
+    - if a color value (red, green or blue) cannot get greater than 1.0<=>255<=>FF and lower than 0.0<=>0<=>FF.
+
+
 
 
 ### <Time> ###
