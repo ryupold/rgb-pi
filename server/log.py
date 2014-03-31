@@ -1,3 +1,6 @@
+#python modules
+import time
+
 #logging module with different logging levels (see below)
 
 #   0x0002 = print UI
@@ -34,10 +37,24 @@ LEVEL_COMMAND_DETAIL = 0x0800
 LOG_LEVEL = LEVEL_UI | LEVEL_ERRORS | LEVEL_COMMANDS | LEVEL_COMMAND_CC | LEVEL_CHANGE_COLOR | LEVEL_ANSWER | LEVEL_INIT_COMMAND | LEVEL_START_STOP_THREADS | LEVEL_COMMAND_DETAIL
 
 
+def m(loglvl):
+    """
+    m=match
+    returns true if configured logging level (log.LOG_LEVEL) matches the given 'loglvl'-parameter
+    @rtype : True if 'loglevel'-parameter matches, otherwise False
+    """
+    global LOG_LEVEL
+    return (loglvl & LOG_LEVEL) != 0x0
+
 
 #prints the given message to stdout if loglevel mask matches the actual logging level, defined in LOG_LEVEL
 #if no loglevel is given, a default loglevel of 0xFFFF (matches to all levels except 0x0000) is used
 def l(msg, loglvl=0xFFFF):
+    """
+    l=log
+    if given 'loglvl'-parameter matches the current logging level, the 'msg' will be printed with the actual time as prefix
+    @rtype : None
+    """
     global LOG_LEVEL
     if (loglvl & LOG_LEVEL) != 0x0:
-        print str(msg)
+        print time.ctime(), ': ' , str(msg)

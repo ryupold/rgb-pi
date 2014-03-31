@@ -11,6 +11,7 @@ CMD_TYPE_FADE = 'fade'
 CMD_TYPE_WAIT = 'wait'
 CMD_TYPE_LIST = 'list'
 CMD_TYPE_LOOP = 'loop'
+CMD_TYPE_NOP = 'nop'
 
 
 CONDITION_BOOL = 1

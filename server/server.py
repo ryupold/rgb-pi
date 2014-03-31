@@ -58,8 +58,9 @@ class CommandThread(threading.Thread):
     #stops this thread, disregarding when its expiration should be
     def stop(self):
         log.l("stopping " + self.name, log.LEVEL_START_STOP_THREADS)
-        self.task.stop()
         self.state = constants.CMD_STATE_STOPPED
+        self.task.stop()
+
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes

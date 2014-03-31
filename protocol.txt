@@ -1,7 +1,7 @@
 //COMMANDS: "commands":[*]  (implicit converted to a list command)
+#returns 1 on success, otherwise 0
 
 # cc - change color [or makes an arithmetic operation to the current color]
-#returns 1 on success, otherwise 0
 {
     "type":"cc",
     "color":"<Color>"
@@ -9,7 +9,6 @@
 }
 
 # fade - fading [from color] to color over time
-#returns 1 on success, otherwise 0
 {
     "type":"fade",
     "time":"<Time>",
@@ -18,25 +17,27 @@
 }
 
 # wait - waiting an amount of time without doing anything
-#returns 1 on success, otherwise 0
 {
     "type":"wait",
     "time":"<Time>"
 }
 
 # list - a list of commands, executed in the given order
-#returns 1 on success, otherwise 0
 {
     "type":"list"
     "commands":[<COMMAND>, <COMMAND_2>, ...]
 }
 
 # loop - loop while a condition is true
-#returns 1 on success, otherwise 0
 {
     "type":"loop",
     "condition":"<Condition>"
     "commands":[<COMMAND>, <COMMAND_2>, ...]
+}
+
+# nop - do nothing
+{
+    "type":"nop"
 }
 
 //FILTERS: "filters":[*]
