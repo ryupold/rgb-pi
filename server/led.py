@@ -4,7 +4,8 @@ import os
 #rgb-pi modules
 import datatypes
 import config
-
+import log
+import constants
 
 #global rgb values
 COLOR = [datatypes.Color('{x:000000}'),
@@ -38,10 +39,11 @@ def changeColor(r, g, b, address=0xF):
                 g = 0.0
                 b = 0.0
 
-            cmdR = "echo " + str(config.LED_PINS[i][0]) + "=" + str(r) + " > /dev/pi-blaster"
-            cmdG = "echo " + str(config.LED_PINS[i][1]) + "=" + str(g) + " > /dev/pi-blaster"
-            cmdB = "echo " + str(config.LED_PINS[i][2]) + "=" + str(b) + " > /dev/pi-blaster"
+            cmdR = "echo " + str(config.LED_PINS[i][0]) + "=" + str(r) + " > "+constants.FIFO
+            cmdG = "echo " + str(config.LED_PINS[i][1]) + "=" + str(g) + " > "+constants.FIFO
+            cmdB = "echo " + str(config.LED_PINS[i][2]) + "=" + str(b) + " > "+constants.FIFO
             cmd += cmdR + " & " + cmdG + " & " + cmdB + " & "
+            if log.m(log.LEVEL_CHANGE_COLOR): log.l('changing color to '+str(COLOR[i]))
 
     os.system(cmd)
 

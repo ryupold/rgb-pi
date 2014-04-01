@@ -34,6 +34,12 @@ class Color():
             if not (colorParts[0] in ['x', 'b', 'f', 'r']):
                 raise ValueError('unknown color type: '+colorParts[0])
 
+            #extracting Address
+            if len(colorParts) > 2:
+                self.Address = int(colorParts[2], 16)
+            elif len(colorParts) <= 2:
+                self.Address = 0xF
+
             #extracting RGB
             if colorParts[0] == 'x':
                 rgbcomps = utils.getIntComponents(colorParts[1])
@@ -67,11 +73,12 @@ class Color():
                 self.G = utils.randfloat(fromGreen, toGreen)
                 self.B = utils.randfloat(fromBlue, toBlue)
 
-            #extracting Address
-            if len(colorParts) > 2:
-                self.Address = int(colorParts[2], 16)
-            elif len(colorParts) <= 2:
-                self.Address = 0xF
+
+            self.R = utils.clip(self.R)
+            self.G = utils.clip(self.G)
+            self.B = utils.clip(self.B)
+
+
 
 
         else:

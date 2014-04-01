@@ -28,7 +28,7 @@ import tasks
 
 RUN = 1
 serversocket = None
-ID = 1
+ID = 0
 CurrentCMD = None
 CurrentFilters = []
 
@@ -42,24 +42,25 @@ class CommandThread(threading.Thread):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
-        self.task = cmd
         self.state = constants.CMD_STATE_INIT
+        self.task = tasks.Task.createTask(cmd['commands'], self)
 
     #method, which is executed when the .start() method of the thread is called
     def run(self):
-        log.l("Starting Thread: " + self.name, log.LEVEL_START_STOP_THREADS)
+        if log.m(log.LEVEL_START_STOP_THREADS): log.l('<'+str(self.threadID)+'> starting Thread: ' + self.name)
         self.state = constants.CMD_STATE_STARTED
 
         self.task.start()
 
         self.stop()
-        log.l("Exiting:" + self.name, log.LEVEL_START_STOP_THREADS)
+        if log.m(log.LEVEL_START_STOP_THREADS): log.l('<'+str(self.threadID)+'> exiting:' + self.name)
 
     #stops this thread, disregarding when its expiration should be
     def stop(self):
-        log.l("stopping " + self.name, log.LEVEL_START_STOP_THREADS)
-        self.task.stop()
+        if log.m(log.LEVEL_START_STOP_THREADS): log.l('<'+str(self.threadID)+'> stopping ' + self.name)
         self.state = constants.CMD_STATE_STOPPED
+        self.task.stop()
+
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -93,7 +94,7 @@ def readcommands(threadName, intervall):
             global CurrentFilters
 
             rcvString = str(clientsocket.recv(1024))
-            log.l('RECEIVED: '+rcvString+'\n\n')
+            if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED: '+rcvString+'\n\n')
             answer = {}
             answer['error'] = []
 
@@ -102,14 +103,14 @@ def readcommands(threadName, intervall):
 
                 if isinstance(r, dict) and r.has_key('commands') and len(r['commands']) > 0:
                     try:
-                        log.l( 'commands: '+ str(len(r['commands'])), log.LEVEL_COMMANDS)
+                        if log.m(log.LEVEL_COMMANDS): log.l( 'commands: '+ str(len(r['commands'])))
 
                         if CurrentCMD is not None:
                             CurrentCMD.stop()
+                            CurrentCMD = None
 
-                        task = tasks.Task.createTask(r['commands'])
                         ID = ID + 1
-                        CurrentCMD = CommandThread(ID, 'command thread', task)
+                        CurrentCMD = CommandThread(ID, 'command thread', r)
                         CurrentFilters = []
                         answer['commands'] = 1
 
@@ -129,8 +130,9 @@ def readcommands(threadName, intervall):
                     CurrentCMD.start()
 
 
-                log.l('---ANSWER---', log.LEVEL_ANSWER)
-                log.l(str(answer), log.LEVEL_ANSWER)
+                if log.m(log.LEVEL_SOCKET_COMMUNICATION):
+                    log.l('---ANSWER---')
+                    log.l(str(answer))
 
             except:
                 log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
@@ -138,21 +140,6 @@ def readcommands(threadName, intervall):
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
             else:
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
-
-            ### old format
-            #command = string.split(string.strip(rcvString))
-            #if len(command) > 0:
-            #    if command[0] == "cc":
-            #        log.l(command, log.LEVEL_COMMAND_CC)
-            #    else:
-            #        log.l(command, log.LEVEL_COMMANDS)
-
-#                ID += 1
-#                cmdT = CommandThread(ID, string.lower(command[0]), command)
-#            else:
-#                raise AttributeError("no commands received!")
-            ### old format
-
 
         except:
             log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)

@@ -40,7 +40,7 @@ def fade(task, timeInSecs, endColor, startColor=None):
     secondsPassed = 0.0
     lastVolume = startVolume
 
-    while ((task is not None and task.state == constants.CMD_STATE_STARTED) and secondsPassed <= timeInSecs):
+    while ((task is not None and (task.state == constants.CMD_STATE_STARTED and (task.thread is None or task.thread.state == constants.CMD_STATE_STARTED))) and secondsPassed <= timeInSecs):
 
         secondsPassed = time.time() - startTime
         #interpolate new color
@@ -63,36 +63,7 @@ def fade(task, timeInSecs, endColor, startColor=None):
 def wait(task, timeInSecs):
     startTime = time.time()
     secondsPassed = 0.0
-    while ((task is not None and task.state == constants.CMD_STATE_STARTED) and secondsPassed <= timeInSecs):
+    while ((task is not None and (task.state == constants.CMD_STATE_STARTED and (task.thread is None or task.thread.state == constants.CMD_STATE_STARTED))) and secondsPassed <= timeInSecs):
         time.sleep(config.DELAY)
         secondsPassed = time.time() - startTime
 
-
-def fadeToRandom(task, timeInSecs, startColor=None, minBrightness=None, maxBrightness=None):
-    if minBrightness is None:
-        minBrightness = 0.0
-
-    if maxBrightness is None:
-        maxBrightness = 1.0
-
-    rndColor = datatypes.Color(utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness), utils.randfloat(minBrightness,maxBrightness))
-    fade(task, timeInSecs, rndColor, startColor)
-
-def startRandomFade(task, minTimeBetweenFades, maxTimeBetweenFades, minBrightness=None, maxBrightness=None):
-    if task is not None and task.state != constants.CMD_STATE_STARTED:
-        raise RuntimeError("the thread, which is responsible for this random fade has an invalid state: "+str(task.state))
-
-    if minBrightness is None:
-        minBrightness = 0.0
-
-    if maxBrightness is None:
-        maxBrightness = 1.0
-
-    minB = min(minBrightness, maxBrightness)
-    maxB = max(minBrightness, maxBrightness)
-    minBrightness = minB
-    maxBrightness = maxB
-
-    while task is not None and task.state == constants.CMD_STATE_STARTED:
-        timeInSecs = random.randint(int(minTimeBetweenFades*1000), int(maxTimeBetweenFades*1000))/1000.0
-        fadeToRandom(task, timeInSecs, None, minBrightness, maxBrightness)

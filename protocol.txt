@@ -1,14 +1,14 @@
 //COMMANDS: "commands":[*]  (implicit converted to a list command)
-
-# cc - change color
 #returns 1 on success, otherwise 0
+
+# cc - change color [or makes an arithmetic operation to the current color]
 {
     "type":"cc",
     "color":"<Color>"
+    [,"operator"="*|/|+|-"]
 }
 
 # fade - fading [from color] to color over time
-#returns 1 on success, otherwise 0
 {
     "type":"fade",
     "time":"<Time>",
@@ -17,25 +17,27 @@
 }
 
 # wait - waiting an amount of time without doing anything
-#returns 1 on success, otherwise 0
 {
     "type":"wait",
     "time":"<Time>"
 }
 
 # list - a list of commands, executed in the given order
-#returns 1 on success, otherwise 0
 {
     "type":"list"
     "commands":[<COMMAND>, <COMMAND_2>, ...]
 }
 
 # loop - loop while a condition is true
-#returns 1 on success, otherwise 0
 {
     "type":"loop",
     "condition":"<Condition>"
     "commands":[<COMMAND>, <COMMAND_2>, ...]
+}
+
+# nop - do nothing
+{
+    "type":"nop"
 }
 
 //FILTERS: "filters":[*]
@@ -48,6 +50,15 @@
 {
     "type":"config"
     "keys":[key1, key2, key3, ...]  # as strings
+}
+
+#runtime values
+#returns runtime values specified
+{
+    "type":"current",
+    ["value":"color"]   #returns the current colors of each stripe as string-array of <Color> objects
+    ["value":"request"] #returns the json object of the current running command
+    ["value":"filters"] #returns a json array of the current active filters
 }
 
 
@@ -63,20 +74,24 @@
 ]
 
 #requests:
-[
-    "request":<ComplexDataTypeInJSON>
-]
+#request answers are more complex than the others
 
 
 //DATA TYPES
 
 ### <Color> ###
-{x|b|f|r:string[:int]}
+{x|b|f|r|a:string[:int]}
 
-example1 hex-string:{x:FF00A1}
-example2 byte:      {b:255,0,161}
-example3 float:     {f:1,0,0.63}
-example4 random:    {r:0-1,0.4-0.6,1-1}
+example1 hex-string:                                    {x:FF00A1}
+example2 byte:                                          {b:255,0,161}
+example3 float:                                         {f:1,0,0.63}
+example4 random:                                        {r:0-1,0.4-0.6,1-1}
+example5 set LED-stripe 2 to red:                       {f:1,0,0:0x2}
+
+note:
+    - if a color value (red, green or blue) cannot get greater than 1.0<=>255<=>FF and lower than 0.0<=>0<=>FF.
+
+
 
 
 ### <Time> ###
