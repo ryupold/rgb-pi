@@ -62,6 +62,8 @@ class Task(object):
                 return List(command)
             if command['type'] == constants.CMD_TYPE_LOOP:
                 return Loop(command)
+            if command['type'] == constants.CMD_TYPE_NOP:
+                return NOP(command)
         else:
             return List(command)
 
