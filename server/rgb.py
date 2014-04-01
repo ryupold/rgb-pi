@@ -44,12 +44,22 @@ if sys.argv[1] == "server":
             if server.serversocket is not None:
                 server.serversocket.close()
             server.RUN = 0
-            #server.CMDQ.stop()
+
+            if server.CurrentCMD is not None:
+                server.CurrentCMD.stop()
+
             RUN = 0
             #led.changeColor(0,0,0,0xF)
 
         if(input == 'help'):
-            print "\n\nCommand list:\nexit - stops the server end kills process\nclear - clears log\n"
+            print "\n\nCommand list:\nexit - stops the server end kills process\nclear - clears log\nc r g b - change color"
 
         if input == 'clear':
             configure.cls()
+
+        if input.startswith('c'):
+            args = input.strip(' ')
+            r = float(args[1])
+            g = float(args[2])
+            b = float(args[3])
+            led.changeColor(r, g, b)

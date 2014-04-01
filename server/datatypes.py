@@ -123,27 +123,28 @@ class Time():
         self.seconds = 0.0
 
 
-        if self.timeString.isdigit():
+        try:
             self.seconds = float(self.timeString)
-        elif self.timeString[0] == '{' and self.timeString[len(self.timeString)-1] == '}':
-            timeString = self.timeString[1:len(self.timeString)-1]
-            timeParts = string.split(timeString, ':')
+        except:
+            if self.timeString[0] == '{' and self.timeString[len(self.timeString)-1] == '}':
+                timeString = self.timeString[1:len(self.timeString)-1]
+                timeParts = string.split(timeString, ':')
 
-            if len(timeParts) != 2:
-                raise ValueError('Time must be in following format "{c|r:string} | float". '+self.timeString+' has an incorrect format')
+                if len(timeParts) != 2:
+                    raise ValueError('Time must be in following format "{c|r:string} | float". '+self.timeString+' has an incorrect format')
 
-            if not (timeParts[0] in ['c', 'r']):
-                raise ValueError('unknown time type: '+timeParts[0])
+                if not (timeParts[0] in ['c', 'r']):
+                    raise ValueError('unknown time type: '+timeParts[0])
 
-            #extracting time
-            if timeParts[0] == 'c':
-                self.seconds = float(timeParts[1])
+                #extracting time
+                if timeParts[0] == 'c':
+                    self.seconds = float(timeParts[1])
 
-            if timeParts[0] == 'r':
-                timecomps = string.split(timeParts[1], ',')
-                self.seconds = utils.randfloat(float(timecomps[0]), float(timecomps[1]))
-        else:
-            raise ValueError('time must defined within {} brackets or be a float value: ' + self.timeString)
+                if timeParts[0] == 'r':
+                    timecomps = string.split(timeParts[1], ',')
+                    self.seconds = utils.randfloat(float(timecomps[0]), float(timecomps[1]))
+            else:
+                raise ValueError('time must defined within {} brackets or be a float value: ' + self.timeString)
 
     def __str__(self):
         return str(self.seconds)

@@ -44,7 +44,11 @@ if len(sys.argv) > 1:
                 clientsocket.connect(("localhost", 4321))
                 print "connected to localhost"
 
-            cmdFile = open('test.js', 'r+')
+            cmdFile = None
+            if len(sys.argv) >= 3:
+                cmdFile = open(sys.argv[3], 'r+')
+            else:
+                cmdFile = open('programs/test.js', 'r+')
             cmdString = cmdFile.read()
             cmdFile.close()
 
