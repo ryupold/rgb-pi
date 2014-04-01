@@ -36,8 +36,10 @@ class Task(object):
     def start(self):
         self.state = constants.CMD_STATE_STARTED
         if self.thread is not None and self.thread.state != constants.CMD_STATE_STARTED:
-            raise RuntimeError('the CommandThread of this task needs to be in CMD_STATE_STARTED-state to start child tasks!')
+            #raise RuntimeError('the CommandThread of this task needs to be in CMD_STATE_STARTED-state to start child tasks!')
+            return False
         if log.m(log.LEVEL_START_STOP_THREADS): log.l('<'+str(self.getThreadID())+'> starting ' + self.type)
+        return True
 
     def stop(self):
         self.state = constants.CMD_STATE_STOPPED
@@ -82,26 +84,26 @@ class CC(Task):
         self.operator = None
 
     def start(self):
-        super(CC, self).start()
-        self.color = datatypes.Color(self.command['color'])
-        if self.command.has_key('operator'):
-            self.operator = datatypes.Color(self.command['operator'])
-            if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(led.COLOR[0]) + ' ' + self.operator + ' ' + str(self.color))
-            for i in range(0, len(config.LED_PINS)):
-                if ((i + 1) & self.color.Address) != 0:
-                    newColor = led.COLOR[i]
-                    if self.operator == '*':
-                        newColor = newColor * self.color
-                    if self.operator == '/':
-                        newColor = newColor / self.color
-                    if self.operator == '+':
-                        newColor = newColor + self.color
-                    if self.operator == '-':
-                        newColor = newColor - self.color
-                    led.setColor(newColor)
-        else:
-            if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(self.color))
-            led.setColor(self.color)
+        if super(CC, self).start():
+            self.color = datatypes.Color(self.command['color'])
+            if self.command.has_key('operator'):
+                self.operator = datatypes.Color(self.command['operator'])
+                if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(led.COLOR[0]) + ' ' + self.operator + ' ' + str(self.color))
+                for i in range(0, len(config.LED_PINS)):
+                    if ((i + 1) & self.color.Address) != 0:
+                        newColor = led.COLOR[i]
+                        if self.operator == '*':
+                            newColor = newColor * self.color
+                        if self.operator == '/':
+                            newColor = newColor / self.color
+                        if self.operator == '+':
+                            newColor = newColor + self.color
+                        if self.operator == '-':
+                            newColor = newColor - self.color
+                        led.setColor(newColor)
+            else:
+                if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(self.color))
+                led.setColor(self.color)
         self.stop()
 
     def stop(self):
@@ -117,14 +119,14 @@ class Fade(Task):
         self.time = 0.0
 
     def start(self):
-        super(Fade, self).start()
-        if self.command.has_key('start'):
-            self.startColor = datatypes.Color(self.command['start'])
+        if super(Fade, self).start():
+            if self.command.has_key('start'):
+                self.startColor = datatypes.Color(self.command['start'])
 
-        self.endColor = datatypes.Color(self.command['end'])
-        self.time = datatypes.Time(self.command['time'])
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> fading from '+self.startColor+' to '+self.endColor+' over ' + str(self.time) + ' seconds')
-        corefunctions.fade(self, self.time.seconds, self.endColor, self.startColor)
+            self.endColor = datatypes.Color(self.command['end'])
+            self.time = datatypes.Time(self.command['time'])
+            if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> fading from '+str(self.startColor if self.startColor is not None else 'current color')+' to '+str(self.endColor)+' over ' + str(self.time) + ' seconds')
+            corefunctions.fade(self, self.time.seconds, self.endColor, self.startColor)
         self.stop()
 
     def stop(self):
@@ -138,10 +140,10 @@ class Wait(Task):
         self.time = None
 
     def start(self):
-        super(Wait, self).start()
-        self.time = datatypes.Time(self.command['time'])
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> waiting for ' + str(self.time) + ' seconds')
-        corefunctions.wait(self, self.time.seconds)
+        if super(Wait, self).start():
+            self.time = datatypes.Time(self.command['time'])
+            if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> waiting for ' + str(self.time) + ' seconds')
+            corefunctions.wait(self, self.time.seconds)
         self.stop()
 
     def stop(self):
@@ -162,9 +164,10 @@ class List(Task):
                 self.tasks.append(Task.createTask(cmd, self.thread))
 
     def start(self):
-        super(List, self).start()
-        for t in self.tasks:
-            t.start()
+        if super(List, self).start():
+            for t in self.tasks:
+                t.start()
+        self.stop()
 
     def stop(self):
         for t in self.tasks:
@@ -188,12 +191,12 @@ class Loop(Task):
 
 
     def start(self):
-        super(Loop, self).start()
-        self.condition = datatypes.Condition(self.command['condition'])
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> starting loop with condition: ' + str(self.condition))
-        while self.condition.check():
-            for t in self.tasks:
-                t.start()
+        if super(Loop, self).start():
+            self.condition = datatypes.Condition(self.command['condition'])
+            if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> starting loop with condition: ' + str(self.condition))
+            while self.condition.check():
+                for t in self.tasks:
+                    t.start()
         self.stop()
 
     def stop(self):
@@ -210,8 +213,8 @@ class NOP(Task):
         super(NOP, self).__init__(command, thread)
 
     def start(self):
-        super(NOP, self).start()
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> doing nothing')
+        if super(NOP, self).start():
+            if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> doing nothing')
         self.stop()
 
     def stop(self):

@@ -69,7 +69,7 @@ def readcommands(threadName, intervall):
     configure.cls()
     configure.printConfig()
 
-    log.l('\n... starting server...\n\n', log.LEVEL_UI)
+    print '\n... starting server...\n\n'
 
     #globals
     global ID
@@ -78,9 +78,19 @@ def readcommands(threadName, intervall):
     #create an INET, STREAMing socket
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+
     #bind the socket to a public host,
     # and a well-known port
-    serversocket.bind(('', config.SERVER_PORT)) # socket.gethostname() # for getting own address
+    success = False
+    while not success:
+        try:
+            log.l('trying to bind on port '+str(config.SERVER_PORT)+'...', log.LEVEL_UI)
+            serversocket.bind(('', config.SERVER_PORT)) # socket.gethostname() # for getting own address
+            success = True
+            log.l('successfully bound server to port '+str(config.SERVER_PORT)+'...', log.LEVEL_UI)
+        except:
+            log.l('port is already in use. Trying to reconnect in 5 seconds', log.LEVEL_ERRORS)
+            time.sleep(5)
 
     #become a server socket
     serversocket.listen(5)
@@ -107,6 +117,7 @@ def readcommands(threadName, intervall):
 
                         if CurrentCMD is not None:
                             CurrentCMD.stop()
+                            CurrentCMD.join()
                             CurrentCMD = None
 
                         ID = ID + 1

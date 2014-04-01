@@ -14,6 +14,7 @@ import math
 import led
 import server
 import configure
+import log
 
 
 # rgb representing pins on the raspberry pi GPIO interface
@@ -43,12 +44,16 @@ if sys.argv[1] == "server":
         if(input == 'exit'):
             if server.serversocket is not None:
                 server.serversocket.close()
+
             server.RUN = 0
+            RUN = 0
 
             if server.CurrentCMD is not None:
                 server.CurrentCMD.stop()
+                server.CurrentCMD.join()
+                server.CurrentCMD = None
 
-            RUN = 0
+
             #led.changeColor(0,0,0,0xF)
 
         if(input == 'help'):
@@ -58,8 +63,11 @@ if sys.argv[1] == "server":
             configure.cls()
 
         if input.startswith('c'):
-            args = input.strip(' ')
-            r = float(args[1])
-            g = float(args[2])
-            b = float(args[3])
-            led.changeColor(r, g, b)
+            try:
+                args = input.split(' ')
+                r = float(args[1])
+                g = float(args[2])
+                b = float(args[3])
+                led.changeColor(r, g, b)
+            except:
+                log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
