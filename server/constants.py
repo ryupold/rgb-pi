@@ -1,5 +1,8 @@
 #constants used by all scripts
 
+#Command fifo
+FIFO = '/dev/pi-blaster'
+
 #command thread states
 CMD_STATE_INIT = 0
 CMD_STATE_STARTED = 1

@@ -52,6 +52,15 @@
     "keys":[key1, key2, key3, ...]  # as strings
 }
 
+#runtime values
+#returns runtime values specified
+{
+    "type":"current",
+    ["value":"color"]   #returns the current colors of each stripe as string-array of <Color> objects
+    ["value":"request"] #returns the json object of the current running command
+    ["value":"filters"] #returns a json array of the current active filters
+}
+
 
 //ANSWERS:
 #commands:
@@ -65,9 +74,7 @@
 ]
 
 #requests:
-[
-    "request":<ComplexDataTypeInJSON>
-]
+#request answers are more complex than the others
 
 
 //DATA TYPES

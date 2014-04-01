@@ -27,18 +27,21 @@ import datatypes
 
 
 class Task(object):
-    def __init__(self, command=None): # takes a command as json encoded object
+    def __init__(self, command, thread=None): # takes a command as json encoded object
         self.command = command
+        self.thread = thread
         self.state = constants.CMD_STATE_INIT
-        if log.m(log.LEVEL_INIT_COMMAND): log.l('initialized: ' + self.type)
+        if log.m(log.LEVEL_INIT_COMMAND): log.l('<'+str(self.getThreadID())+'> initialized: ' + self.type)
 
     def start(self):
         self.state = constants.CMD_STATE_STARTED
-        if log.m(log.LEVEL_START_STOP_THREADS): log.l('starting ' + self.type)
+        if self.thread is not None and self.thread.state != constants.CMD_STATE_STARTED:
+            raise RuntimeError('the CommandThread of this task needs to be in CMD_STATE_STARTED-state to start child tasks!')
+        if log.m(log.LEVEL_START_STOP_THREADS): log.l('<'+str(self.getThreadID())+'> starting ' + self.type)
 
     def stop(self):
         self.state = constants.CMD_STATE_STOPPED
-        if log.m(log.LEVEL_START_STOP_THREADS): log.l('stopping ' + self.type)
+        if log.m(log.LEVEL_START_STOP_THREADS): log.l('<'+str(self.getThreadID())+'> stopping ' + self.type)
 
     def isStarted(self):
         return self.state == constants.CMD_STATE_STARTED
@@ -49,29 +52,32 @@ class Task(object):
     def isInitialized(self):
         return self.state == constants.CMD_STATE_INIT
 
+    def getThreadID(self):
+        return self.thread.threadID if self.thread is not None else -1
+
     @staticmethod
-    def createTask(command):
+    def createTask(command, thread=None):
         if isinstance(command, dict) and command.has_key('type'):
             if command['type'] == constants.CMD_TYPE_CC:
-                return CC(command)
+                return CC(command, thread)
             if command['type'] == constants.CMD_TYPE_FADE:
-                return Fade(command)
+                return Fade(command, thread)
             if command['type'] == constants.CMD_TYPE_WAIT:
-                return Wait(command)
+                return Wait(command, thread)
             if command['type'] == constants.CMD_TYPE_LIST:
-                return List(command)
+                return List(command, thread)
             if command['type'] == constants.CMD_TYPE_LOOP:
-                return Loop(command)
+                return Loop(command, thread)
             if command['type'] == constants.CMD_TYPE_NOP:
-                return NOP(command)
+                return NOP(command, thread)
         else:
-            return List(command)
+            return List(command, thread)
 
 
 class CC(Task):
-    def __init__(self, command): # takes a command (json encoded object)
+    def __init__(self, command, thread=None): # takes a command (json encoded object)
         self.type = constants.CMD_TYPE_CC
-        super(CC, self).__init__(command)
+        super(CC, self).__init__(command, thread)
         self.color = None
         self.operator = None
 
@@ -80,10 +86,10 @@ class CC(Task):
         self.color = datatypes.Color(self.command['color'])
         if self.command.has_key('operator'):
             self.operator = datatypes.Color(self.command['operator'])
-            if log.m(log.LEVEL_COMMAND_CC): log.l('color=' + str(led.COLOR[0]) + ' ' + self.operator + ' ' + str(self.color))
+            if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(led.COLOR[0]) + ' ' + self.operator + ' ' + str(self.color))
             for i in range(0, len(config.LED_PINS)):
                 if ((i + 1) & self.color.Address) != 0:
-                    newColor = led.COLOR[i];
+                    newColor = led.COLOR[i]
                     if self.operator == '*':
                         newColor = newColor * self.color
                     if self.operator == '/':
@@ -94,7 +100,7 @@ class CC(Task):
                         newColor = newColor - self.color
                     led.setColor(newColor)
         else:
-            if log.m(log.LEVEL_COMMAND_CC): log.l('color=' + str(self.color))
+            if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(self.color))
             led.setColor(self.color)
         self.stop()
 
@@ -103,9 +109,9 @@ class CC(Task):
 
 
 class Fade(Task):
-    def __init__(self, command): # takes a command (json encoded object)
+    def __init__(self, command, thread=None): # takes a command (json encoded object)
         self.type = constants.CMD_TYPE_FADE
-        super(Fade, self).__init__(command)
+        super(Fade, self).__init__(command, thread)
         self.startColor = None
         self.endColor = None
         self.time = 0.0
@@ -117,7 +123,7 @@ class Fade(Task):
 
         self.endColor = datatypes.Color(self.command['end'])
         self.time = datatypes.Time(self.command['time'])
-
+        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> fading from '+self.startColor+' to '+self.endColor+' over ' + str(self.time) + ' seconds')
         corefunctions.fade(self, self.time.seconds, self.endColor, self.startColor)
         self.stop()
 
@@ -126,15 +132,15 @@ class Fade(Task):
 
 
 class Wait(Task):
-    def __init__(self, command): # takes a command (json encoded object)
+    def __init__(self, command, thread=None): # takes a command (json encoded object)
         self.type = constants.CMD_TYPE_WAIT
-        super(Wait, self).__init__(command)
+        super(Wait, self).__init__(command, thread)
         self.time = None
 
     def start(self):
         super(Wait, self).start()
         self.time = datatypes.Time(self.command['time'])
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('waiting for ' + str(self.time) + ' seconds')
+        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> waiting for ' + str(self.time) + ' seconds')
         corefunctions.wait(self, self.time.seconds)
         self.stop()
 
@@ -143,17 +149,17 @@ class Wait(Task):
 
 
 class List(Task):
-    def __init__(self, command): # takes an array with commands or a list command (json encoded object(s))
+    def __init__(self, command, thread=None): # takes an array with commands or a list command (json encoded object(s))
         self.type = constants.CMD_TYPE_LIST
-        super(List, self).__init__(command)
+        super(List, self).__init__(command, thread)
         self.tasks = []
 
         if isinstance(command, dict) and command.has_key('type'):
             for cmd in command['commands']:
-                self.tasks.append(Task.createTask(cmd))
+                self.tasks.append(Task.createTask(cmd, self.thread))
         else:
             for cmd in command:
-                self.tasks.append(Task.createTask(cmd))
+                self.tasks.append(Task.createTask(cmd, self.thread))
 
     def start(self):
         super(List, self).start()
@@ -168,9 +174,9 @@ class List(Task):
 
 
 class Loop(Task):
-    def __init__(self, command): # takes an array with commands or a list command (json encoded object(s))
+    def __init__(self, command, thread=None): # takes an array with commands or a list command (json encoded object(s))
         self.type = constants.CMD_TYPE_LOOP
-        super(Loop, self).__init__(command)
+        super(Loop, self).__init__(command, thread)
         self.condition = None
         self.tasks = []
 
@@ -178,20 +184,20 @@ class Loop(Task):
 
         if command.has_key('type'):
             for cmd in command['commands']:
-                self.tasks.append(Task.createTask(cmd))
+                self.tasks.append(Task.createTask(cmd, self.thread))
 
 
     def start(self):
         super(Loop, self).start()
         self.condition = datatypes.Condition(self.command['condition'])
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('starting loop with condition: ' + str(self.condition))
+        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> starting loop with condition: ' + str(self.condition))
         while self.condition.check():
             for t in self.tasks:
                 t.start()
         self.stop()
 
     def stop(self):
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('stopping loop with condition: ' + str(self.condition))
+        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> stopping loop with condition: ' + str(self.condition))
         for t in self.tasks:
             if t.state != constants.CMD_STATE_STOPPED:
                 t.stop()
@@ -199,13 +205,13 @@ class Loop(Task):
 
 
 class NOP(Task):
-    def __init__(self, command): # takes a command (json encoded object)
+    def __init__(self, command, thread=None): # takes a command (json encoded object)
         self.type = constants.CMD_TYPE_NOP
-        super(NOP, self).__init__(command)
+        super(NOP, self).__init__(command, thread)
 
     def start(self):
         super(NOP, self).start()
-        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('doing nothing')
+        if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> doing nothing')
         self.stop()
 
     def stop(self):
