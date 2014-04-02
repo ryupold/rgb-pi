@@ -21,7 +21,7 @@ LED_PINS = [[5, 2, 6]]
 
 # this value indicates the minimum value of the sum of
 # red, green and blue channels can be set to before the LEDs start blinking
-MIN_VALUE = 0.08
+MIN_VALUE = 0.0
 
 # this is the minimum value threads wait between their processing intervals
 # increase this value to get more cpu time for other programs
