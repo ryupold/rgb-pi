@@ -57,7 +57,13 @@ if sys.argv[1] == "server":
             #led.changeColor(0,0,0,0xF)
 
         if(input == 'help'):
-            print "\n\nCommand list:\nexit - stops the server end kills process\nclear - clears log\nc r g b - change color"
+            help = "\n\nCommand list:"
+            help = help + "\nc r g b - change color"
+            help = help + "\nclear - clears log"
+            help = help + "\nexit - stops the server end kills process"
+
+            print help
+
 
         if input == 'clear':
             configure.cls()

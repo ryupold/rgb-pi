@@ -166,7 +166,8 @@ class List(Task):
     def start(self):
         if super(List, self).start():
             for t in self.tasks:
-                t.start()
+                if self.state == constants.CMD_STATE_STARTED: t.start()
+                else: break
         self.stop()
 
     def stop(self):
@@ -194,7 +195,7 @@ class Loop(Task):
         if super(Loop, self).start():
             self.condition = datatypes.Condition(self.command['condition'])
             if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> starting loop with condition: ' + str(self.condition))
-            while self.condition.check():
+            while self.state == constants.CMD_STATE_STARTED and self.condition.check():
                 for t in self.tasks:
                     t.start()
         self.stop()
