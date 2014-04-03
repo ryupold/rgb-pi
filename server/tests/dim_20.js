@@ -2,7 +2,7 @@
     "commands":[
         {
             "type":"fade",
-            "time":"1200",
+            "time":"5400",
             "end":"{f:0,0,0}"
         }
     ]
