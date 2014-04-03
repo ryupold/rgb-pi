@@ -48,7 +48,7 @@ if len(sys.argv) > 1:
             if len(sys.argv) >= 3:
                 cmdFile = open(sys.argv[3], 'r+')
             else:
-                cmdFile = open('programs/test.js', 'r+')
+                cmdFile = open('tests/test.js', 'r+')
             cmdString = cmdFile.read()
             cmdFile.close()
 

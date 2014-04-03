@@ -21,8 +21,8 @@ LEVEL_START_STOP_THREADS = 0x0080
 #   0x0100 = changing color (communication with pi-blaster)
 LEVEL_CHANGE_COLOR = 0x0100
 
-#   0x0200 = free
-
+#   0x0200 = logs of request actions
+LEVEL_REQUESTS = 0x0200
 
 #   0x0400 = constructor of a task
 LEVEL_INIT_COMMAND = 0x0400

@@ -17,10 +17,6 @@ import json
 import led
 import config
 import corefunctions
-import configure
-import pulse
-import jump
-import specials
 import log
 import constants
 import datatypes

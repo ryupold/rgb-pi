@@ -24,7 +24,7 @@ LED_PINS = [[5, 2, 6]]
 MIN_VALUE = 0.08
 
 # this is the minimum value threads wait between their processing intervals
-# increase this value to get more cpu time for other programs
+# increase this value to get more cpu time for other tests
 # decrease this value, to get smoother fading
 # don't set this value lower or equal 0!!!
 DELAY = 0.01

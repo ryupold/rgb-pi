@@ -14,16 +14,12 @@ import Queue
 import json
 
 #rgb-pi modules
-import led
+
 import config
-import corefunctions
 import configure
-import pulse
-import jump
-import specials
 import log
 import constants
-import datatypes
+import requests
 import tasks
 
 RUN = 1
@@ -135,6 +131,14 @@ def readcommands(threadName, intervall):
                 #TODO create filters
 
                 #TODO answer requests
+                if isinstance(r, dict) and r.has_key('request'):
+                    try:
+                        req = requests.Request.createRequest(r['request'])
+                        answer['request'] = req.execute()
+                    except:
+                        answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
+                        log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+
 
                 #starting a new command if a new arrived and could be correctly decoded
                 if answer['commands'] == 1:

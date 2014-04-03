@@ -51,15 +51,28 @@
     "type":"config"
     "keys":[key1, key2, key3, ...]  # as strings
 }
+#answer format (example: SERVER_PORT, XBMC_HOST, XBMC_PORT)
+{
+    "type":"config",
+    "keys":["SERVER_PORT", "XBMC_HOST", "XBMC_PORT"]
+    "values":["4321", "127.0.0.1", "80"]
+}
+
+
 
 #runtime values
-#returns runtime values specified
+#returns runtime values specified by ONE 'variable'-string
 {
-    "type":"current",
-    ["value":"color"]   #returns the current colors of each stripe as string-array of <Color> objects
-    ["value":"request"] #returns the json object of the current running command
-    ["value":"filters"] #returns a json array of the current active filters
+    "type":"runtime",
+    ["variable":"color"]   #returns the current colors of each stripe as string-array of <Color> objects
 }
+#answer format (example current color):
+{
+    "type":"runtime",
+    "variable":"color",
+    "value":"{f:1,0.5,0}"
+}
+
 
 
 //ANSWERS:
@@ -73,8 +86,15 @@
     "filters":1|0
 ]
 
-#requests:
+#request:
 #request answers are more complex than the others
+{
+    "request":
+    {
+        "type":"<string>",
+        [the other values depend on the request type]
+    }
+}
 
 
 //DATA TYPES

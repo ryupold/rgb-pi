@@ -24,7 +24,7 @@ LED_PINS = [[5, 2, 6]]
 MIN_VALUE = 0.0
 
 # this is the minimum value threads wait between their processing intervals
-# increase this value to get more cpu time for other programs
+# increase this value to get more cpu time for other tests
 # decrease this value, to get smoother fading
 # don't set this value lower or equal 0!!!
 DELAY = 0.01
@@ -36,5 +36,5 @@ SERVER_PORT = 4321
 
 #Data for XBMC remote control
 ENABLE_XBMC_REMOTE = 0
-XBMC_HOST = "127.0.0.1"
+XBMC_HOST = "localhost"
 XBMC_PORT = 80
