@@ -36,11 +36,16 @@ LEVEL_SOCKET_COMMUNICATION = 0x1000
 #   0x2000 = tracing security and authentication data
 LEVEL_SECURITY = 0x2000
 
+#   0x4000 = logs for addind and removing filters
+LEVEL_FILTERS = 0x4000
+
+#   0x8000 = logs for adding and removing filters
+LEVEL_FILTER_ACTIONS = 0x4000
 
 
 
 #set this variable to a value between 1 and 256 for debugging output
-LOG_LEVEL = LEVEL_UI | LEVEL_ERRORS | LEVEL_COMMANDS | LEVEL_COMMAND_CC | LEVEL_INIT_COMMAND | LEVEL_START_STOP_THREADS | LEVEL_COMMAND_DETAIL | LEVEL_SOCKET_COMMUNICATION | LEVEL_SECURITY
+LOG_LEVEL = LEVEL_UI | LEVEL_ERRORS | LEVEL_COMMANDS | LEVEL_COMMAND_CC | LEVEL_INIT_COMMAND | LEVEL_START_STOP_THREADS | LEVEL_COMMAND_DETAIL | LEVEL_SOCKET_COMMUNICATION | LEVEL_SECURITY | LEVEL_FILTERS | LEVEL_FILTER_ACTIONS
 
 
 def m(loglvl):
@@ -55,7 +60,7 @@ def m(loglvl):
 
 #prints the given message to stdout if loglevel mask matches the actual logging level, defined in LOG_LEVEL
 #if no loglevel is given, a default loglevel of 0xFFFF (matches to all levels except 0x0000) is used
-def l(msg, loglvl=0xFFFF):
+def l(msg, loglvl=0xFFFFF):
     """
     l=log
     if given 'loglvl'-parameter matches the current logging level, the 'msg' will be printed with the actual time as prefix

@@ -21,6 +21,7 @@ import log
 import constants
 import requests
 import tasks
+import filters
 
 RUN = 1
 serversocket = None
@@ -107,6 +108,7 @@ def readcommands(threadName, intervall):
             try:
                 r = json.loads(rcvString)
 
+                # execute commands
                 if isinstance(r, dict) and r.has_key('commands') and len(r['commands']) > 0:
                     try:
                         if log.m(log.LEVEL_COMMANDS): log.l( 'commands: '+ str(len(r['commands'])))
@@ -128,9 +130,16 @@ def readcommands(threadName, intervall):
                 else:
                     answer['commands'] = 0
 
-                #TODO create filters
+                #add new filters
+                if isinstance(r, dict) and r.has_key('filters') and len(r['filters']) > 0:
+                    try:
+                        for f in r['filters']:
+                            CurrentFilters.append(filters.Filter.createFilter(f))
+                    except:
+                        answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
+                        log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
-                #TODO answer requests
+                #answer request
                 if isinstance(r, dict) and r.has_key('request'):
                     try:
                         req = requests.Request.createRequest(r['request'])

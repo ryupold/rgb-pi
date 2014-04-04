@@ -6,6 +6,7 @@ import datatypes
 import config
 import log
 import constants
+import server
 
 #global rgb values
 COLOR = [datatypes.Color('{x:000000}'),
@@ -48,4 +49,6 @@ def changeColor(r, g, b, address=0xF):
     os.system(cmd)
 
 def setColor(color):
+    for i in range(0, len(server.CurrentFilters)):
+        color = server.CurrentFilters[i].onChangeColor(color)
     changeColor(color.R, color.G, color.B)

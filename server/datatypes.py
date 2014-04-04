@@ -124,6 +124,7 @@ class Color():
         return self.R != other.R or self.G != other.G or self.B != other.B
 
 
+
 class Time():
     def __init__(self, seconds):
         self.timeString = string.strip(str(seconds))

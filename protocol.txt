@@ -41,10 +41,15 @@
 }
 
 //FILTERS: "filters":[*]
+#dim filter - dims the color-changes (to black) over time
+{
+    "type":"dim",
+    "finish":"<Condition>",
+    "time":"<Time>"
+}
 
 
-
-//REQUESTS: "request":{1}
+//REQUESTS: "request":{?}
 # condig request - returns configured values
 # returns "dictionary" (json object) with the keys and their corresponding values
 {

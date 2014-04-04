@@ -1,5 +1,13 @@
-import led
+#util module
+
+#python modules
 import random
+
+#rgb-pi module
+import datatypes
+
+
+
 
 
 # clips the value between 0 and 1
@@ -42,7 +50,7 @@ def randfloat(min, max):
 
 def interpolateColor(startColor, endColor, percent, resultColor=None):
     if resultColor is None:
-        resultColor = led.Color(0, 0, 0)
+        resultColor = datatypes.Color(0, 0, 0)
 
     resultColor.R = clip(startColor.R + (endColor.R - startColor.R) * percent)
     resultColor.G = clip(startColor.G + (endColor.G - startColor.G) * percent)
