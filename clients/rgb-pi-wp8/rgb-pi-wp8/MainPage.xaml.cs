@@ -21,9 +21,9 @@ namespace RGB
         private ColorPicker colorPicker;
         private ColorPicker copickPulseStart, copickPulseEnd;
 
-        private readonly Queue<RGBCommand> commandQ = new Queue<RGBCommand>();
+        private readonly Queue<string> commandQ = new Queue<string>();
 
-        private enum RGBCommandType
+        public enum RGBCommandType
         {
             ChangeColor = 1,
             RandomFader = 2,
@@ -32,34 +32,99 @@ namespace RGB
             Pulse = 5
         }
 
-        private struct RGBCommand
+        /// <summary>
+        /// returns json object as string for the given command.
+        /// cc      - 0=color
+        /// fade    - 0=time 1=end [2=start]
+        /// pulse   - 0=time 1=color1 2=color2
+        /// rndfade - 0=minTime 1=maxTime 2=minColor 3=maxColor
+        /// 
+        /// </summary>
+        /// <param name="cmdType"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static string GetJSON(RGBCommandType cmdType, params object[] p)
         {
-            public LEDColor Color;
-            public RGBCommandType Type;
-            public string Command;
-
-            public RGBCommand(RGBCommandType type, LEDColor color)
+            string json = "{}";
+            switch (cmdType)
             {
-                Command = string.Empty;
-                Type = type;
-                Color = color;
+                case RGBCommandType.ChangeColor:
+                    json = "{'commands':[{'type':'cc', 'color':'"+p[0]+"'}]}";
+                    break;
+
+                case RGBCommandType.FadeColor:
+                    if(p.Length > 2)
+                        json = "{'commands':[{'type':'fade', 'time':'" + p[0] + "', 'start':'" + p[2] + "', 'end':'" + p[1] + "'}]}";
+                    else
+                        json = "{'commands':[{'type':'fade', 'time':'" + p[0] + "', 'end':'" + p[1] + "'}]}";
+                    break;
+
+                case RGBCommandType.Pulse:
+                    json = @"{
+                        'commands':[
+                            {
+                                'type':'loop',
+                                'condition':'{b:1}',
+                                'commands':
+                                [
+                                    {
+                                        'type':'fade',
+                                        'time':'"+p[0]+@"',
+                                        'end':'" + p[1] + @"'
+                                    },
+
+                                    {
+                                        'type':'fade',
+                                        'time':'" + p[0] + @"',
+                                        'end':'" + p[2] + @"'
+                                    }
+                                ]
+                            }
+                        ]
+                    }";
+                    break;
+
+                case RGBCommandType.RandomFader:
+                    string mCmC = "{r:" + p[2] + "-" + p[3] + "," + p[2] + "-" + p[3] + "," + p[2] + "-" + p[3] + "}";
+
+                    json = @"{
+                        'commands':[
+                            {
+                                'type':'loop',
+                                'condition':'{b:1}',
+                                'commands':
+                                [
+                                    {
+                                        'type':'fade',
+                                        'time':'{r:"+p[0]+@","+p[1]+@"}',
+                                        'end':'" + mCmC + @"'
+                                    },
+
+                                    {
+                                        'type':'fade',
+                                        'time':'{r:" + p[0] + @"," + p[1] + @"}',
+                                        'end':'" + mCmC + @"'
+                                    }
+                                ]
+                            }
+                        ]
+                    }";
+                    break;
+
+                case RGBCommandType.Specials:
+
+                    break;
+
+                
             }
 
-            public RGBCommand(RGBCommandType type, float r, float g, float b)
-            {
-                Command = string.Empty;
-                Type = type;
-                Color = new LEDColor(r, g, b);
-            }
+           //TODO: workaround to be able to set '' instead of "" for strings and keys
+            json = json.Replace("'", "\"");
 
-            public RGBCommand(RGBCommandType type, string command)
-            {
-                this.Command = command;
-                Type = type;
-                Color = new LEDColor();
-            }
+            return json;
         }
 
+       
         // Constructor
         public MainPage()
         {
@@ -95,7 +160,7 @@ namespace RGB
             lock (commandQ)
             {
                 if (commandQ.Count > 0) commandQ.Clear();
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.ChangeColor, color.R / 255.0f, color.G / 255.0f, color.B / 255.0f));
+                commandQ.Enqueue(GetJSON(RGBCommandType.ChangeColor, new LEDColor(color)));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -107,7 +172,7 @@ namespace RGB
             {
                 try
                 {
-                    RGBCommand c;
+                    string cmd;
                     lock (commandQ)
                     {
 
@@ -117,30 +182,15 @@ namespace RGB
                         }
 
 
-                        c = commandQ.Dequeue();
+                        cmd = commandQ.Dequeue();
                     }
 
 
                     client.Connect("192.168.1.150", 4321);
-                    switch (c.Type)
-                    {
-                        case RGBCommandType.ChangeColor:
-                            client.Send("cc " + c.Color);
-                            break;
-                        case RGBCommandType.RandomFader:
-                            client.Send("rf " + c.Command);
-                            break;
-                        case RGBCommandType.FadeColor:
-                            client.Send("fade " + c.Command);
-                            break;
-                        case RGBCommandType.Specials:
-                            client.Send("special " + c.Command);
-                            break;
-                        case RGBCommandType.Pulse:
-                            client.Send("pulse " + c.Command);
-                            break;
-                    }
+                    client.Send(cmd);
+                    string answer = client.Receive();
                     client.Close();
+                    
                 }
                 catch { }
             }
@@ -171,7 +221,8 @@ namespace RGB
             {
                 lock (commandQ)
                 {
-                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor(1f, 1f, 1f)));
+                    commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, 2, new LEDColor(1f, 1f, 1f)));
+                    //commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor(1f, 1f, 1f)));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -183,7 +234,8 @@ namespace RGB
             {
                 lock (commandQ)
                 {
-                    commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor()));
+                    commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, 2, new LEDColor()));
+                    //commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor()));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -204,7 +256,8 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value) + " " + new LEDColor() + " " + new LEDColor(copickDimColor.Color)));
+                commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value), new LEDColor(), new LEDColor(copickDimColor.Color)));
+                //commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value) + " " + new LEDColor() + " " + new LEDColor(copickDimColor.Color)));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -213,7 +266,7 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.Specials, "jamaica 2"));
+                //commandQ.Enqueue(new RGBCommand(RGBCommandType.Specials, "jamaica 2"));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -242,7 +295,8 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.Pulse, ((int)sliderPulseTime.Value)+" "+new LEDColor(copickPulseStart.Color)+" "+new LEDColor(copickPulseEnd.Color)));
+                commandQ.Enqueue(GetJSON(RGBCommandType.Pulse, (int)sliderPulseTime.Value, new LEDColor(copickPulseStart.Color), new LEDColor(copickPulseEnd.Color)));
+                //commandQ.Enqueue(new RGBCommand(RGBCommandType.Pulse, ((int)sliderPulseTime.Value)+" "+new LEDColor(copickPulseStart.Color)+" "+new LEDColor(copickPulseEnd.Color)));
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -258,7 +312,8 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, ((int)slideMinTime.Value) + " " + ((int)slideMaxTime.Value) + " " + (slideMinBrightness.Value / 100f).ToString("F3").Replace(",", ".") + " " + (slideMaxBrightness.Value / 100f).ToString("F3").Replace(",", ".")));
+                commandQ.Enqueue(GetJSON(RGBCommandType.RandomFader, ((int)slideMinTime.Value), ((int)slideMaxTime.Value), (slideMinBrightness.Value / 100f).ToString("F3").Replace(",", "."), (slideMaxBrightness.Value / 100f).ToString("F3").Replace(",", ".")));
+                //commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, ((int)slideMinTime.Value) + " " + ((int)slideMaxTime.Value) + " " + (slideMinBrightness.Value / 100f).ToString("F3").Replace(",", ".") + " " + (slideMaxBrightness.Value / 100f).ToString("F3").Replace(",", ".")));
                 Monitor.PulseAll(commandQ);
             }
         }

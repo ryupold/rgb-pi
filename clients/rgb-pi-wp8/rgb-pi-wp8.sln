@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB", "rgb-pi-wp8\RGB.csproj", "{E6F69854-920F-4ECA-92E5-4288B5C80A55}"
 EndProject
 Global

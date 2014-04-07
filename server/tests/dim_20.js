@@ -2,8 +2,8 @@
     "filters":[
         {
             "type":"dim",
-            "time":"10",
-            "finish":"{t:10}"
+            "time":"20",
+            "finish":"{t:20}"
         }
     ]
 }
