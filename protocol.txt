@@ -78,6 +78,23 @@
     "value":"{f:1,0.5,0}"
 }
 
+#remove
+#returns an int, whichs describes how many 'items' were removed
+#note: right now there only filters can be removed, other things are following some day
+{
+    "type":"remove",
+    "item":"filter",
+    "id":"dim"
+}
+#removes all filter with type 'dim'
+#answer format: (remove dim filters)
+{
+    "type":"remove",
+    "item":"filter",
+    "id":"dim",
+    "count":"1"
+}
+
 
 
 //ANSWERS:

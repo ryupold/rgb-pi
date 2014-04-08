@@ -38,7 +38,9 @@ if sys.argv[1] == "server":
     #readcommands("socket thread", 0.01)
     thread.start_new_thread(server.readcommands, ("socket thread", 0.01, ))
     time.sleep(1)
-    print "'help' for commands\n\n"
+
+    log.l("'help' for commands\n\n", log.LEVEL_UI)
+
     while RUN:
         input = raw_input(">")
         if(input == 'exit'):
@@ -62,7 +64,7 @@ if sys.argv[1] == "server":
             help = help + "\nclear - clears log"
             help = help + "\nexit - stops the server end kills process"
 
-            print help
+            log.l(help, log.LEVEL_UI)
 
 
         if input == 'clear':
