@@ -104,7 +104,8 @@ class RemoveRequest(Request):
             i = 0
             while i < len(server.CurrentFilters):
                 if server.CurrentFilters[i].type == self.id:
-                    server.CurrentFilters.pop(i)
+                    filter = server.CurrentFilters.pop(i)
+                    if log.m(log.LEVEL_FILTERS): log.l('removing ' + filter.type+' filter')
                     count = count + 1
                 else:
                     i = i + 1
