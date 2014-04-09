@@ -216,4 +216,3 @@ class NOP(Task):
 
     def stop(self):
         super(NOP, self).stop()
-

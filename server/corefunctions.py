@@ -66,4 +66,3 @@ def wait(task, timeInSecs):
     while ((task is not None and (task.state == constants.CMD_STATE_STARTED and (task.thread is None or task.thread.state == constants.CMD_STATE_STARTED))) and secondsPassed <= timeInSecs):
         time.sleep(config.DELAY)
         secondsPassed = time.time() - startTime
-

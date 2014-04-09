@@ -169,4 +169,3 @@ def readcommands(threadName, intervall):
             log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
         else:
             clientsocket.close()
-

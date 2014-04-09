@@ -8,8 +8,6 @@ import datatypes
 
 
 
-
-
 # clips the value between 0 and 1
 def clip(value):
     if value < 0.0:
@@ -60,4 +58,3 @@ def interpolateColor(startColor, endColor, percent, resultColor=None):
 
 def interpolateFloat(start, end, percent):
     return start + (end - start) * percent
-
