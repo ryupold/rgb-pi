@@ -68,10 +68,9 @@ class DimFilter(Filter):
         if self.startTime is None:
             self.startTime = time.time()
 
-        if (self.finishTrigger is None or self.finishTrigger.check()) and time.time() - self.startTime < self.time.seconds:
-            filteredColor = utils.interpolateColor(newColor, self.black, (time.time()-self.startTime)/self.time.seconds)
-            if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter color ('+str(100.0-((time.time()-self.startTime)/self.time.seconds)*100.0)+'%) from '+str(newColor)+' to '+str(filteredColor))
-            return filteredColor
-        else:
+        if (self.finishTrigger is not None and not self.finishTrigger.check()) or time.time() - self.startTime >= self.time.seconds:
             self.finish(self)
-            return newColor
+
+        filteredColor = utils.interpolateColor(newColor, self.black, min(1.0, (time.time()-self.startTime)/self.time.seconds))
+        if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter color ('+str(100.0-min(1.0, (time.time()-self.startTime)/self.time.seconds)*100.0)+'%) from '+str(newColor)+' to '+str(filteredColor))
+        return filteredColor
