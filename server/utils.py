@@ -9,11 +9,11 @@ import datatypes
 
 
 # clips the value between 0 and 1
-def clip(value):
-    if value < 0.0:
-        return 0.0
-    elif value > 1.0:
-        return 1.0
+def clip(value, min=0.0, max=1.0):
+    if value < min:
+        return min
+    elif value > max:
+        return max
     else:
         return value
 

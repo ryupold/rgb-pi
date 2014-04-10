@@ -64,7 +64,7 @@
     "onfinish":"remove|stop"
 }
 
-#volume-fade filter - makes volume lower/louder according to the progress of the current fade
+#volume-fade filter - makes volume of the xbmc-service lower/louder according to the progress of the current fade
 #finish-condition is checked at the end of every corefunctions.fade()-call
 {
     "type":"volumefade",
@@ -75,7 +75,17 @@
     "onfinish":"remove|stop",
 
     "progress":"lower|louder",
-    "limit":"0-100"
+    "limit":0-100
+}
+
+#stop music filter - stops the music if 'finish'-condition is true
+#finish-condition is required
+{
+    "type":"stopmusic",
+    "finish":"<Condition>",
+
+    ##optional
+    "onfinish":"remove|stop"
 }
 
 

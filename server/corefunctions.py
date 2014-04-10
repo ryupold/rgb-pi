@@ -11,6 +11,7 @@ import config
 import xbmcremote
 import constants
 import datatypes
+import server
 
 # fades the start color to the end color over time in seconds
 # if start color is not given, current color is used as start
@@ -22,13 +23,10 @@ def fade(task, timeInSecs, endColor, startColor=None):
     if timeInSecs <= 0:
         raise ValueError("time cannot be 0 or below: "+str(timeInSecs))
 
-    fadeXBMCVolume = 0
     startVolume = 0
     ##timeInSecs = 20
-    if config.ENABLE_XBMC_REMOTE and endColor.R == 0 and endColor.G == 0 and endColor.B == 0:
-        fadeXBMCVolume = 1
+    if config.ENABLE_XBMC_REMOTE:
         startVolume = xbmcremote.getVolume()
-        print startVolume		
 
     if startColor is None:
         startColor = datatypes.Color(led.COLOR[0].R, led.COLOR[0].G, led.COLOR[0].B)
@@ -46,19 +44,17 @@ def fade(task, timeInSecs, endColor, startColor=None):
         #interpolate new color
         utils.interpolateColor(startColor, endColor, secondsPassed/timeInSecs, currentColor)
         
-        if fadeXBMCVolume:
-            #interpolate new volume
-            newVolume = int(startVolume - startVolume * (secondsPassed/timeInSecs))
-            if newVolume > 0 and newVolume < lastVolume:
-                #print newVolume
-                lastVolume = newVolume
-                xbmcremote.setVolume(newVolume)
-            elif newVolume <= 0:
-                print "pause"
-                xbmcremote.stop()
+        #fade step filters
+        for f in server.CurrentFilters:
+            f.onFadeStep(timeInSecs, startColor, endColor, secondsPassed/timeInSecs)
+
         time.sleep(config.DELAY)
         #print startColor," ", endColor, "     ", secondsPassed/timeInSecs
         led.setColor(currentColor)
+
+    #fade end filters
+    for f in server.CurrentFilters:
+        f.onFadeEnd(timeInSecs, startColor, endColor)
 
 def wait(task, timeInSecs):
     startTime = time.time()

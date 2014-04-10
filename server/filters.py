@@ -9,6 +9,7 @@ import datatypes
 import utils
 import server
 import xbmcremote
+import config
 
 class Filter(object):
     """
@@ -21,11 +22,11 @@ class Filter(object):
         @param request: JSON object with the request
         @return: instance of Request
         """
-        self.active = True
+        self.active = True #TODO: not used yet
         self.filter = filter
+        self.onfinish = filter['onfinish'] if filter.has_key('onfinish') else 'remove'
         self.type = type
-        self.finishTrigger = None
-        if filter.has_key('finish'): self.finishTrigger = datatypes.Condition(filter['finish'])
+        self.finishTrigger = self.finishTrigger = datatypes.Condition(filter['finish']) if filter.has_key('finish') else None
         if log.m(log.LEVEL_FILTERS): log.l('filter initialized: ' + self.type)
 
 
@@ -56,6 +57,17 @@ class Filter(object):
         """
         pass
 
+    def finish(self):
+        if self.onfinish == constants.FILTER_ONFINISH_REMOVE:
+            server.CurrentFilters.remove(self)
+
+        if self.onfinish == constants.FILTER_ONFINISH_STOP:
+            if server.CurrentCMD is not None:
+                server.CurrentCMD.stop()
+                server.CurrentCMD = None
+                server.CurrentFilters = []
+                if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter finished...')
+
 
 
     @staticmethod
@@ -63,15 +75,10 @@ class Filter(object):
         if isinstance(filter, dict) and filter.has_key('type'):
             if filter['type'] == constants.FILTER_TYPE_DIM:
                 return DimFilter(filter)
-
-
-    @staticmethod
-    def finish(filter):
-        if server.CurrentCMD is not None:
-            server.CurrentCMD.stop()
-            server.CurrentCMD = None
-            server.CurrentFilters = []
-            if log.m(log.LEVEL_FILTER_ACTIONS): log.l(filter.type+'-filter finished...')
+            if filter['type'] == constants.FILTER_TYPE_VOLUMEFADE:
+                return VolumeFadeFilter(filter)
+            if filter['type'] == constants.FILTER_TYPE_STOPMUSIC:
+                return StopMusicFilter(filter)
 
 
 class DimFilter(Filter):
@@ -96,7 +103,12 @@ class VolumeFadeFilter(Filter):
     It changes the volume according to the progress percentage to 0% or 100%.
     """
     def __init__(self, filter): # takes a command as json encoded object
+        if not config.ENABLE_XBMC_REMOTE:
+            raise EnvironmentError(
+                'config.ENABLE_XBMC_REMOTE needs to be enabled in order to send commands to your xbmc-service')
         super(VolumeFadeFilter, self).__init__(constants.FILTER_TYPE_VOLUMEFADE, filter)
+        self.progress = filter['progress']
+        self.limit = int(filter['limit'])
 
     def onFadeEnd(self, seconds, startColor, endColor):
         if self.finishTrigger.check():
@@ -105,4 +117,33 @@ class VolumeFadeFilter(Filter):
     def onFadeStep(self, seconds, startColor, endColor, progress):
         if self.finishTrigger.type != constants.CONDITION_ITERATE and self.finishTrigger.check():
             self.finish(self)
-        xbmcremote.setVolume(int(self.finishTrigger.progress()*100))
+        p = self.finishTrigger.progress() if self.progress == 'louder' else 1.0-self.finishTrigger.progress()
+        p = p*100
+        if self.progress == 'louder':
+            p = min(self.limit, p)
+        else:
+            p = max(self.limit, p)
+
+        xbmcremote.setVolume(int(p))
+
+class StopMusicFilter(Filter):
+    """
+    this filter affects the color changes in the corefunctions.fade() method.
+    It changes the volume according to the progress percentage to 0% or 100%.
+    """
+    def __init__(self, filter): # takes a command as json encoded object
+        if not config.ENABLE_XBMC_REMOTE:
+            raise EnvironmentError(
+                'config.ENABLE_XBMC_REMOTE needs to be enabled in order to send commands to your xbmc-service')
+        super(StopMusicFilter, self).__init__(constants.FILTER_TYPE_STOPMUSIC, filter)
+
+    def onFadeStep(self, seconds, startColor, endColor, progress):
+        if self.finishTrigger.check():
+            xbmcremote.stop()
+            self.finish(self)
+
+    def onFadeEnd(self, seconds, startColor, endColor):
+        if self.finishTrigger.check():
+            xbmcremote.stop()
+            self.finish(self)
+
