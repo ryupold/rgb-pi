@@ -37,6 +37,8 @@ class Request(object):
                 return RuntimeRequest(request)
             if request['type'] == constants.REQUEST_TYPE_REMOVE:
                 return RemoveRequest(request)
+            if request['type'] == constants.REQUEST_TYPE_XBMC:
+                return XBMCRequest(request)
 
 
 
@@ -89,7 +91,7 @@ class RuntimeRequest(Request):
 class RemoveRequest(Request):
     def __init__(self, request): # takes a command as json encoded object
         """
-        initializes a new Remove-Request object
+        initializes a new Remove-Request object for removing runtime-items (currently only filters^^)
         @param request: JSON object with the request
         @return: instance of Request
         """
@@ -108,7 +110,57 @@ class RemoveRequest(Request):
                     if log.m(log.LEVEL_FILTERS): log.l('removing ' + filter.type+' filter')
                     count = count + 1
                 else:
-                    i = i + 1
+                    i += 1
 
         answer = {"type":self.type, "item":self.item, "id":self.id, "count":count}
+        return answer
+
+class XBMCRequest(Request):
+    def __init__(self, request): # takes a command as json encoded object
+        """
+        initializes a new XMBC-Request object
+        @param request: JSON object with the request
+        @return: instance of Request
+        """
+        super(XBMCRequest, self).__init__(constants.REQUEST_TYPE_REMOVE, request)
+        self.action = constants.REQUEST_XBMC_ACTION_GET if request.has_key(constants.REQUEST_XBMC_ACTION_GET) \
+            else constants.REQUEST_XBMC_ACTION_SET if request.has_key(constants.REQUEST_XBMC_ACTION_SET) \
+            else constants.REQUEST_XBMC_ACTION_CMD if request.has_key(constants.REQUEST_XBMC_ACTION_CMD) \
+            else None
+        if self.action is None:
+            raise ValueError('no action (get or set) specified')
+        self.cmd = request[self.action]
+        self.answer = None
+
+    def execute(self):
+        super(XBMCRequest, self).execute()
+
+        if self.action == constants.REQUEST_XBMC_ACTION_GET:
+            if self.cmd == 'player':
+                pass #TODO
+            if self.cmd == 'volume':
+                pass #TODO
+
+        if self.action == constants.REQUEST_XBMC_ACTION_SET:
+            if self.cmd == 'notification':
+                pass #TODO
+            if self.cmd == 'playpause':
+                pass #TODO
+            if self.cmd == 'stop':
+                pass #TODO
+            if self.cmd == 'next':
+                pass #TODO
+            if self.cmd == 'previous':
+                pass #TODO
+            if self.cmd == 'volume':
+                pass #TODO
+            if self.cmd == 'volup':
+                pass #TODO
+            if self.cmd == 'voldown':
+                pass #TODO
+
+        if self.action == constants.REQUEST_XBMC_ACTION_CMD:
+            pass #TODO
+
+        answer = {"type":self.type, self.action:self.cmd, "answer":self.answer}
         return answer

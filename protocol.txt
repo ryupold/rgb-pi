@@ -165,13 +165,14 @@
 {
     "type":"xbmc",
     "set":"volume",
-    ""
+    "answer":"???"
 }
 
 #example: next track
 {
     "type":"xbmc",
-    "set":"next"
+    "set":"next",
+    "answer":"???"
 }
 
 
