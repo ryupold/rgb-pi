@@ -179,6 +179,7 @@ class Condition():
         self.startTime = None
         self.color = None
         self.iterations = 0
+        self.startIterations = 0
 
         if not self.conditionString.isdigit() and self.conditionString[0] != '{' or self.conditionString[len(self.conditionString)-1] != '}':
             raise ValueError('condition must defined within {} brackets or be a bool value (1 or 0)' + self.conditionString)
@@ -197,6 +198,8 @@ class Condition():
             if conditionParts[0] == 't':
                 self.type = constants.CONDITION_TIME
                 self.time = float(conditionParts[1])
+                if self.startTime is None:
+                    self.startTime = time.time()
 
             if conditionParts[0] == 'c':
                 self.type = constants.CONDITION_COLOR
@@ -204,7 +207,7 @@ class Condition():
 
             if conditionParts[0] == 'i':
                 self.type = constants.CONDITION_ITERATE
-                self.iterations = int(conditionParts[1])
+                self.startIterations = self.iterations = int(conditionParts[1])
                 self.condition = self.iterations != 0
 
             if conditionParts[0] == 'b':
@@ -216,6 +219,19 @@ class Condition():
 
     def isFalse(self):
         return self.condition == 0
+
+    def progress(self):
+        if self.type == constants.CONDITION_TIME:
+            return utils.clip((time.time()-self.startTime)/self.time)
+
+        if self.type == constants.CONDITION_ITERATE:
+            return (self.startIterations-self.iterations)*1.0/self.iterations
+
+        if self.type == constants.CONDITION_COLOR:
+            return 0 if led.COLOR[0] != self.color else 1
+
+        if self.type == constants.CONDITION_BOOL:
+            return 1.0 if self.condition else 0.0
 
     def check(self):
         if self.type == constants.CONDITION_TIME:

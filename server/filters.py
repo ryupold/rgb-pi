@@ -8,6 +8,7 @@ import constants
 import datatypes
 import utils
 import server
+import xbmcremote
 
 class Filter(object):
     """
@@ -36,6 +37,25 @@ class Filter(object):
         """
         return newColor
 
+    def onFadeEnd(self, seconds, startColor, endColor):
+        """
+        called on the end of every fade
+        @param seconds: time of the fade in seconds
+        @param startColor: starting color of the fade
+        @param endColor: ending color of the fade
+        """
+        pass
+
+    def onFadeStep(self, seconds, startColor, endColor, progress):
+        """
+        called on the end of every fade
+        @param seconds: time of the fade in seconds
+        @param startColor: starting color of the fade
+        @param endColor: ending color of the fade
+        @param progress: progress of the fade as percent value between 0.0 and 1.0
+        """
+        pass
+
 
 
     @staticmethod
@@ -60,17 +80,29 @@ class DimFilter(Filter):
     """
     def __init__(self, filter): # takes a command as json encoded object
         super(DimFilter, self).__init__(constants.FILTER_TYPE_DIM, filter)
-        self.time = datatypes.Time(filter['time'])
-        self.startTime = None
         self.black = datatypes.Color(0,0,0)
 
     def onChangeColor(self, newColor):
-        if self.startTime is None:
-            self.startTime = time.time()
-
-        if (self.finishTrigger is not None and not self.finishTrigger.check()) or time.time() - self.startTime >= self.time.seconds:
+        if self.finishTrigger.check():
             self.finish(self)
 
-        filteredColor = utils.interpolateColor(newColor, self.black, min(1.0, (time.time()-self.startTime)/self.time.seconds))
-        if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter color ('+str(100.0-min(1.0, (time.time()-self.startTime)/self.time.seconds)*100.0)+'%) from '+str(newColor)+' to '+str(filteredColor))
+        filteredColor = utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
+        if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter color ('+str(self.finishTrigger.progress()*100)+'%) from '+str(newColor)+' to '+str(filteredColor))
         return filteredColor
+
+class VolumeFadeFilter(Filter):
+    """
+    this filter affects the color changes in the corefunctions.fade() method.
+    It changes the volume according to the progress percentage to 0% or 100%.
+    """
+    def __init__(self, filter): # takes a command as json encoded object
+        super(VolumeFadeFilter, self).__init__(constants.FILTER_TYPE_VOLUMEFADE, filter)
+
+    def onFadeEnd(self, seconds, startColor, endColor):
+        if self.finishTrigger.check():
+            self.finish(self)
+
+    def onFadeStep(self, seconds, startColor, endColor, progress):
+        if self.finishTrigger.type != constants.CONDITION_ITERATE and self.finishTrigger.check():
+            self.finish(self)
+        xbmcremote.setVolume(int(self.finishTrigger.progress()*100))

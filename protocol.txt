@@ -5,14 +5,19 @@
 {
     "type":"cc",
     "color":"<Color>"
-    [,"operator"="*|/|+|-"]
+
+    ##optional
+    ,"operator"="*|/|+|-"
 }
 
 # fade - fading [from color] to color over time
 {
     "type":"fade",
     "time":"<Time>",
-    ["start":"<Color>",]
+
+    ##optional
+    "start":"<Color>",
+
     "end":"<Color>"
 }
 
@@ -41,11 +46,36 @@
 }
 
 //FILTERS: "filters":[*]
+#note: every filter has an optional 'finish'-condition
+#      and a 'onfinish'-action which is executed after the finish-condition is reached:
+#      -> 'remove' means that after the finish-condition is reached the filter will be removed from filter list
+#      -> 'stop' means the current running command is stopped and all filters are cleared
+#
+#      if no 'onfinish'-action is specified, 'remove' will be executed as default
+
 #dim filter - dims the color-changes (to black) over time
+#finish-condition is required and is checked on every led.setColor()-call
+#note: it makes sense to take the duration of the dimmer as time-condition
 {
     "type":"dim",
     "finish":"<Condition>",
-    "time":"<Time>"
+
+    ##optional
+    "onfinish":"remove|stop"
+}
+
+#volume-fade filter - makes volume lower/louder according to the progress of the current fade
+#finish-condition is checked at the end of every corefunctions.fade()-call
+{
+    "type":"volumefade",
+
+    ##optional
+    "finish":"<Condition>",   ### condition can be times of fades
+    ##optional
+    "onfinish":"remove|stop",
+
+    "progress":"lower|louder",
+    "limit":"0-100"
 }
 
 
@@ -93,6 +123,45 @@
     "item":"filter",
     "id":"dim",
     "count":"1"
+}
+
+
+#XBMC
+#returns a value which content depends on the XBMC-RPC you called
+#note: the xbmc commands only work if config.ENABLE_XBMC_REMOTE is enabled, otherwise you get an appropriate error
+{
+    "type":"xbmc",
+    (
+        "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+        [,"params":[]]
+
+        OR
+
+        "get":"player|volume"
+
+        OR
+
+        "cmd":{jsonrcp-command}
+    )
+}
+
+#example: set volume to 50%
+{
+    "type":"xbmc",
+    "set":"volume",
+    "params":[50]
+}
+#answer:
+{
+    "type":"xbmc",
+    "set":"volume",
+    ""
+}
+
+#example: next track
+{
+    "type":"xbmc",
+    "set":"next"
 }
 
 
