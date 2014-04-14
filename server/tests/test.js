@@ -13,6 +13,16 @@
             ]
         }
     ],
+
+    "filters":[
+        {
+            "type":"volumefade",
+            "onfinish":"stop",
+            "progress":"lower",
+            "limit":0
+        }
+    ],
+
     "request":
     {
         "type":"runtime",

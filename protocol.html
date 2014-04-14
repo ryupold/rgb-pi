@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="root"></div>
+    <h1>RGB-Pi communication protocol</h1>
+    <p>The server can receive commands from third party applications, like mobile apps.</p>
+
+    <p>
+    To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip.
+    The command has to be a string with a maximum size of 1024 bytes.
+    By default the server listens to port <strong>4321</strong>, but this can be configured with <strong>configutre.py config</strong> or manually set in <strong>config.py</strong>.
+    </p>
+
+    <div id="communication">
+
+    </div>
+
+    <div id="datatypes">
+        <h2>Data types</h2>
+        <p>In order to control RGB-Pi in a flexible and dynamic way, we created some complex datatypes.
+        These have unlike other communication structures their own format.
+        </p>
+        <p>Each data type is a string which is enclosed with <strong>{}</strong>-brackets. Currently there a <strong>3</strong>
+        different data types that can be used in RGB-Pi messages: Color, Time and Condition
+        </p>
+        <p>Each data type is described in the following format: <strong>{SUBTYPE:VALUE}</strong>, where SUBTYPE describes how the VALUE is interpreted.
+        More details to the data types and the way you declare the are found below.</p>
+        <!-- COLOR -->
+        <h3 id="datatype-color">Color</h3>
+        <p>Color represents like the name hints a color in RGB format. A color can be defined in multiple ways. </p>
+        <p id="datatype-color-syntax">Syntax: <strong>{b|f|x|r:string[:hex-byte]}</strong></p>
+        <ul>
+            <li>
+                <strong>b</strong> - Byte representation, where the color is described with 3 values between 0-255 for each channel<br/>
+                <strong>Syntax: {b:R,G,B}</strong>
+                <ol>
+                    <li>example: <strong>{b:165,42,42}</strong> - this would create the color brown</li>
+                </ol>
+            </li>
+            <li>
+                <strong>f</strong> - Float representation, where the color is described with 3 values between 0.0-1.0 for each channel<br/>
+                <strong>Syntax: {f:R,G,B}</strong>
+                <ol>
+                    <li>example: <strong>{f:0.647,0.165,0.165}</strong> - this would create the color brown</li>
+                </ol>
+            </li>
+            <li>
+                <strong>x</strong> - Hexstring representation, where of the color is described as 6-character-hex string (RRGGBB)<br/>
+                <strong>Syntax: {x:RRGGBB}</strong>
+                <ol>
+                    <li>example: <strong>{x:A52A2A}</strong> - this would create the color brown</li>
+                </ol>
+            </li>
+            <li>
+                <strong>r</strong> - Random float representation, where the color is described with 3 ranges between 0.0-1.0 for each channel<br/>
+                <strong>Syntax: {r:R1-R2,G1-G2,B1-B2}</strong>
+                <ol>
+                    <li>example: <strong>{r:0.5-1,0-1,0-0}</strong> - random color in half of the red spectrum and the whole green spectrum</li>
+                </ol>
+            </li>
+        </ul>
+
+        <p>All this variations can be applied to one or more specific <strong>addresses</strong> of a led-stripe.</p>
+        <p>
+        As you see in the description of the <a href="#datatype-color-syntax">color syntax</a>, there is an optional additional <strong>:hex-byte</strong>.<br/>
+        This is used to address multiple led stripes with a 8-bit bitmask represented as hexa-decimal digit (e.g. 0x1 to address the first stripe).<br/>
+        Here a single address list for each stripe:
+        <ol>
+        <li>LED-stripe = 0x1</li>
+        <li>LED-stripe = 0x2</li>
+        <li>LED-stripe = 0x4</li>
+        <li>LED-stripe = 0x8</li>
+        </ol>
+        You can also write <strong>0x3</strong> to address the first two stripes, or <strong>0xF</strong> to address al stripes (this is the default value if no address is specified in the color literal)<br/>
+        As you can see, a maximum number of 4 stripes are supported yet.<br/>
+        <strong>Syntax: {SUBTYPE:VALUE:ADDRESS}</strong>
+        <ol>
+            <li>example: <strong>{b:255,0,0:0x1}</strong> - red color on the first LED-stripe</li>
+            <li>example: <strong>{r:0-1,0,0:0x5}</strong> - random bright red color on the first and the third LED-stripe</li>
+        </ol>
+
+        <p>Note: Addressing is an experimental feature right now, it's only tested with the <a href="#command-cc">CC-command</a> yet.</p>
+        </p>
+
+
+        <!-- TIME -->
+        <h3 id="datatype-time">Time</h3>
+        <p>The almost self-explained type name hints that this data type stands for a finite amount of time. it can be represented in 2 different ways.</p>
+        <p id="datatype-time-syntax">Syntax: <strong>{c|r:string} | float</strong></p>
+        <ul>
+            <li>
+                <strong>c</strong> - Constant float value<br/>
+                <strong>Syntax: {c:T} | T</strong>
+                <ol>
+                    <li>example: <strong>{c:10.5}</strong> - this would create a time object which represents 10.5 seconds </li>
+                    <li>example: <strong>10.5</strong> - another, simplier way to describe the same amount of time is to write the value directly (this will be implicitly casted to the format of the first example)</li>
+                </ol>
+            </li>
+            <li>
+                <strong>r</strong> - Random time in a range between MIN and MAX<br/>
+                <strong>Syntax: {r:MIN,MAX}</strong>
+                <ol>
+                    <li>example: <strong>{r:15,18.3}</strong> - this would create a time between 15 and 18.3 seconds</li>
+                </ol>
+            </li>
+        </ul>
+
+
+        <!-- CONDITION -->
+        <h3 id="datatype-condition">Condition</h3>
+        <p>A condition is an often needed element RGB-Pi commands. It is used to descide whenever a control mechanic has to stop or can continue.</p>
+        <p id="datatype-condition-syntax">Syntax: <strong>{b|t|i|c:string} | bool</strong></p>
+        <ul>
+            <li>
+                <strong>c</strong> - Constant boolean value<br/>
+                <strong>Syntax: {b:B} | T</strong>
+                <ol>
+                    <li>example: <strong>{c:0}</strong> - this would create condition which is always FALSE</li>
+                    <li>example: <strong>1</strong> - another, simplier way to describe a constant condition value is to write the value directly, were <strong>0</strong> stands for FALSE and <strong>1</strong> for TRUE. (This will be implicitly casted to the format of the first example)</li>
+                </ol>
+            </li>
+            <li>
+                <strong>t</strong> - Timed condition, which gets FALSE after T seconds since the first check<br/>
+                <strong>Syntax: {t:T}</strong>
+                <ol>
+                    <li>example: <strong>{t:20}</strong> - this would create a condition which is TRUE for 20 seconds and then becomes FALSE</li>
+                </ol>
+            </li>
+            <li>
+                <strong>i</strong> - Condition bound to an amount of checks/iterations. It is TRUE at the beginning and becomes FALSE after X checks/iterations<br/>
+                <strong>Syntax: {i:X}</strong>
+                <ol>
+                    <li>example: <strong>{i:5}</strong> - this would create a condition which is TRUE the next 5 times it is checked and then becomes FALSE</li>
+                </ol>
+            </li>
+            <li>
+                <strong>c</strong> - A color condition is TRUE if the current color is not the same as Color, otherwise it bacomes FALSE.<br/>
+                <strong>Syntax: {c:Color}</strong>
+                <ol>
+                    <li>example: <strong>{c:{x:000000}}</strong> - this would create a condition, which is TRUE if the current color is NOT black, otherwise it is FALSE</li>
+                </ol>
+            </li>
+        </ul>
+
+
+    </div>
+
+    <div id="commands"></div>
+
+    <div id="filters"></div>
+
+    <div id="requests"></div>
+
+</body>
+</html>

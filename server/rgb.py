@@ -60,7 +60,7 @@ if sys.argv[1] == "server":
 
         if(input == 'help'):
             help = "\n\nCommand list:"
-            help = help + "\nc r g b - change color"
+            help = help + "\ncc r g b - change color"
             help = help + "\nclear - clears log"
             help = help + "\nexit - stops the server end kills process"
 
@@ -70,7 +70,7 @@ if sys.argv[1] == "server":
         if input == 'clear':
             configure.cls()
 
-        if input.startswith('c'):
+        if input.startswith('cc'):
             try:
                 args = input.split(' ')
                 r = float(args[1])
