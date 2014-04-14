@@ -55,6 +55,7 @@ def showNotification(title, message):
                 "id":1
             }
     }))
+    return request
 
 
 #get Active Players
@@ -96,6 +97,8 @@ def stop():
         "id":1
     }))
 
+    return request
+
 #Next
 def next():
     activePlayer = str(getActivePlayer())
@@ -111,6 +114,8 @@ def next():
         "id":1
     }))
 
+    return request
+
 #Previous
 def previous():
     activePlayer = str(getActivePlayer())
@@ -125,6 +130,8 @@ def previous():
         },
         "id":1
     }))
+
+    return request
 
 
 #set Volume

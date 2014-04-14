@@ -4,6 +4,7 @@ import constants
 import led
 import configure
 import server
+import xbmcremote
 
 class Request(object):
     """
@@ -137,30 +138,30 @@ class XBMCRequest(Request):
 
         if self.action == constants.REQUEST_XBMC_ACTION_GET:
             if self.cmd == 'player':
-                pass #TODO
+                self.answer = xbmcremote.getActivePlayer()
             if self.cmd == 'volume':
-                pass #TODO
+                self.answer = xbmcremote.getVolume()
 
         if self.action == constants.REQUEST_XBMC_ACTION_SET:
             if self.cmd == 'notification':
-                pass #TODO
+                self.answer = xbmcremote.showNotification(self.request['params'][0], self.request['params'][1])
             if self.cmd == 'playpause':
-                pass #TODO
+                self.answer = xbmcremote.playPause()
             if self.cmd == 'stop':
-                pass #TODO
+                self.answer = xbmcremote.stop()
             if self.cmd == 'next':
-                pass #TODO
+                self.answer = xbmcremote.next()
             if self.cmd == 'previous':
-                pass #TODO
+                self.answer = xbmcremote.previous()
             if self.cmd == 'volume':
-                pass #TODO
+                self.answer = xbmcremote.setVolume(int(self.request['params'][0]))
             if self.cmd == 'volup':
-                pass #TODO
+                self.answer = xbmcremote.volumeUp()
             if self.cmd == 'voldown':
-                pass #TODO
+                self.answer = xbmcremote.volumeDown()
 
         if self.action == constants.REQUEST_XBMC_ACTION_CMD:
-            pass #TODO
+            self.answer = xbmcremote.sendCommand(self.cmd)
 
         answer = {"type":self.type, self.action:self.cmd, "answer":self.answer}
         return answer
