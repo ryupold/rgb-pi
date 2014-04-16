@@ -90,8 +90,8 @@ class DimFilter(Filter):
         self.black = datatypes.Color(0,0,0)
 
     def onChangeColor(self, newColor):
-        if self.finishTrigger.check():
-            self.finish(self)
+        if not self.finishTrigger.check():
+            self.finish()
 
         filteredColor = utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
         if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter color ('+str(self.finishTrigger.progress()*100)+'%) from '+str(newColor)+' to '+str(filteredColor))
@@ -111,12 +111,12 @@ class VolumeFadeFilter(Filter):
         self.limit = int(filter['limit'])
 
     def onFadeEnd(self, seconds, startColor, endColor):
-        if self.finishTrigger.check():
-            self.finish(self)
+        if not self.finishTrigger.check():
+            self.finish()
 
     def onFadeStep(self, seconds, startColor, endColor, progress):
-        if self.finishTrigger.type != constants.CONDITION_ITERATE and self.finishTrigger.check():
-            self.finish(self)
+        if self.finishTrigger.type != constants.CONDITION_ITERATE and not self.finishTrigger.check():
+            self.finish()
         p = self.finishTrigger.progress() if self.progress == 'louder' else 1.0-self.finishTrigger.progress()
         p = p*100
         if self.progress == 'louder':
@@ -138,12 +138,12 @@ class StopMusicFilter(Filter):
         super(StopMusicFilter, self).__init__(constants.FILTER_TYPE_STOPMUSIC, filter)
 
     def onFadeStep(self, seconds, startColor, endColor, progress):
-        if self.finishTrigger.check():
+        if not self.finishTrigger.check():
             xbmcremote.stop()
-            self.finish(self)
+            self.finish()
 
     def onFadeEnd(self, seconds, startColor, endColor):
-        if self.finishTrigger.check():
+        if not self.finishTrigger.check():
             xbmcremote.stop()
-            self.finish(self)
+            self.finish()
 
