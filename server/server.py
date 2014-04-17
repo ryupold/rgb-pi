@@ -127,16 +127,17 @@ def readcommands(threadName, intervall):
                         answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
                         answer['commands'] = 0
                         log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
-                else:
-                    answer['commands'] = 0
+
 
                 #add new filters
                 if isinstance(r, dict) and r.has_key('filters') and len(r['filters']) > 0:
                     try:
                         for f in r['filters']:
                             CurrentFilters.append(filters.Filter.createFilter(f))
+                        answer['filters'] = 1
                     except:
                         answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
+                        answer['filters'] = 0
                         log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
                 #answer request
@@ -146,11 +147,12 @@ def readcommands(threadName, intervall):
                         answer['request'] = req.execute()
                     except:
                         answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
+                        answer['request'] = None
                         log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
 
                 #starting a new command if a new arrived and could be correctly decoded
-                if answer['commands'] == 1:
+                if answer.has_key('commands') and answer['commands'] == 1:
                     CurrentCMD.start()
 
 

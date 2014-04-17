@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>RGB-Pi communication protocol</title>
+    <link rel="stylesheet" href="styles/default.css">
+    <script src="highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
     <div id="root"></div>
@@ -15,7 +18,33 @@
     </p>
 
     <div id="communication">
+        <h2>Communication</h2>
+        <p>The whole communication in RGB-Pi is based on the exchange of JSON-objects.
+            This means every message sent to the RGB-Pi server has to be a valid JSON-object serialized as string.
+            After each sent message a JSON-object is sent back as answer and acknowledgement at the same time.
+        </p>
+        <p><strong>Request message client -> server</strong></p>
+        <pre><code>
+            {
+                "commands":[],  ##optional
 
+                "filters":[],   ##optional
+
+                "request":{}    ##optional
+            }
+        </code></pre>
+        <p><strong>Answer/Acknowledge message server -> client</strong></p>
+        <pre><code>
+            {
+                "commands":1|0, ##only available if 'commands'-node was present in request message
+
+                "filters":1|0,  ##only available if 'filters'-node was present in request message
+
+                "request":{},   ##only available if 'request'-node was present in request message
+
+                "error":[]      ##always available, but empty array if no errors occurred
+            }
+        </code></pre>
     </div>
 
     <div id="datatypes">
@@ -148,7 +177,16 @@
 
     </div>
 
-    <div id="commands"></div>
+
+
+    <div id="commands">
+        <h2>Commands</h2>
+        <p><strong>Commands</strong> are the core elements of RGB-Pi.</p>
+        <p>They need to be on first level of the communication json-object, referenced by the key <strong>'commands'</strong>.
+            There must be only one 'commands'-node with a array which contains a 0-n list of commands</p>
+        <p>Some commands can also contain an array with sub-commands, in order to make it possible to build every imaginable effect you want.
+        More details follow below.</p>
+    </div>
 
     <div id="filters"></div>
 
