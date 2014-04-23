@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using RGB.Resources;
 using System.Threading;
 using Coding4Fun.Toolkit.Controls;
+using RGBPi;
 
 namespace RGB
 {

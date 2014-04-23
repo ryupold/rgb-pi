@@ -101,13 +101,13 @@
         <h3>Answer</h3>
         <p>
             <p>
-            The server processes the incoming client request and prepares and sends an answer in JSON-format as response.
+            The server processes the incoming client request and sends an answer in JSON-format as response.
             You can see in the <a href="#communication-server-answer">answer-syntax</a> that there are 4 possible nodes in the answer object from the server.
             </p>
 
             <p>
-            The first two are simple to understand: if the client request cotained at least one command/filter the answer object will have a corresponding node,
-            whose value is <strong>1</strong> if the command/filter was recognized and correctly initialized, otherwise the commands/filters node has a <strong>0</strong> as value.
+            The first two are simple to understand: if the client request contained at least one command/filter the answer object will have a corresponding node,
+            whose value is <strong>1</strong> if the commands/filters were recognized and correctly initialized, otherwise the commands/filters node has a <strong>0</strong> as value.
             </p>
 
             <p>
@@ -116,7 +116,7 @@
             </p>
 
             <p>
-            The last node in the answer object, 'error', is always available.
+            The last node in the answer object, 'error', is always present.
             It contains a string array which is emtpy in the best case, otherwise it contains the errors/exceptions happened
             during the interpretation or initialization of the received client request.
             </p>
@@ -184,7 +184,7 @@
             <li>LED-stripe = 0x4</li>
             <li>LED-stripe = 0x8</li>
             </ol>
-            You can also write <strong>0x3</strong> to address the first two stripes, or <strong>0xF</strong> to address al stripes (this is the default value if no address is specified in the color literal)<br/>
+            You can also write <strong>0x3</strong> to address the first two stripes, or <strong>0xF</strong> to address all stripes (this is the default value if no address is specified in the color literal)<br/>
             As you can see, a maximum number of 4 stripes are supported yet.<br/>
             <strong>Syntax: {SUBTYPE:VALUE:ADDRESS}</strong>
             <ol>
