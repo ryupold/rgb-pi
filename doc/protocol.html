@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>RGB-Pi communication protocol</title>
     <link rel="stylesheet" href="styles/default.css">
@@ -12,37 +12,53 @@
 
     <h1>RGB-Pi communication protocol</h1>
 
-    <div id="index"><script type="text/javascript">
-        var h = document.createElement('h2')
-        h.appendChild(document.createTextNode('Index'))
+    <div id="index">
+        <h2>Index</h2>
+        <ol>
+            <li>
+                <a href="#communication">Communication</a>
+                <ol>
+                    <li><a href="#communication-syntax">Request/Answer syntax</a></li>
+                    <li><a href="#communication-basic">Basic Communication</a></li>
+                    <li><a href="#communication-answer">Answer</a></li>
+                    <li><a href="#communication-examples">Examples</a></li>
+                </ol>
+            </li>
 
-        var table = document.createElement('table')
-
-
-        var tags = [ "h1","h2","h3" ];
-        for(var i = 0; i < tags.length; i++)
-        {
-            var hs = document.getElementsByTagName(tags[i])
-            for(var j = 0; j < hs.length; j++)
-            {
-                var he = hs[j]
-                if (he.hasAttribute('id'))
-                {
-                    var tr = document.createElement('tr')
-                    var tit = document.createElement('td')
-                    tit.innerHTML = he.innerHTML
-                    var link = document.createElement('td')
-                    link.innerHTML = he.getAttribute('id')
-                    tr.appendChild(tit)
-                    tr.appendChild(link)
-                    table.appendChild(tr)
-                }
-            }
-        }
-
-        index.appendChild(h)
-        index.appendChild(table)
-    </script></div>
+            <li>
+                <a href="#commands">Commands</a>
+                <ol>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#filters">Filters</a>
+                <ol>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#requests">Requests</a>
+                <ol>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#datatypes">Data Types</a>
+                <ol>
+                    <li><a href="#datatype-color">Color</a></li>
+                    <li><a href="#datatype-time">Time</a></li>
+                    <li><a href="#datatype-condition">Condition</a></li>
+                </ol>
+            </li>
+        </ol>
+    </div>
 
     <p>The server can receive commands from third party applications, like mobile apps.</p>
 
@@ -60,7 +76,7 @@
             After each sent message a JSON-object is sent back as answer and acknowledgement at the same time.
         </p>
 
-        <h3>Request/Answer syntax</h3>
+        <h3 id="communication-syntax">Request/Answer syntax</h3>
         <p id="communication-client-message"><strong>Client request (client -> server)</strong></p>
         <pre><code>
             {
@@ -89,7 +105,7 @@
             communication between client and server and then show some examples for each message-/answer-part.
         </p>
 
-        <h3>Basic communication flow</h3>
+        <h3 id="communication-basic">Basic communication flow</h3>
         <p>The low level actions that take place during communication are:</p>
         <ol>
             <li>CONNECT via TCP Socket to the IP:Port of the RGB-Pi server.</li>
@@ -98,7 +114,7 @@
             <li>CLOSE the TCP socket.</li>
         </ol>
 
-        <h3>Answer</h3>
+        <h3 id="communication-answer">Answer</h3>
         <p>
             <p>
             The server processes the incoming client request and sends an answer in JSON-format as response.
@@ -123,11 +139,28 @@
 
         </p>
 
-        <h3>Example</h3>
+        <h3 id="communication-examples">Examples</h3>
         <p>TODO</p>
     </div>
 
-    <div id="datatypes">
+
+
+
+
+    <div id="commands">
+        <h2>Commands</h2>
+        <p><strong>Commands</strong> are the core elements of RGB-Pi.</p>
+        <p>They need to be on first level of the communication json-object, referenced by the key <strong>'commands'</strong>.
+            There must be only one 'commands'-node with a array which contains a 0-n list of commands</p>
+        <p>Some commands can also contain an array with sub-commands, in order to make it possible to build every imaginable effect you want.
+        More details follow below.</p>
+    </div>
+
+    <div id="filters"></div>
+
+    <div id="requests"></div>
+
+<div id="datatypes">
         <h2>Data types</h2>
         <p>In order to control RGB-Pi in a flexible and dynamic way, we created some complex datatypes.
         These have unlike other communication structures their own format.
@@ -258,21 +291,6 @@
             </ul>
         </div>
     </div>
-
-
-
-    <div id="commands">
-        <h2>Commands</h2>
-        <p><strong>Commands</strong> are the core elements of RGB-Pi.</p>
-        <p>They need to be on first level of the communication json-object, referenced by the key <strong>'commands'</strong>.
-            There must be only one 'commands'-node with a array which contains a 0-n list of commands</p>
-        <p>Some commands can also contain an array with sub-commands, in order to make it possible to build every imaginable effect you want.
-        More details follow below.</p>
-    </div>
-
-    <div id="filters"></div>
-
-    <div id="requests"></div>
 
 </body>
 </html>
