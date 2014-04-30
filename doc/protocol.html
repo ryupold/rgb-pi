@@ -356,6 +356,37 @@
 }
 </code></pre>
 
+        <h4>Examples</h4>
+        <p>
+            In the following example RGB-Pi will fade over 1 minute to white, then wait 5 seconds and then switch the color to green immediately:
+
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"list"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":60,
+                    "end":"{f:1,1,1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"{c:5}"
+                },
+                {
+                    "type":"cc",
+                    "color":"{x:00FF00}"
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
 
         <!-- LOOP -->
         <h3 id="command-loop">loop - looping through a list of commands while a condition is true</h3>
@@ -386,6 +417,108 @@
     ]
 }
 </code></pre>
+
+        <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol was a program called <strong>random fader</strong>, a call of it looked like;
+            <pre><code>rf minTime maxTime minBrightness maxBrightness</code></pre>
+            Example: fade to a random color over a random time between 1 and 20 seconds: <pre><code>rf 1 18 0.0 1.0</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects.
+            To create a animation with the same behaviour you can combine the previously showed commands with the loop command:
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1,20}",
+                    "end":"{r:0-1,0-1,0-1}"
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows the new equivalent of the <strong>jump</strong> command which switches the colors every few seconds:
+            <pre><code>jump waitTime minBrightness maxBrightness</code></pre>
+            Example: Jump every 5 seconds to a random color:
+            <pre><code>jump 5 0 1</code></pre><br/>
+
+            The same functionality in the new protocol:
+<pre><code>
+{
+    "commands":
+    [
+       {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"cc",
+                    "color":"{r:0-1,0-1,0-1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"5"
+                }
+            ]
+       }
+    ]
+}
+</code></pre><br/>
+
+        Another example shows a more complex animation. It will fade over 20 seconds to red, then pulse between red and green 2 times,
+        then pulse blue-black 10 times and then start over:
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"20",
+                    "end":"{f:1,0,0}"
+                },
+                {
+                    "type":"loop",
+                    "condition":"{i:2}",
+                    "commands":
+                    [
+                        {"type":"fade", "time":"5", "end":"{f:0,1,0}"},
+                        {"type":"fade", "time":"5", "end":"{f:1,0,0}"}
+                    ]
+                },
+                {
+                    "type":"loop",
+                    "condition":"{i:10}",
+                    "commands":
+                    [
+                        {"type":"fade", "time":"1", "end":"{f:0,0,1}"},
+                        {"type":"fade", "time":"1", "end":"{f:0,0,0}"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+        </p>
+
+
 
         <!-- NOP -->
         <h3 id="command-nop">nop - Do nothing</h3>
