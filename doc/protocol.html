@@ -39,9 +39,9 @@
             <li>
                 <a href="#filters">Filters</a>
                 <ol>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
+                    <li><a href="#filter-lifetime">Lifetime</a></li>
+                    <li><a href="#filter-syntax">Syntax</a></li>
+                    <li><a href="#filter-types">Filter Types</a></li>
                 </ol>
             </li>
             <li>
@@ -546,9 +546,96 @@
 
     </div>
 
-    <div id="filters"></div>
+    <div id="filters">
+        <h2>Filters</h2>
+        <p>Filters apply a way in manipulating/extending execution of commands.</p>
+        <p>Like the name hints they accept some type of input in form of an event, probably manipulate the incoming data,
+            and trigger other functionalities and/or pass the manipulated data to the next receiver.</p>
+        <p>If it's not clear yet what you can do with filters, the following sections describe the built-in filters and how they work in examples:</p>
 
-    <div id="requests"></div>
+        <h3 id="filter-lifetime">Lifetime</h3>
+        <p>
+            The lifetime of filters is coupled with the current running command and its finish-condition.
+            This leads to following cases in which a filter can be removed:
+            <ol>
+                <li>If no command is active -> filters do nothing.</li>
+                <li>If a command ends or is stopped otherways -> all filters are removed.</li>
+                <li>If a new command incomes -> all filters associated with the old command are removed.</li>
+                <li>if the finish condition of a trigger becomes FALSE -> depending on the "onfinish"-action the filter is removed or the command is stopped (which leads to number 2)</li>
+            </ol>
+        </p>
+
+        <h3 id="filter-syntax">Syntax</h3>
+        <p>
+            Like described in the <a href="#communication-syntax">client request</a>-syntax the filters come in JSON format
+            as array of all filters which should be added to the command. It is possible to add them directly along with the command in the same message,
+            or add them additionally to a running command in a single  <a href="#communication-syntax">client message</a>.
+        </p>
+        <p>
+            All filters have a base syntax which contains a "type" as string, a "finish" <a href="#datatype-condition">condition</a> and an optional onfinish action.
+            <br/>The syntax is described below:
+            <ul>
+                <li><strong>type</strong> - Defines the type of filter and its behaviour.</li>
+                <li><strong>finish</strong> - <a href="#datatype-condition">Condition</a> which determines when a filter should stop working.
+                    In some cases the <a href="#datatype-condition-progress">progress()</a> function of the condition is used to manipulate the data,
+                    so be aware which type of condition you use.
+                </li>
+                <li><strong>onfinish</strong> - Can be either "remove" or "stop". "remove" is the default value and causes the filter to be removed after the
+                    "finish"-condition becomes FALSE. "stop" on the other hand stops the current command and removes all other filters.
+                </li>
+            </ul>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"name-of-filter",
+            "finish":"CONDITION",
+
+            ##optional (default value is "remove")
+            "onfinish":"remove|stop"
+        }
+    ]
+}
+</code></pre>
+
+        </p>
+
+        <h3 id="filter-types">Filter Types</h3>
+        <p>Here is list of all filter types with example which are implemented yet:</p>
+
+        <h4>Dim-Filter</h4>
+        <p>
+            This filter allows you to "dim" the color changes of the current command by interpolating the color of
+            every onColorChange call between the actual color and 0 according to the <a href="#datatype-condition-progress">progress</a>
+            of the "finish" condition.
+        </p>
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"dim",
+
+            ##note: a time condition makes most sense here to realize a dimmer-like behaviour.
+            "finish":CONDITION,
+
+            ##note: the "stop" action makes most sense here to realize a dimmer-like behaviour.
+            "onfinish":"stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+    </div>
+
+    <div id="requests">
+        <h2>Requests</h2>
+    </div>
 
 <div id="datatypes">
         <h2>Data types</h2>
@@ -679,6 +766,15 @@
                     </ol>
                 </li>
             </ul>
+
+            <br/>
+            <p>
+                <strong id="datatype-condition-progress">progress()</strong><br/>
+                To understand some uses of the conditon you also need to now about the progress() function.
+                In some cases this is used to describe the percentage of progress from TRUE to the FALSE value of the condition,
+                depending on its type. E.g. if the type of the condition is a time of 10 seconds, the progress-function would return 0.5
+                to describe a progress of 50%. And so on...
+            </p>
         </div>
     </div>
 
