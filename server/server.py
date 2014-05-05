@@ -129,8 +129,8 @@ def readcommands(threadName, intervall):
                         log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
 
-                #add new filters
-                if isinstance(r, dict) and r.has_key('filters') and len(r['filters']) > 0:
+                #add new filters if a command is running
+                if isinstance(r, dict) and r.has_key('filters') and len(r['filters']) > 0 and CurrentCMD is not None and CurrentCMD.state != constants.CMD_STATE_STOPPED:
                     try:
                         for f in r['filters']:
                             CurrentFilters.append(filters.Filter.createFilter(f))

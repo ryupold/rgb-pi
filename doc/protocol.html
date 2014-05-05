@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>RGB-Pi communication protocol</title>
     <link rel="stylesheet" href="styles/default.css">
@@ -12,37 +12,56 @@
 
     <h1>RGB-Pi communication protocol</h1>
 
-    <div id="index"><script type="text/javascript">
-        var h = document.createElement('h2')
-        h.appendChild(document.createTextNode('Index'))
+    <div id="index">
+        <h2>Index</h2>
+        <ol>
+            <li>
+                <a href="#communication">Communication</a>
+                <ol>
+                    <li><a href="#communication-syntax">Request/Answer syntax</a></li>
+                    <li><a href="#communication-basic">Basic Communication</a></li>
+                    <li><a href="#communication-answer">Answer</a></li>
+                    <li><a href="#communication-examples">Examples</a></li>
+                </ol>
+            </li>
 
-        var table = document.createElement('table')
-
-
-        var tags = [ "h1","h2","h3" ];
-        for(var i = 0; i < tags.length; i++)
-        {
-            var hs = document.getElementsByTagName(tags[i])
-            for(var j = 0; j < hs.length; j++)
-            {
-                var he = hs[j]
-                if (he.hasAttribute('id'))
-                {
-                    var tr = document.createElement('tr')
-                    var tit = document.createElement('td')
-                    tit.innerHTML = he.innerHTML
-                    var link = document.createElement('td')
-                    link.innerHTML = he.getAttribute('id')
-                    tr.appendChild(tit)
-                    tr.appendChild(link)
-                    table.appendChild(tr)
-                }
-            }
-        }
-
-        index.appendChild(h)
-        index.appendChild(table)
-    </script></div>
+            <li>
+                <a href="#commands">Commands</a>
+                <ol>
+                    <li><a href="#command-cc">cc - Change Color</a></li>
+                    <li><a href="#command-fade">fade - Fade to color</a></li>
+                    <li><a href="#command-wait">wait - Wait an amount of time</a></li>
+                    <li><a href="#command-list">list - Execute a list of Commands</a></li>
+                    <li><a href="#command-loop">loop - Loop through a list of Commands</a></li>
+                    <li><a href="#command-nop">nop - Do nothing</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#filters">Filters</a>
+                <ol>
+                    <li><a href="#filter-lifetime">Lifetime</a></li>
+                    <li><a href="#filter-syntax">Syntax</a></li>
+                    <li><a href="#filter-types">Filter Types</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#requests">Requests</a>
+                <ol>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#datatypes">Data Types</a>
+                <ol>
+                    <li><a href="#datatype-color">Color</a></li>
+                    <li><a href="#datatype-time">Time</a></li>
+                    <li><a href="#datatype-condition">Condition</a></li>
+                </ol>
+            </li>
+        </ol>
+    </div>
 
     <p>The server can receive commands from third party applications, like mobile apps.</p>
 
@@ -60,7 +79,7 @@
             After each sent message a JSON-object is sent back as answer and acknowledgement at the same time.
         </p>
 
-        <h3>Request/Answer syntax</h3>
+        <h3 id="communication-syntax">Request/Answer syntax</h3>
         <p id="communication-client-message"><strong>Client request (client -> server)</strong></p>
         <pre><code>
             {
@@ -89,7 +108,7 @@
             communication between client and server and then show some examples for each message-/answer-part.
         </p>
 
-        <h3>Basic communication flow</h3>
+        <h3 id="communication-basic">Basic communication flow</h3>
         <p>The low level actions that take place during communication are:</p>
         <ol>
             <li>CONNECT via TCP Socket to the IP:Port of the RGB-Pi server.</li>
@@ -98,7 +117,7 @@
             <li>CLOSE the TCP socket.</li>
         </ol>
 
-        <h3>Answer</h3>
+        <h3 id="communication-answer">Answer</h3>
         <p>
             <p>
             The server processes the incoming client request and sends an answer in JSON-format as response.
@@ -123,11 +142,502 @@
 
         </p>
 
-        <h3>Example</h3>
+        <h3 id="communication-examples">Examples</h3>
         <p>TODO</p>
     </div>
 
-    <div id="datatypes">
+
+
+
+
+    <div id="commands">
+        <h2>Commands</h2>
+        <p><strong>Commands</strong> are the core elements of RGB-Pi.</p>
+        <p>They need to be on first level of the communication json-object, referenced by the key: <strong>'commands'</strong>.
+            There must be only one 'commands'-node with an array which contains a 0-n list of commands</p>
+        <p>Some commands can also contain an array with sub-commands, in order to make it possible to build every imaginable effect you want.
+        More details follow below.</p>
+
+        <h3 id="command-syntax">Syntax</h3>
+        <p>All commands need to have a "type" field with a value which corresponds the type of command.
+            The order of the key:value pairs in a command is not important.</p>
+
+        <!-- CC -->
+        <h3 id="command-cc">cc - Change Color</h3>
+        <h4>Description</h4>
+        <p>The <strong>cc</strong> command changes the color directly. It is also possible calculate the new color with a given arithmetic operator.</p>
+        <h4>Syntax</h4>
+        <p>The JSON-object of the <strong>cc</strong> command must set "cc" as "type" and requires a <a href="#datatype-color">color object</a>.</p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"cc",
+            "color":"COLOR"
+
+            ##optional
+            ,"operator"="*" ## possible operators are + , -, *, and /
+        }
+    ]
+}
+</code></pre>
+        <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol, a call of cc would look like;
+            <pre><code>cc COLOR</code></pre>
+            Example: set LED color to red: <pre><code>cc {f:1,0,0}</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects. the same call would look like;
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"cc",
+            "color":"{f:1,0,0}"
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows the color-arithmetic mechanic:
+<pre><code>
+{
+    "commands":
+    [
+            {
+                "type":"cc",
+                "operator":"*",
+                "color":"{f:0.1,0.1,0.1}"
+            }
+    ]
+}
+</code></pre>
+            This would make the current color 10% darker.
+        </p>
+
+
+        <!-- FADE -->
+        <h3 id="command-fade">fade - Fade to Color</h3>
+        <h4>Description</h4>
+        <p>The <strong>fade</strong> command changes the color over a given time. It's optionally possible to declare a start-color from which the fade starts transitioning to the end-color.</p>
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>fade</strong> command must set "fade" as "type". It requires a <a href="#datatype-time">time object</a> which defines
+        the fading time and a <a href="#datatype-color">color object</a> as <strong>end</strong>-color. Additionally it's also possible to define a
+        <strong>start</strong> color object from which the fading animation should start, if it's not present the current color is taken as <strong>start</strong>-color.
+        <a href="#datatype-color">color object</a>.
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"fade",
+            "time":"TIME",
+
+            ##optional
+            "start":"COLOR",
+
+            "end":"COLOR"
+        }
+    ]
+}
+</code></pre>
+       <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol, a call of fade would look like;
+            <pre><code>fade TIME COLOR [COLOR]</code></pre>
+            Example: fade current color to red in 5 seconds: <pre><code>fade 5 {f:1,0,0}</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects. The same call would look like;
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"fade",
+            "time":"{c:5}",
+            "end":"{f:1,0,0}"
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows that it is also possible to start from a specific color:
+<pre><code>
+{
+    "commands":
+    [
+       {
+            "type":"fade",
+            "time":"600",
+            "start":"{b:0,0,255}",
+            "end":"{f:0,0,0}"
+       }
+    ]
+}
+</code></pre>
+            This would lead to a fade from blue to black (off) over 10 minutes.<br/>
+            NOTE: The time value can also be a simple float value, it will be converted to a time object implicitly.
+        </p>
+
+        <!-- WAIT -->
+        <h3 id="command-wait">wait - Wait an amount of time</h3>
+        <h4>Description</h4>
+        <p>
+            The <strong>wait</strong> command does no color changes. It can be used like a 'sleep' command in various programming languages
+            to let the current execution wait a defined time and continue after that time exceeds with the next command.
+            It is usually used in <a href="#command-list">list</a>- or <a href="#command-loop">loop</a>-commands.
+        </p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>wait</strong> command must set "wait" as "type". It only requires a <a href="#datatype-time">time object</a> which describes the amount of time should be waited.
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"wait",
+            "time":"TIME"
+        }
+    ]
+}
+</code></pre>
+
+        <h4>Examples</h4>
+        <p>
+            In the following example RGB-Pi will wait 5 seconds and then change the current color to Green:
+
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"wait",
+            "time":"{c:5}"
+        },
+        {
+            "type":"cc",
+            "color":"{x:00FF00}"
+        }
+    ]
+}
+</code></pre>
+
+
+
+
+        <!-- LIST -->
+        <h3 id="command-list">list - List of commands</h3>
+        <h4>Description</h4>
+        <p>The <strong>list</strong> object defines a list of commands which are executed one after another in the order they are defined in the "commands"-array. It also allows the nesting of commands.</p>
+        <p>NOTE: The "commands"-array in the <a href="#communication-client-message">client request</a> is implicitly converted into a list command with the defined commands as children.</p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>list</strong> command must set "list" as "type".
+        It must declare a "commands" attribute with an array-value that contains 0-n objects which again can be <a href="#commands">commands</a> of any type.
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"list"
+            "commands":[COMMAND1, COMMAND2, ...]
+        }
+    ]
+}
+</code></pre>
+
+        <h4>Examples</h4>
+        <p>
+            In the following example RGB-Pi will fade over 1 minute to white, then wait 5 seconds and then switch the color to green immediately:
+
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"list"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":60,
+                    "end":"{f:1,1,1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"{c:5}"
+                },
+                {
+                    "type":"cc",
+                    "color":"{x:00FF00}"
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+
+        <!-- LOOP -->
+        <h3 id="command-loop">loop - looping through a list of commands while a condition is true</h3>
+        <h4>Description</h4>
+        <p>
+            The <strong>loop</strong> object defines a list of commands which are executed one after another in the order they
+            are defined in the "commands"-array. It also allows the nesting of commands.
+            This command is similar to a traditional 'while-loop' in programming languages. Before the first and after the last command a
+            <strong>condition</strong> is checked. If it is <strong>true</strong> the loop will continue executing the inner list of commands
+            til the condition becomes <strong>false</strong>.
+        </p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>loop</strong> command must set "loop" as "type".
+        It must declare a "commands" attribute with an array-value that contains 0-n objects which again can be <a href="#commands">commands</a> of any type.
+        It also must contain a "condition"-attribute which value is a <a href="#datatype-condition">condition</a>-object that defines the end of the loop.
+        </p>
+<pre><code>
+ {
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"CONDITION"
+            "commands":[COMMAND1, COMMAND2, ...]
+        }
+    ]
+}
+</code></pre>
+
+        <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol was a program called <strong>random fader</strong>, a call of it looked like;
+            <pre><code>rf minTime maxTime minBrightness maxBrightness</code></pre>
+            Example: fade to a random color over a random time between 1 and 20 seconds: <pre><code>rf 1 18 0.0 1.0</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects.
+            To create a animation with the same behaviour you can combine the previously showed commands with the loop command:
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1,20}",
+                    "end":"{r:0-1,0-1,0-1}"
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows the new equivalent of the <strong>jump</strong> command which switches the colors every few seconds:
+            <pre><code>jump waitTime minBrightness maxBrightness</code></pre>
+            Example: Jump every 5 seconds to a random color:
+            <pre><code>jump 5 0 1</code></pre><br/>
+
+            The same functionality in the new protocol:
+<pre><code>
+{
+    "commands":
+    [
+       {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"cc",
+                    "color":"{r:0-1,0-1,0-1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"5"
+                }
+            ]
+       }
+    ]
+}
+</code></pre><br/>
+
+        Another example shows a more complex animation. It will fade over 20 seconds to red, then pulse between red and green 2 times,
+        then pulse blue-black 10 times and then start over:
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"20",
+                    "end":"{f:1,0,0}"
+                },
+                {
+                    "type":"loop",
+                    "condition":"{i:2}",
+                    "commands":
+                    [
+                        {"type":"fade", "time":"5", "end":"{f:0,1,0}"},
+                        {"type":"fade", "time":"5", "end":"{f:1,0,0}"}
+                    ]
+                },
+                {
+                    "type":"loop",
+                    "condition":"{i:10}",
+                    "commands":
+                    [
+                        {"type":"fade", "time":"1", "end":"{f:0,0,1}"},
+                        {"type":"fade", "time":"1", "end":"{f:0,0,0}"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+        </p>
+
+
+
+        <!-- NOP -->
+        <h3 id="command-nop">nop - Do nothing</h3>
+        <h4>Description</h4>
+        <p>
+            The <strong>nop</strong> command does nothing during execution. It can be send as single command to stop the current running command.
+            That works because if a <a href="#communication-client-message">client message</a> contains a valid commands section rgb-pi stops the current
+            running command, initialized the new one and executes it til it's finished.
+        </p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>nop</strong> command must set "nop" as "type".
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"nop"
+        }
+    ]
+}
+</code></pre>
+
+    </div>
+
+    <div id="filters">
+        <h2>Filters</h2>
+        <p>Filters apply a way in manipulating/extending execution of commands.</p>
+        <p>Like the name hints they accept some type of input in form of an event, probably manipulate the incoming data,
+            and trigger other functionalities and/or pass the manipulated data to the next receiver.</p>
+        <p>If it's not clear yet what you can do with filters, the following sections describe the built-in filters and how they work in examples:</p>
+
+        <h3 id="filter-lifetime">Lifetime</h3>
+        <p>
+            The lifetime of filters is coupled with the current running command and its finish-condition.
+            This leads to following cases in which a filter can be removed:
+            <ol>
+                <li>If no command is active -> filters do nothing.</li>
+                <li>If a command ends or is stopped otherways -> all filters are removed.</li>
+                <li>If a new command incomes -> all filters associated with the old command are removed.</li>
+                <li>if the finish condition of a trigger becomes FALSE -> depending on the "onfinish"-action the filter is removed or the command is stopped (which leads to number 2)</li>
+            </ol>
+        </p>
+
+        <h3 id="filter-syntax">Syntax</h3>
+        <p>
+            Like described in the <a href="#communication-syntax">client request</a>-syntax the filters come in JSON format
+            as array of all filters which should be added to the command. It is possible to add them directly along with the command in the same message,
+            or add them additionally to a running command in a single  <a href="#communication-syntax">client message</a>.
+        </p>
+        <p>
+            All filters have a base syntax which contains a "type" as string, a "finish" <a href="#datatype-condition">condition</a> and an optional onfinish action.
+            <br/>The syntax is described below:
+            <ul>
+                <li><strong>type</strong> - Defines the type of filter and its behaviour.</li>
+                <li><strong>finish</strong> - <a href="#datatype-condition">Condition</a> which determines when a filter should stop working.
+                    In some cases the <a href="#datatype-condition-progress">progress()</a> function of the condition is used to manipulate the data,
+                    so be aware which type of condition you use.
+                </li>
+                <li><strong>onfinish</strong> - Can be either "remove" or "stop". "remove" is the default value and causes the filter to be removed after the
+                    "finish"-condition becomes FALSE. "stop" on the other hand stops the current command and removes all other filters.
+                </li>
+            </ul>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"name-of-filter",
+            "finish":"CONDITION",
+
+            ##optional (default value is "remove")
+            "onfinish":"remove|stop"
+        }
+    ]
+}
+</code></pre>
+
+        </p>
+
+        <h3 id="filter-types">Filter Types</h3>
+        <p>Here is list of all filter types with example which are implemented yet:</p>
+
+        <h4>Dim-Filter</h4>
+        <p>
+            This filter allows you to "dim" the color changes of the current command by interpolating the color of
+            every onColorChange call between the actual color and 0 according to the <a href="#datatype-condition-progress">progress</a>
+            of the "finish" condition.
+        </p>
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"dim",
+
+            ##note: a time condition makes most sense here to realize a dimmer-like behaviour.
+            "finish":CONDITION,
+
+            ##note: the "stop" action makes most sense here to realize a dimmer-like behaviour.
+            "onfinish":"stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+    </div>
+
+    <div id="requests">
+        <h2>Requests</h2>
+    </div>
+
+<div id="datatypes">
         <h2>Data types</h2>
         <p>In order to control RGB-Pi in a flexible and dynamic way, we created some complex datatypes.
         These have unlike other communication structures their own format.
@@ -256,23 +766,17 @@
                     </ol>
                 </li>
             </ul>
+
+            <br/>
+            <p>
+                <strong id="datatype-condition-progress">progress()</strong><br/>
+                To understand some uses of the conditon you also need to now about the progress() function.
+                In some cases this is used to describe the percentage of progress from TRUE to the FALSE value of the condition,
+                depending on its type. E.g. if the type of the condition is a time of 10 seconds, the progress-function would return 0.5
+                to describe a progress of 50%. And so on...
+            </p>
         </div>
     </div>
-
-
-
-    <div id="commands">
-        <h2>Commands</h2>
-        <p><strong>Commands</strong> are the core elements of RGB-Pi.</p>
-        <p>They need to be on first level of the communication json-object, referenced by the key <strong>'commands'</strong>.
-            There must be only one 'commands'-node with a array which contains a 0-n list of commands</p>
-        <p>Some commands can also contain an array with sub-commands, in order to make it possible to build every imaginable effect you want.
-        More details follow below.</p>
-    </div>
-
-    <div id="filters"></div>
-
-    <div id="requests"></div>
 
 </body>
 </html>
