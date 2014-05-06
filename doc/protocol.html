@@ -8,11 +8,13 @@
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
-    <div id="root"></div>
 
+<header>
     <h1>RGB-Pi communication protocol</h1>
+</header>
 
-    <div id="index">
+
+    <nav id="index">
         <h2>Index</h2>
         <ol>
             <li>
@@ -41,7 +43,12 @@
                 <ol>
                     <li><a href="#filter-lifetime">Lifetime</a></li>
                     <li><a href="#filter-syntax">Syntax</a></li>
-                    <li><a href="#filter-types">Filter Types</a></li>
+                    <li>
+                        <a href="#filter-types">Filter Types</a>
+                        <ol>
+                            <li><a href="#filter-type-dim">Dim-Filter</a></li>
+                        </ol>
+                    </li>
                 </ol>
             </li>
             <li>
@@ -61,7 +68,9 @@
                 </ol>
             </li>
         </ol>
-    </div>
+    </nav>
+
+<article>
 
     <p>The server can receive commands from third party applications, like mobile apps.</p>
 
@@ -574,6 +583,7 @@
         <p>
             All filters have a base syntax which contains a "type" as string, a "finish" <a href="#datatype-condition">condition</a> and an optional onfinish action.
             <br/>The syntax is described below:
+
             <ul>
                 <li><strong>type</strong> - Defines the type of filter and its behaviour.</li>
                 <li><strong>finish</strong> - <a href="#datatype-condition">Condition</a> which determines when a filter should stop working.
@@ -604,7 +614,7 @@
         <h3 id="filter-types">Filter Types</h3>
         <p>Here is list of all filter types with example which are implemented yet:</p>
 
-        <h4>Dim-Filter</h4>
+        <h4 id="filter-type-dim">Dim-Filter</h4>
         <p>
             This filter allows you to "dim" the color changes of the current command by interpolating the color of
             every onColorChange call between the actual color and 0 according to the <a href="#datatype-condition-progress">progress</a>
@@ -777,6 +787,8 @@
             </p>
         </div>
     </div>
+</article>
 
+<footer></footer>
 </body>
 </html>
