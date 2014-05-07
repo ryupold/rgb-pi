@@ -584,16 +584,21 @@
             All filters have a base syntax which contains a "type" as string, a "finish" <a href="#datatype-condition">condition</a> and an optional onfinish action.
             <br/>The syntax is described below:
 
-            <ul>
-                <li><strong>type</strong> - Defines the type of filter and its behaviour.</li>
-                <li><strong>finish</strong> - <a href="#datatype-condition">Condition</a> which determines when a filter should stop working.
+
+            <dl>
+                <dt><strong>type</strong></dt>
+                <dd>Defines the type of filter and its behaviour.</dd>
+
+                <dt><strong>finish</strong></dt>
+                <dd><a href="#datatype-condition">Condition</a> which determines when a filter should stop working.
                     In some cases the <a href="#datatype-condition-progress">progress()</a> function of the condition is used to manipulate the data,
-                    so be aware which type of condition you use.
-                </li>
-                <li><strong>onfinish</strong> - Can be either "remove" or "stop". "remove" is the default value and causes the filter to be removed after the
-                    "finish"-condition becomes FALSE. "stop" on the other hand stops the current command and removes all other filters.
-                </li>
-            </ul>
+                    so be aware which type of condition you use.</dd>
+
+                <dt><strong>onfinish</strong></dt>
+                <dd>Can be either "remove" or "stop". "remove" is the default value and causes the filter to be removed after the
+                    "finish"-condition becomes FALSE. "stop" on the other hand stops the current command and removes all other filters.</dd>
+            </dl>
+
 <pre><code>
 {
     "filters":
@@ -612,7 +617,7 @@
         </p>
 
         <h3 id="filter-types">Filter Types</h3>
-        <p>Here is list of all filter types with example which are implemented yet:</p>
+        <p>Here is list of all filter types with examples which are implemented yet:</p>
 
         <h4 id="filter-type-dim">Dim-Filter</h4>
         <p>
@@ -620,6 +625,8 @@
             every onColorChange call between the actual color and 0 according to the <a href="#datatype-condition-progress">progress</a>
             of the "finish" condition.
         </p>
+        <p class="note">The "finish condition is checked on every color change."</p>
+
 
         <h5>Syntax</h5>
         <p>
@@ -641,6 +648,110 @@
 </code></pre>
         </p>
 
+        <h5>Example</h5>
+        <p>
+        Fading between white/blue while making it darker til black over 15 minutes.
+<pre><code>
+{
+    "commands":
+    [
+        "type":"loop",
+        "condition":"1"
+        "commands":
+        [
+            {
+                "type":"fade",
+                "time":"1",
+                "end":"{f:1,1,1}"
+            },
+            {
+                "type":"fade",
+                "time":"10",
+                "end":"{f:0,0,1}"
+            }
+        ]
+    ]
+
+    "filters":
+    [
+        {
+            "type":"dim",
+            "finish":{t:900},
+            "onfinish":"stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+
+        <h4>Voluma-Fade-Filter</h4>
+        <p>
+            Makes volume of the <strong>xbmc-service</strong> lower/louder according to the progress of the current fade.
+            With the "progress"-element you decide if the volume should go louder or lower with the progression of the current fade.
+            With the "limit"-element you can limit the maximum or minimum volume the filter can adjust while fading.
+        </p>
+
+        <p class="note">finish-condition is checked at every fading step (not if it's a <a href="#datatype-condition-type-iterate">iterate-condition</a>) and at the end of every corefunctions.fade()-call</p>
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"volumefade",
+
+            ##optional
+            "finish":"CONDITION",   ### condition can be times of fades
+            ##optional
+            "onfinish":"remove|stop",
+
+            "progress":"lower|louder",
+            "limit":0-100
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+        <h5>Example</h5>
+        <p>
+        Sleep function: Fading to random colors in random time while the music gets lower til it's off over 30 minutes
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"1"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1-30}",
+                    "end":"{r:0.5-1,0-0.5,0-0}"
+                }
+            ]
+        }
+
+    ]
+
+    "filters":
+    [
+        {
+            "type":"volumefade",
+            "finish":{t:1800},
+            "onfinish":"stop",
+            "progress":"lower",
+            "limit":0
+        }
+    ]
+}
+</code></pre>
+        </p>
+
     </div>
 
     <div id="requests">
@@ -652,8 +763,8 @@
         <p>In order to control RGB-Pi in a flexible and dynamic way, we created some complex datatypes.
         These have unlike other communication structures their own format.
         </p>
-        <p>Each data type is a string which is enclosed with <strong>{}</strong>-brackets. Currently there a <strong>3</strong>
-        different data types that can be used in RGB-Pi messages: Color, Time and Condition
+        <p>Each data type is a string which is enclosed with <strong>{}</strong>-brackets. Currently there a <strong>3
+        different data types</strong> that can be used in RGB-Pi messages: Color, Time and Condition
         </p>
         <p>Each data type is described in the following format: <strong>{SUBTYPE:VALUE}</strong>, where SUBTYPE describes how the VALUE is interpreted.
         More details to the data types and the way you declare the are found below.</p>
@@ -761,7 +872,7 @@
                         <li>example: <strong>{t:20}</strong> - this would create a condition which is TRUE for 20 seconds and then becomes FALSE</li>
                     </ol>
                 </li>
-                <li>
+                <li id="datatype-condition-type-iterate">
                     <strong>i</strong> - Condition bound to an amount of checks/iterations. It is TRUE at the beginning and becomes FALSE after X checks/iterations<br/>
                     <strong>Syntax: {i:X}</strong>
                     <ol>
