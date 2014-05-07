@@ -47,16 +47,19 @@
                         <a href="#filter-types">Filter Types</a>
                         <ol>
                             <li><a href="#filter-type-dim">Dim-Filter</a></li>
+                            <li><a href="#filter-type-volumefade">Volume-Fade-Filter</a></li>
+                            <li><a href="#filter-type-stopmusic">Stop-Music-Filter</a></li>
                         </ol>
-                    </li>
+            </li>
                 </ol>
             </li>
             <li>
                 <a href="#requests">Requests</a>
                 <ol>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
+                    <li><a href="#request-type-config">Config Request</a></li>
+                    <li><a href="#request-type-runtime">Runtime Request</a></li>
+                    <li><a href="#request-type-remove">Remove Request</a></li>
+                    <li><a href="#request-type-xbmc">XBMC Request</a></li>
                 </ol>
             </li>
             <li>
@@ -154,10 +157,6 @@
         <h3 id="communication-examples">Examples</h3>
         <p>TODO</p>
     </div>
-
-
-
-
 
     <div id="commands">
         <h2>Commands</h2>
@@ -685,7 +684,7 @@
         </p>
 
 
-        <h4>Voluma-Fade-Filter</h4>
+        <h4 id="filter-type-volumefade">Voluma-Fade-Filter</h4>
         <p>
             Makes volume of the <strong>xbmc-service</strong> lower/louder according to the progress of the current fade.
             With the "progress"-element you decide if the volume should go louder or lower with the progression of the current fade.
@@ -752,10 +751,400 @@
 </code></pre>
         </p>
 
+
+        <h4 id="filter-type-stopmusic">Stop-Music-Filter</h4>
+        <p>
+            This filter sends a <strong>stop-music</strong> command to the configured xbmc-service if the "finish"-condition becomes FALSE.
+        </p>
+        <p class="note">The "finish <a href="#datatype-condition">condition</a> is checked on every color change, every fading step and every end of a fade"</p>
+
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"stopmusic",
+
+            ##mandatory
+            "finish":"CONDITION",
+
+            ##optional
+            "onfinish":"remove|stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+    <h5>Example</h5>
+        <p>
+        Sleep function: Fading to random colors in random time. After 30 minutes the music goes off and the programm stops
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"1"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1-30}",
+                    "end":"{r:0.5-1,0-0.5,0-0}"
+                }
+            ]
+        }
+
+    ]
+
+    "filters":
+    [
+        {
+            "type":"stopmusic",
+            "finish":{t:1800},
+            "onfinish":"stop"
+
+        }
+    ]
+}
+</code></pre>
+        </p>
+
     </div>
 
     <div id="requests">
         <h2>Requests</h2>
+        <p>
+            Request can be used to retrive information about server or runtime data. They are executed parallel to running commands
+            and do not necessarily affect the running animation. They can also be used to manipulate runtime variables or control some
+            of the RGB-Pi functionalities.
+        </p>
+        <h3>Syntax</h3>
+        <p>
+            There can be only one request per  <a href="#communication-client-message">client-message</a>.
+            It's a single JSON object referenced by the key "request". Every request must contain a "type" element.
+            Additional request data depends on the type of request, seen in the following list of request types.
+<pre><code>
+{
+    "request":
+    {
+        "type":"type-of-request"
+    }
+}
+</code></pre>
+        </p>
+
+        <h3 id="request-type-config">Config Request</h3>
+        <p>
+            The config request is used to read the configuration data of the server.
+        </p>
+        <h4>Syntax</h4>
+        <p>
+        The config entries which need to be returned are referenced by their variable names in the <strong>config.py</strong>-file:
+        <ul>
+            <li>LED_PINS</li>
+            <li>MIN_VALUE</li>
+            <li>DELAY</li>
+            <li>SERVER_PORT</li>
+            <li>ENABLE_XBMC_REMOTE</li>
+            <li>XBMC_HOST</li>
+            <li>XBMC_PORT</li>
+        </ul>
+
+        There can be one or multiple key read with one request, by putting them as string in a JSON array referenced by "keys".
+
+<pre><code>
+{
+    "request":
+    {
+        "type":"config"
+        "keys":["key1", "key2", "key3", ...]
+    }
+}
+</code></pre>
+        </p>
+
+        <h4>Answer</h4>
+        <p>
+        The answer to the config request contains the "type":"config", the keys of the request and the values to the corresponding keys as array in the same order,
+
+<pre><code>
+{
+    "request":
+    {
+        "type":"config"
+        "keys":["key1", "key2", "key3", ...],
+        "values":["value1", "value2", "value3"]
+    }
+}
+</code></pre>
+        </p>
+
+
+        <h3 id="request-type-runtime">Runtime Request</h3>
+        <p>This request is used to read the value of runtime variables.</p>
+        <p class="note">There is only one retrievable variable yet, the current <a href="#datatype-color">color</a> of the first LED-stripe.</p>
+
+        <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"runtime",
+        "variable":"color"
+    }
+}
+</code></pre>
+            </p>
+
+        <h4>Answer</h4>
+        <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"runtime",
+        "variable":"color",
+        "value":"COLOR"
+    }
+}
+</code></pre>
+        </p>
+
+        <h3 id="request-type-remove">Remove Request</h3>
+        <p>This request is used to remove runtime items from server.</p>
+        <p class="note">Right now there only filters can be removed, other things are following some day</p>
+        <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"remove",
+        "item":"filter",
+        "id":"type-of-item"  ##like: "dim", for  dim-filter
+    }
+}
+</code></pre>
+            </p>
+
+        <h4>Answer</h4>
+        <p>
+        The answer contains the 3 fields of the request and a "count" element with the number of removed items.
+<pre><code>
+{
+    "request":
+    {
+        "type":"runtime",
+        "item":"filter",
+        "id":"type-of-item",  ##e.g.: "dim", for  dim-filter
+        "count":*             ##number of removed items
+    }
+}
+</code></pre>
+        </p>
+
+        <h3 id="request-type-xbmc">XBMC Request</h3>
+        <p>
+            This request can be used to either control a XBMC service or retrive runtime data of it.
+            It is also possible to send complex JSON objects (in the format of <a href="http://wiki.xbmc.org/?title=JSON-RPC_API">XBMC jsonrpc communication protocol</a>) to the XBMC server and use RGB-Pi as proxy for the communication.
+
+        </p>
+        <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+
+        ## one of the 3 cases
+
+        "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+        [,"params":[]]
+
+        OR
+
+        "get":"player|volume"
+
+        OR
+
+        "cmd":{jsonrpc-command}
+    }
+}
+</code></pre>
+            </p>
+
+        <h4>Answer</h4>
+        <p>
+        The answer to xbmc requests depends on the "set", "get" or "cmd" content and varies from simple int values to complex JSON objects.
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+
+        "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+        [,"params":[],]
+
+        OR
+
+        "get":"player|volume",
+
+        OR
+
+        "cmd":{jsonrpc-command},
+
+        "answer":answer to either set, get or cmd
+    }
+}
+</code></pre>
+        </p>
+
+        <h4>Examples</h4>
+        <h5>Show notification</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"notification",
+        "params":["title", "message"]
+    }
+}
+</code></pre>
+
+    <h5>Play/Pause current playing</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"playpause"
+    }
+}
+</code></pre>
+
+    <h5>Stop current playing</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"stop"
+    }
+}
+</code></pre>
+
+    <h5>Next/Previous song</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"next|previous"
+    }
+}
+</code></pre>
+
+    <h5>Set volume to 50%</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"volume",
+        "params":[50]
+    }
+}
+</code></pre>
+
+
+     <h5>Raise/lower volume by 10%</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"volup|voldown"
+    }
+}
+</code></pre>
+
+    <h5>Get current player ID</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"player"
+    }
+}
+</code></pre>
+    <strong>Possible answer</strong>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"player",
+        "answer":0
+    }
+}
+</code></pre>
+
+    <h5>Get current volume</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"volume"
+    }
+}
+</code></pre>
+    <strong>Possible answer (30%)</strong>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"volume",
+        "answer":30
+    }
+}
+</code></pre>
+
+    <h5>Send JSONRPC-command to xbmc service</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "cmd":{jsonrpc-command}
+    }
+}
+</code></pre>
+    <strong>Answer</strong>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"volume",
+        "answer":{answer-of-jsonrpc-command}
+    }
+}
+</code></pre>
+
+
+
+
     </div>
 
 <div id="datatypes">

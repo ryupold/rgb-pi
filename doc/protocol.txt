@@ -141,18 +141,18 @@
 #note: the xbmc commands only work if config.ENABLE_XBMC_REMOTE is enabled, otherwise you get an appropriate error
 {
     "type":"xbmc",
-    (
-        "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
-        [,"params":[]]
 
-        OR
+    "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+    [,"params":[]]
 
-        "get":"player|volume"
+    OR
 
-        OR
+    "get":"player|volume"
 
-        "cmd":{jsonrcp-command}
-    )
+    OR
+
+    "cmd":{jsonrcp-command}
+
 }
 
 #example: set volume to 50%

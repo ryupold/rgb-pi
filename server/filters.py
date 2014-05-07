@@ -137,6 +137,11 @@ class StopMusicFilter(Filter):
                 'config.ENABLE_XBMC_REMOTE needs to be enabled in order to send commands to your xbmc-service')
         super(StopMusicFilter, self).__init__(constants.FILTER_TYPE_STOPMUSIC, filter)
 
+    def onChangeColor(self, newColor):
+        if not self.finishTrigger.check():
+            xbmcremote.stop()
+            self.finish()
+
     def onFadeStep(self, seconds, startColor, endColor, progress):
         if not self.finishTrigger.check():
             xbmcremote.stop()
