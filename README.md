@@ -79,7 +79,7 @@ The server can receive commands from third party applications, like mobile apps.
 
 By default the server listens to <strong>port 4321</strong>, but this can be configured in **config.py**.
 
-A documentation to the communication protocol can be found here (https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
+A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
 
 
 ## Contributors
