@@ -154,8 +154,53 @@
 
         </p>
 
-        <h3 id="communication-examples">Examples</h3>
-        <p>TODO</p>
+        <h3 id="communication-examples">Example</h3>
+        <p>Below is an example for a client request:</p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"cc",
+            "color":"{x:0000FF}"
+        },
+        {
+            "type":"loop",
+            "condition":"{i:10}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":30,
+                    "end":"{r:0.5-1,0.5-1,0.5-1}"
+                }
+            ]
+        }
+    ],
+
+    "filters":
+    [
+
+        {
+            "type":"stopmusic",
+            "finish":"{t:}"
+        },
+        {
+            "type":"dim",
+            "finish":"{t:200}",
+            "onfinish":"stop"
+        }
+    ],
+
+    "request":
+    {
+        "type":"config",
+        "keys":["XBMC_HOST", "XBMC_PORT"]
+    }
+
+}
+</code></pre>
+
     </div>
 
     <div id="commands">
