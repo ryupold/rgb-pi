@@ -40,7 +40,10 @@ LEVEL_SECURITY = 0x2000
 LEVEL_FILTERS = 0x4000
 
 #   0x8000 = logs for adding and removing filters
-LEVEL_FILTER_ACTIONS = 0x8000
+LEVEL_FILTER_ACTIONS = 0x8000,
+
+#   0x10000 = logs for adding and removing triggers
+LEVEL_TRIGGER = 0x10000
 
 
 
@@ -60,7 +63,7 @@ def m(loglvl):
 
 #prints the given message to stdout if loglevel mask matches the actual logging level, defined in LOG_LEVEL
 #if no loglevel is given, a default loglevel of 0xFFFF (matches to all levels except 0x0000) is used
-def l(msg, loglvl=0xFFFFF):
+def l(msg, loglvl=0xFFFFFF):
     """
     l=log
     if given 'loglvl'-parameter matches the current logging level, the 'msg' will be printed with the actual time as prefix
