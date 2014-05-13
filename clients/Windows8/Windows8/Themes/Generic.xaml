@@ -13,7 +13,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <TextBlock Text="Color Picker" FontFamily="Segoe UI Light" FontSize="36"/>
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

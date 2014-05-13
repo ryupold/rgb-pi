@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -13,12 +14,82 @@ using Windows.UI.Xaml.Media;
 
 namespace Windows8
 {
-    public sealed class ColorPicker : Control
+    public class Color
+    {
+        private float r, g, b;
+
+        public float R { get; private set; }
+        public float G { get; private set; }
+        public float B { get; private set; }
+
+        private float h, s, v;
+        public float H
+        {
+
+        }
+
+
+        public Color(float r, float g, float b)
+        {
+            R = r;
+            G = g;
+            B = b;
+        }
+
+        public Color(byte r, byte g, byte b)
+        {
+            R = r / 255f;
+            G = g / 255f;
+            B = b / 255f;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="h">0 - 360</param>
+        /// <param name="s">0 - 1</param>
+        /// <param name="v">0 - 1</param>
+        /// <returns></returns>
+        public static Color FromHSV(float h, float s, float v)
+        {
+            float M = v;
+            float m = M * (1 - s);
+            float z = (M-m)*(1 - Math.Abs((h/60f) % 2 - 1));
+
+            float r = 0;
+            float g = 0;
+            float b = 0;
+
+            if(h < 60)
+            {
+                r = M;
+                g = z + m;
+                b = m;
+            }
+            else if (h >= 60 && h < 120)
+            {
+
+            }
+            else if (h >= 60 && h < 120)
+            {
+
+            }
+        }
+
+
+    }
+
+    public class ColorPicker : Control
     {
         public ColorPicker()
         {
             this.DefaultStyleKey = typeof(ColorPicker);
         }
+
+
+
+
+
 
         public bool Blink
         {
@@ -37,7 +108,7 @@ namespace Windows8
                     new PropertyChangedCallback(OnBlinkChanged)
                 )
             );
-        
+
         private static void OnBlinkChanged(
             DependencyObject d,
             DependencyPropertyChangedEventArgs e
@@ -50,7 +121,9 @@ namespace Windows8
             }
         }
 
-        
+
+
+
     }
 
 }

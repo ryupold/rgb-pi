@@ -115,10 +115,15 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Assets\hsv2.pdn" />
+    <None Include="Assets\hsv3.pdn" />
     <None Include="packages.config" />
     <None Include="Windows8_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\hsv1.png" />
+    <Content Include="Assets\hsv2.png" />
+    <Content Include="Assets\hsv3.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
