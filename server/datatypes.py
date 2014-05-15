@@ -6,14 +6,15 @@ import time
 import utils
 import constants
 import led
-
+import datetime
+import math
 
 
 #color string format {x|b|f:string}
 #example1 hex-string:	{x:FF00A1}
 #example2 byte:			{b:255,0,161}
 #example3 float:		{f:1,0,0.63}
-class Color():
+class Color(object):
     def __init__(self, redFloat_Or_colorString, greenFloat=None, blueFloat=None, address=None):
         if greenFloat is None or blueFloat is None:
             self.colorString = string.strip(redFloat_Or_colorString)
@@ -102,6 +103,9 @@ class Color():
     def getHexString(self):
         return utils.getColorString([self.redByte(), self.greenByte(), self.blueByte()])
 
+    def magnitude(self):
+        return math.sqrt(self.R*self.R + self.G*self.G + self.B*self.B)
+
     def __str__(self):
         return '{f:'+str(self.R)+','+str(self.G)+','+str(self.B)+'}'
 
@@ -125,7 +129,7 @@ class Color():
 
 
 
-class Time():
+class Time(object):
     def __init__(self, seconds):
         self.timeString = string.strip(str(seconds))
         self.seconds = 0.0
@@ -170,7 +174,7 @@ class Time():
         return Time(max(self.seconds / other.seconds, 0))
 
 
-class Condition():
+class Condition(object):
     def __init__(self, condition):
         self.conditionString = string.strip(str(condition))
         self.condition = 0
@@ -248,6 +252,66 @@ class Condition():
             self.condition = led.COLOR[0] != self.color
 
         return self.condition
+
+    def __str__(self):
+        return str(self.condition)
+
+
+class TriggerCondition(object):
+    """
+    Condition used by Triggers
+    """
+    def __init__(self, condition):
+        self.conditionString = string.strip(str(condition))
+        self.condition = 0
+        self.type = constants.TRIGGER_TIME
+        self.time = None
+        self.lastTime = None
+        self.color = None
+
+        if self.conditionString[0] != '{' or self.conditionString[len(self.conditionString)-1] != '}':
+            raise ValueError('condition must defined within {} brackets ' + self.conditionString)
+
+
+        conditionString = self.conditionString[1:len(self.conditionString)-1]
+        conditionParts = string.split(conditionString, ':')
+
+        if not (conditionParts[0] in ['t','c']):
+            raise ValueError('unknown condition type: '+conditionParts[0])
+
+        #extracting condition
+        if conditionParts[0] == 't':
+            self.type = constants.TRIGGER_TYPE_TIME
+            hms = string.split(conditionParts[1], ",")
+            self.time = datetime.time(hms[0], hms[1], hms[2])
+
+            if self.lastTime is None:
+                self.lastTime = datetime.datetime.utcnow()
+
+        if conditionParts[0] == 'c':
+            self.type = constants.TRIGGER_TYPE_COLOR
+            self.color = Color(conditionParts[1])
+
+    def check(self):
+        if self.type == constants.TRIGGER_TYPE_TIME:
+            currentDateTime = datetime.datetime.combine(datetime.date.today(), self.time)
+            if currentDateTime < datetime.datetime.utcnow() and currentDateTime > self.lastTime:
+                self.condition = 1
+            else:
+                self.condition = 0
+            self.lastTime = datetime.datetime.utcnow()
+
+        if self.type == constants.TRIGGER_TYPE_COLOR:
+            if (led.COLOR[0] - self.color).magnitude() < 0.01:
+                self.condition = 1
+            else:
+                self.condition = 0
+
+    def isTrue(self):
+        return self.condition != 0
+
+    def isFalse(self):
+        return self.condition == 0
 
     def __str__(self):
         return str(self.condition)

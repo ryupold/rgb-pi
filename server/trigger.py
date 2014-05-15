@@ -12,8 +12,7 @@ import xbmcremote
 class Trigger(object):
 
     def __init__(self, trigger):
-
-        if log.m(log.LEVEL_FILTERS): log.l('filter initialized: ' + self.type)
+        if log.m(log.LEVEL_FILTERS): log.l('trigger initialized: ' + self.type)
 
 
     def event(self):
