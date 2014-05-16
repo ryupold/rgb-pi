@@ -14,70 +14,88 @@ using Windows.UI.Xaml.Media;
 
 namespace Windows8
 {
-    //public class Color
-    //{
-    //    private float r, g, b;
+    public class Color
+    {
+        private float r, g, b;
 
-    //    public float R { get; private set; }
-    //    public float G { get; private set; }
-    //    public float B { get; private set; }
-
-    //    private float h, s, v;
-    //    public float H
-    //    {
-
-    //    }
+        public float R { get; private set; }
+        public float G { get; private set; }
+        public float B { get; private set; }
 
 
-    //    public Color(float r, float g, float b)
-    //    {
-    //        R = r;
-    //        G = g;
-    //        B = b;
-    //    }
+        public Color(float r, float g, float b)
+        {
+            R = r;
+            G = g;
+            B = b;
+        }
 
-    //    public Color(byte r, byte g, byte b)
-    //    {
-    //        R = r / 255f;
-    //        G = g / 255f;
-    //        B = b / 255f;
-    //    }
+        public Color(byte r, byte g, byte b)
+        {
+            R = r / 255f;
+            G = g / 255f;
+            B = b / 255f;
+        }
 
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="h">0 - 360</param>
-    //    /// <param name="s">0 - 1</param>
-    //    /// <param name="v">0 - 1</param>
-    //    /// <returns></returns>
-    //    public static Color FromHSV(float h, float s, float v)
-    //    {
-    //        float M = v;
-    //        float m = M * (1 - s);
-    //        float z = (M-m)*(1 - Math.Abs((h/60f) % 2 - 1));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="h">0 - 360</param>
+        /// <param name="s">0 - 1</param>
+        /// <param name="v">0 - 1</param>
+        /// <returns></returns>
+        public static Color FromHSV(float h, float s, float v)
+        {
+            float M = v;
+            float m = M * (1 - s);
+            float z = (M-m)*(1 - Math.Abs((h/60f) % 2 - 1));
 
-    //        float r = 0;
-    //        float g = 0;
-    //        float b = 0;
+            float r = 0;
+            float g = 0;
+            float b = 0;
 
-    //        if(h < 60)
-    //        {
-    //            r = M;
-    //            g = z + m;
-    //            b = m;
-    //        }
-    //        else if (h >= 60 && h < 120)
-    //        {
+            if(h < 60)
+            {
+                r = M;
+                g = z + m;
+                b = m;
+            }
+            else if (h >= 60 && h < 120)
+            {
+                r = z + m;
+                g = M;
+                b = m;
+            }
+            else if (h >= 120 && h < 180)
+            {
+                r = m;
+                g = M;
+                b = z + m;
+            }
+            else if (h >= 180 && h < 240)
+            {
+                r = m;
+                g = z+m;
+                b = M;
+            }
+            else if (h >= 240 && h < 300)
+            {
+                r = z+m;
+                g = m;
+                b = M;
+            }
+            else if (h >= 300 && h < 360)
+            {
+                r = M;
+                g = m;
+                b = z + m;
+            }
 
-    //        }
-    //        else if (h >= 60 && h < 120)
-    //        {
-
-    //        }
-    //    }
+            return new Color(r, g, b);
+        }
 
 
-    //}
+    }
 
     public class ColorPicker : Control
     {
@@ -120,10 +138,6 @@ namespace Windows8
                 //do something on property change
             }
         }
-
-
-
-
     }
 
 }
