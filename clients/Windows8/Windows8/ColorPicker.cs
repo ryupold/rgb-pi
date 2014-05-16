@@ -22,12 +22,6 @@ namespace Windows8
         public float G { get; private set; }
         public float B { get; private set; }
 
-        private float h, s, v;
-        public float H
-        {
-
-        }
-
 
         public Color(float r, float g, float b)
         {
@@ -68,12 +62,36 @@ namespace Windows8
             }
             else if (h >= 60 && h < 120)
             {
-
+                r = z + m;
+                g = M;
+                b = m;
             }
-            else if (h >= 60 && h < 120)
+            else if (h >= 120 && h < 180)
             {
-
+                r = m;
+                g = M;
+                b = z + m;
             }
+            else if (h >= 180 && h < 240)
+            {
+                r = m;
+                g = z+m;
+                b = M;
+            }
+            else if (h >= 240 && h < 300)
+            {
+                r = z+m;
+                g = m;
+                b = M;
+            }
+            else if (h >= 300 && h < 360)
+            {
+                r = M;
+                g = m;
+                b = z + m;
+            }
+
+            return new Color(r, g, b);
         }
 
 
