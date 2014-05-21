@@ -286,7 +286,7 @@ def serverConfig():
         else:
             v = None
             if choises[answer] == 'SERVER_PORT': v = messageBoxINT('Please enter the port, the server should be bound to', 1, 65535)
-            if choises[answer] == 'CONNECTION_TIMEOUT': v = messageBoxFLOAT('Enter the timeout for the network communication (in seconds). (default value: 1.0)', 0.0, 1.7976931348623157e+308)
+            if choises[answer] == 'CONNECTION_TIMEOUT': v = messageBoxFLOAT('Enter the timeout in seconds for the network communication (0.0 activates the non-blocking mode). (default value: 1.0)', 0.0, 1.7976931348623157e+308)
             if choises[answer] == 'DELAY': v = messageBoxFLOAT('Enter the delay between fade-color-change-iterations (good value: 0.01)', 0.0001, 1)
             if choises[answer] == 'MIN_VALUE': v = messageBoxFLOAT("Enter the minimum value the RGB Pins can be set to before the LEDs start \"blinking\"", 0.0, 0.999)
             CONFIG[choises[answer]] = str(v)
