@@ -85,7 +85,7 @@ namespace RGB
                     toast.Content = "Saved!";
                     toast.Show();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ShellToast toast = new ShellToast();
                     toast.Title = "RGB-Pi";
@@ -103,7 +103,7 @@ namespace RGB
             };
             ApplicationBar.Buttons.Add(abbOff);
 
-            
+
         }
     }
 }

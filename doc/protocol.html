@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>RGB-Pi communication protocol</title>
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="protocol.css">
+    <script src="highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header>
+    <h1>RGB-Pi communication protocol</h1>
+</header>
+
+
+    <nav id="index">
+        <h2>Index</h2>
+        <ol>
+            <li>
+                <a href="#communication">Communication</a>
+                <ol>
+                    <li><a href="#communication-syntax">Request/Answer syntax</a></li>
+                    <li><a href="#communication-basic">Basic Communication</a></li>
+                    <li><a href="#communication-answer">Answer</a></li>
+                    <li><a href="#communication-examples">Examples</a></li>
+                </ol>
+            </li>
+
+            <li>
+                <a href="#commands">Commands</a>
+                <ol>
+                    <li><a href="#command-cc">cc - Change Color</a></li>
+                    <li><a href="#command-fade">fade - Fade to color</a></li>
+                    <li><a href="#command-wait">wait - Wait an amount of time</a></li>
+                    <li><a href="#command-list">list - Execute a list of Commands</a></li>
+                    <li><a href="#command-loop">loop - Loop through a list of Commands</a></li>
+                    <li><a href="#command-nop">nop - Do nothing</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#filters">Filters</a>
+                <ol>
+                    <li><a href="#filter-lifetime">Lifetime</a></li>
+                    <li><a href="#filter-syntax">Syntax</a></li>
+                    <li>
+                        <a href="#filter-types">Filter Types</a>
+                        <ol>
+                            <li><a href="#filter-type-dim">Dim-Filter</a></li>
+                            <li><a href="#filter-type-volumefade">Volume-Fade-Filter</a></li>
+                            <li><a href="#filter-type-stopmusic">Stop-Music-Filter</a></li>
+                        </ol>
+            </li>
+                </ol>
+            </li>
+            <li>
+                <a href="#requests">Requests</a>
+                <ol>
+                    <li><a href="#request-type-config">Config Request</a></li>
+                    <li><a href="#request-type-runtime">Runtime Request</a></li>
+                    <li><a href="#request-type-remove">Remove Request</a></li>
+                    <li><a href="#request-type-xbmc">XBMC Request</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#datatypes">Data Types</a>
+                <ol>
+                    <li><a href="#datatype-color">Color</a></li>
+                    <li><a href="#datatype-time">Time</a></li>
+                    <li><a href="#datatype-condition">Condition</a></li>
+                </ol>
+            </li>
+        </ol>
+    </nav>
+
+<article>
+
+    <p>The server can receive commands from third party applications, like mobile apps.</p>
+
+    <p>
+    To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip.
+    The command has to be a string with a maximum size of 1024 bytes.
+    By default the server listens to port <strong>4321</strong>, but this can be configured with <strong>configutre.py config</strong> or manually set in <strong>config.py</strong>.
+    </p>
+
+    <div id="communication">
+        <h2>Communication</h2>
+        <p>
+            The whole communication in RGB-Pi is based on the exchange of JSON-objects.
+            This means every message sent to the RGB-Pi server has to be a valid JSON-object serialized as string.
+            After each sent message a JSON-object is sent back as answer and acknowledgement at the same time.
+        </p>
+
+        <h3 id="communication-syntax">Request/Answer syntax</h3>
+        <p id="communication-client-message"><strong>Client request (client -> server)</strong></p>
+        <pre><code>
+            {
+                "commands":[],  ##optional
+
+                "filters":[],   ##optional
+
+                "request":{}    ##optional
+            }
+        </code></pre>
+        <p id="communication-server-answer"><strong>Answer/Acknowledge message (server -> client)</strong></p>
+        <pre><code>
+            {
+                "commands":1|0,                 ##only available if 'commands'-node was present in client request
+
+                "filters":1|0,                  ##only available if 'filters'-node was present in client request
+
+                "request":{answer-to-request},  ##only available if 'request'-node was present in client request
+
+                "error":[]                      ##always available, but empty array if no errors occurred
+            }
+        </code></pre>
+
+        <p>In the code snippets above you can see the basic components of a communication session.
+            To get more in detail we will show you first the complete sequence of actions happen during a
+            communication between client and server and then show some examples for each message-/answer-part.
+        </p>
+
+        <h3 id="communication-basic">Basic communication flow</h3>
+        <p>The low level actions that take place during communication are:</p>
+        <ol>
+            <li>CONNECT via TCP Socket to the IP:Port of the RGB-Pi server.</li>
+            <li>SEND a serialized JSON-object as string in the format described <a href="#communication-client-message">above</a>.</li>
+            <li>RECEIVE the answer for the sent request.</li>
+            <li>CLOSE the TCP socket.</li>
+        </ol>
+
+        <h3 id="communication-answer">Answer</h3>
+        <p>
+            <p>
+            The server processes the incoming client request and sends an answer in JSON-format as response.
+            You can see in the <a href="#communication-server-answer">answer-syntax</a> that there are 4 possible nodes in the answer object from the server.
+            </p>
+
+            <p>
+            The first two are simple to understand: if the client request contained at least one command/filter the answer object will have a corresponding node,
+            whose value is <strong>1</strong> if the commands/filters were recognized and correctly initialized, otherwise the commands/filters node has a <strong>0</strong> as value.
+            </p>
+
+            <p>
+            If the client message contained a request node, the answer object will also contain a request node with the answer-content of the requested value/functionality.
+            In some cases this isn't only a simple value, but can also be a complex json-object representing the answer to the request (like in the case of some XBMC-requests).
+            </p>
+
+            <p>
+            The last node in the answer object, 'error', is always present.
+            It contains a string array which is emtpy in the best case, otherwise it contains the errors/exceptions happened
+            during the interpretation or initialization of the received client request.
+            </p>
+
+        </p>
+
+        <h3 id="communication-examples">Example</h3>
+        <p>Below is an example for a client request:</p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"cc",
+            "color":"{x:0000FF}"
+        },
+        {
+            "type":"loop",
+            "condition":"{i:10}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":30,
+                    "end":"{r:0.5-1,0.5-1,0.5-1}"
+                }
+            ]
+        }
+    ],
+
+    "filters":
+    [
+
+        {
+            "type":"stopmusic",
+            "finish":"{t:}"
+        },
+        {
+            "type":"dim",
+            "finish":"{t:200}",
+            "onfinish":"stop"
+        }
+    ],
+
+    "request":
+    {
+        "type":"config",
+        "keys":["XBMC_HOST", "XBMC_PORT"]
+    }
+
+}
+</code></pre>
+
+    </div>
+
+    <div id="commands">
+        <h2>Commands</h2>
+        <p><strong>Commands</strong> are the core elements of RGB-Pi.</p>
+        <p>They need to be on first level of the communication json-object, referenced by the key: <strong>'commands'</strong>.
+            There must be only one 'commands'-node with an array which contains a 0-n list of commands</p>
+        <p>Some commands can also contain an array with sub-commands, in order to make it possible to build every imaginable effect you want.
+        More details follow below.</p>
+
+        <h3 id="command-syntax">Syntax</h3>
+        <p>All commands need to have a "type" field with a value which corresponds the type of command.
+            The order of the key:value pairs in a command is not important.</p>
+
+        <!-- CC -->
+        <h3 id="command-cc">cc - Change Color</h3>
+        <h4>Description</h4>
+        <p>The <strong>cc</strong> command changes the color directly. It is also possible calculate the new color with a given arithmetic operator.</p>
+        <h4>Syntax</h4>
+        <p>The JSON-object of the <strong>cc</strong> command must set "cc" as "type" and requires a <a href="#datatype-color">color object</a>.</p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"cc",
+            "color":"COLOR"
+
+            ##optional
+            ,"operator"="*" ## possible operators are + , -, *, and /
+        }
+    ]
+}
+</code></pre>
+        <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol, a call of cc would look like;
+            <pre><code>cc COLOR</code></pre>
+            Example: set LED color to red: <pre><code>cc {f:1,0,0}</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects. the same call would look like;
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"cc",
+            "color":"{f:1,0,0}"
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows the color-arithmetic mechanic:
+<pre><code>
+{
+    "commands":
+    [
+            {
+                "type":"cc",
+                "operator":"*",
+                "color":"{f:0.1,0.1,0.1}"
+            }
+    ]
+}
+</code></pre>
+            This would make the current color 10% darker.
+        </p>
+
+
+        <!-- FADE -->
+        <h3 id="command-fade">fade - Fade to Color</h3>
+        <h4>Description</h4>
+        <p>The <strong>fade</strong> command changes the color over a given time. It's optionally possible to declare a start-color from which the fade starts transitioning to the end-color.</p>
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>fade</strong> command must set "fade" as "type". It requires a <a href="#datatype-time">time object</a> which defines
+        the fading time and a <a href="#datatype-color">color object</a> as <strong>end</strong>-color. Additionally it's also possible to define a
+        <strong>start</strong> color object from which the fading animation should start, if it's not present the current color is taken as <strong>start</strong>-color.
+        <a href="#datatype-color">color object</a>.
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"fade",
+            "time":"TIME",
+
+            ##optional
+            "start":"COLOR",
+
+            "end":"COLOR"
+        }
+    ]
+}
+</code></pre>
+       <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol, a call of fade would look like;
+            <pre><code>fade TIME COLOR [COLOR]</code></pre>
+            Example: fade current color to red in 5 seconds: <pre><code>fade 5 {f:1,0,0}</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects. The same call would look like;
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"fade",
+            "time":"{c:5}",
+            "end":"{f:1,0,0}"
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows that it is also possible to start from a specific color:
+<pre><code>
+{
+    "commands":
+    [
+       {
+            "type":"fade",
+            "time":"600",
+            "start":"{b:0,0,255}",
+            "end":"{f:0,0,0}"
+       }
+    ]
+}
+</code></pre>
+            This would lead to a fade from blue to black (off) over 10 minutes.<br/>
+            NOTE: The time value can also be a simple float value, it will be converted to a time object implicitly.
+        </p>
+
+        <!-- WAIT -->
+        <h3 id="command-wait">wait - Wait an amount of time</h3>
+        <h4>Description</h4>
+        <p>
+            The <strong>wait</strong> command does no color changes. It can be used like a 'sleep' command in various programming languages
+            to let the current execution wait a defined time and continue after that time exceeds with the next command.
+            It is usually used in <a href="#command-list">list</a>- or <a href="#command-loop">loop</a>-commands.
+        </p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>wait</strong> command must set "wait" as "type". It only requires a <a href="#datatype-time">time object</a> which describes the amount of time should be waited.
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"wait",
+            "time":"TIME"
+        }
+    ]
+}
+</code></pre>
+
+        <h4>Examples</h4>
+        <p>
+            In the following example RGB-Pi will wait 5 seconds and then change the current color to Green:
+
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"wait",
+            "time":"{c:5}"
+        },
+        {
+            "type":"cc",
+            "color":"{x:00FF00}"
+        }
+    ]
+}
+</code></pre>
+
+
+
+
+        <!-- LIST -->
+        <h3 id="command-list">list - List of commands</h3>
+        <h4>Description</h4>
+        <p>The <strong>list</strong> object defines a list of commands which are executed one after another in the order they are defined in the "commands"-array. It also allows the nesting of commands.</p>
+        <p>NOTE: The "commands"-array in the <a href="#communication-client-message">client request</a> is implicitly converted into a list command with the defined commands as children.</p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>list</strong> command must set "list" as "type".
+        It must declare a "commands" attribute with an array-value that contains 0-n objects which again can be <a href="#commands">commands</a> of any type.
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"list"
+            "commands":[COMMAND1, COMMAND2, ...]
+        }
+    ]
+}
+</code></pre>
+
+        <h4>Examples</h4>
+        <p>
+            In the following example RGB-Pi will fade over 1 minute to white, then wait 5 seconds and then switch the color to green immediately:
+
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"list"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":60,
+                    "end":"{f:1,1,1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"{c:5}"
+                },
+                {
+                    "type":"cc",
+                    "color":"{x:00FF00}"
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+
+        <!-- LOOP -->
+        <h3 id="command-loop">loop - looping through a list of commands while a condition is true</h3>
+        <h4>Description</h4>
+        <p>
+            The <strong>loop</strong> object defines a list of commands which are executed one after another in the order they
+            are defined in the "commands"-array. It also allows the nesting of commands.
+            This command is similar to a traditional 'while-loop' in programming languages. Before the first and after the last command a
+            <strong>condition</strong> is checked. If it is <strong>true</strong> the loop will continue executing the inner list of commands
+            til the condition becomes <strong>false</strong>.
+        </p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>loop</strong> command must set "loop" as "type".
+        It must declare a "commands" attribute with an array-value that contains 0-n objects which again can be <a href="#commands">commands</a> of any type.
+        It also must contain a "condition"-attribute which value is a <a href="#datatype-condition">condition</a>-object that defines the end of the loop.
+        </p>
+<pre><code>
+ {
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"CONDITION"
+            "commands":[COMMAND1, COMMAND2, ...]
+        }
+    ]
+}
+</code></pre>
+
+        <h4>Examples - comparison to old protocol</h4>
+        <p>
+            In the old protocol was a program called <strong>random fader</strong>, a call of it looked like;
+            <pre><code>rf minTime maxTime minBrightness maxBrightness</code></pre>
+            Example: fade to a random color over a random time between 1 and 20 seconds: <pre><code>rf 1 18 0.0 1.0</code></pre>
+        </p>
+        <p>
+            The new protocol accepts only JSON-objects.
+            To create a animation with the same behaviour you can combine the previously showed commands with the loop command:
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1,20}",
+                    "end":"{r:0-1,0-1,0-1}"
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+            Another example shows the new equivalent of the <strong>jump</strong> command which switches the colors every few seconds:
+            <pre><code>jump waitTime minBrightness maxBrightness</code></pre>
+            Example: Jump every 5 seconds to a random color:
+            <pre><code>jump 5 0 1</code></pre><br/>
+
+            The same functionality in the new protocol:
+<pre><code>
+{
+    "commands":
+    [
+       {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"cc",
+                    "color":"{r:0-1,0-1,0-1}"
+                },
+                {
+                    "type":"wait",
+                    "time":"5"
+                }
+            ]
+       }
+    ]
+}
+</code></pre><br/>
+
+        Another example shows a more complex animation. It will fade over 20 seconds to red, then pulse between red and green 2 times,
+        then pulse blue-black 10 times and then start over:
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"{b:1}",
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"20",
+                    "end":"{f:1,0,0}"
+                },
+                {
+                    "type":"loop",
+                    "condition":"{i:2}",
+                    "commands":
+                    [
+                        {"type":"fade", "time":"5", "end":"{f:0,1,0}"},
+                        {"type":"fade", "time":"5", "end":"{f:1,0,0}"}
+                    ]
+                },
+                {
+                    "type":"loop",
+                    "condition":"{i:10}",
+                    "commands":
+                    [
+                        {"type":"fade", "time":"1", "end":"{f:0,0,1}"},
+                        {"type":"fade", "time":"1", "end":"{f:0,0,0}"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+        </p>
+
+
+
+        <!-- NOP -->
+        <h3 id="command-nop">nop - Do nothing</h3>
+        <h4>Description</h4>
+        <p>
+            The <strong>nop</strong> command does nothing during execution. It can be send as single command to stop the current running command.
+            That works because if a <a href="#communication-client-message">client message</a> contains a valid commands section rgb-pi stops the current
+            running command, initialized the new one and executes it til it's finished.
+        </p>
+
+        <h4>Syntax</h4>
+        <p>
+        The JSON-object of the <strong>nop</strong> command must set "nop" as "type".
+        </p>
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"nop"
+        }
+    ]
+}
+</code></pre>
+
+    </div>
+
+    <div id="filters">
+        <h2>Filters</h2>
+        <p>Filters apply a way in manipulating/extending execution of commands.</p>
+        <p>Like the name hints they accept some type of input in form of an event, probably manipulate the incoming data,
+            and trigger other functionalities and/or pass the manipulated data to the next receiver.</p>
+        <p>If it's not clear yet what you can do with filters, the following sections describe the built-in filters and how they work in examples:</p>
+
+        <h3 id="filter-lifetime">Lifetime</h3>
+        <p>
+            The lifetime of filters is coupled with the current running command and its finish-condition.
+            This leads to following cases in which a filter can be removed:
+            <ol>
+                <li>If no command is active -> filters do nothing.</li>
+                <li>If a command ends or is stopped otherways -> all filters are removed.</li>
+                <li>If a new command incomes -> all filters associated with the old command are removed.</li>
+                <li>if the finish condition of a trigger becomes FALSE -> depending on the "onfinish"-action the filter is removed or the command is stopped (which leads to number 2)</li>
+            </ol>
+        </p>
+
+        <h3 id="filter-syntax">Syntax</h3>
+        <p>
+            Like described in the <a href="#communication-syntax">client request</a>-syntax the filters come in JSON format
+            as array of all filters which should be added to the command. It is possible to add them directly along with the command in the same message,
+            or add them additionally to a running command in a single  <a href="#communication-syntax">client message</a>.
+        </p>
+        <p>
+            All filters have a base syntax which contains a "type" as string, a "finish" <a href="#datatype-condition">condition</a> and an optional onfinish action.
+            <br/>The syntax is described below:
+
+
+            <dl>
+                <dt><strong>type</strong></dt>
+                <dd>Defines the type of filter and its behaviour.</dd>
+
+                <dt><strong>finish</strong></dt>
+                <dd><a href="#datatype-condition">Condition</a> which determines when a filter should stop working.
+                    In some cases the <a href="#datatype-condition-progress">progress()</a> function of the condition is used to manipulate the data,
+                    so be aware which type of condition you use.</dd>
+
+                <dt><strong>onfinish</strong></dt>
+                <dd>Can be either "remove" or "stop". "remove" is the default value and causes the filter to be removed after the
+                    "finish"-condition becomes FALSE. "stop" on the other hand stops the current command and removes all other filters.</dd>
+            </dl>
+
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"name-of-filter",
+            "finish":"CONDITION",
+
+            ##optional (default value is "remove")
+            "onfinish":"remove|stop"
+        }
+    ]
+}
+</code></pre>
+
+        </p>
+
+        <h3 id="filter-types">Filter Types</h3>
+        <p>Here is list of all filter types with examples which are implemented yet:</p>
+
+        <h4 id="filter-type-dim">Dim-Filter</h4>
+        <p>
+            This filter allows you to "dim" the color changes of the current command by interpolating the color of
+            every onColorChange call between the actual color and 0 according to the <a href="#datatype-condition-progress">progress</a>
+            of the "finish" condition.
+        </p>
+        <p class="note">The "finish condition is checked on every color change."</p>
+
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"dim",
+
+            ##note: a time condition makes most sense here to realize a dimmer-like behaviour.
+            "finish":CONDITION,
+
+            ##note: the "stop" action makes most sense here to realize a dimmer-like behaviour.
+            "onfinish":"stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+        <h5>Example</h5>
+        <p>
+        Fading between white/blue while making it darker til black over 15 minutes.
+<pre><code>
+{
+    "commands":
+    [
+        "type":"loop",
+        "condition":"1"
+        "commands":
+        [
+            {
+                "type":"fade",
+                "time":"1",
+                "end":"{f:1,1,1}"
+            },
+            {
+                "type":"fade",
+                "time":"10",
+                "end":"{f:0,0,1}"
+            }
+        ]
+    ]
+
+    "filters":
+    [
+        {
+            "type":"dim",
+            "finish":{t:900},
+            "onfinish":"stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+
+        <h4 id="filter-type-volumefade">Voluma-Fade-Filter</h4>
+        <p>
+            Makes volume of the <strong>xbmc-service</strong> lower/louder according to the progress of the current fade.
+            With the "progress"-element you decide if the volume should go louder or lower with the progression of the current fade.
+            With the "limit"-element you can limit the maximum or minimum volume the filter can adjust while fading.
+        </p>
+
+        <p class="note">finish-condition is checked at every fading step (not if it's a <a href="#datatype-condition-type-iterate">iterate-condition</a>) and at the end of every corefunctions.fade()-call</p>
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"volumefade",
+
+            ##optional
+            "finish":"CONDITION",   ### condition can be times of fades
+            ##optional
+            "onfinish":"remove|stop",
+
+            "progress":"lower|louder",
+            "limit":0-100
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+        <h5>Example</h5>
+        <p>
+        Sleep function: Fading to random colors in random time while the music gets lower til it's off over 30 minutes
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"1"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1-30}",
+                    "end":"{r:0.5-1,0-0.5,0-0}"
+                }
+            ]
+        }
+
+    ]
+
+    "filters":
+    [
+        {
+            "type":"volumefade",
+            "finish":{t:1800},
+            "onfinish":"stop",
+            "progress":"lower",
+            "limit":0
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+
+        <h4 id="filter-type-stopmusic">Stop-Music-Filter</h4>
+        <p>
+            This filter sends a <strong>stop-music</strong> command to the configured xbmc-service if the "finish"-condition becomes FALSE.
+        </p>
+        <p class="note">The "finish <a href="#datatype-condition">condition</a> is checked on every color change, every fading step and every end of a fade"</p>
+
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"stopmusic",
+
+            ##mandatory
+            "finish":"CONDITION",
+
+            ##optional
+            "onfinish":"remove|stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+    <h5>Example</h5>
+        <p>
+        Sleep function: Fading to random colors in random time. After 30 minutes the music goes off and the programm stops
+<pre><code>
+{
+    "commands":
+    [
+        {
+            "type":"loop",
+            "condition":"1"
+            "commands":
+            [
+                {
+                    "type":"fade",
+                    "time":"{r:1-30}",
+                    "end":"{r:0.5-1,0-0.5,0-0}"
+                }
+            ]
+        }
+
+    ]
+
+    "filters":
+    [
+        {
+            "type":"stopmusic",
+            "finish":{t:1800},
+            "onfinish":"stop"
+
+        }
+    ]
+}
+</code></pre>
+        </p>
+
+    </div>
+
+    <div id="requests">
+        <h2>Requests</h2>
+        <p>
+            Request can be used to retrive information about server or runtime data. They are executed parallel to running commands
+            and do not necessarily affect the running animation. They can also be used to manipulate runtime variables or control some
+            of the RGB-Pi functionalities.
+        </p>
+        <h3>Syntax</h3>
+        <p>
+            There can be only one request per  <a href="#communication-client-message">client-message</a>.
+            It's a single JSON object referenced by the key "request". Every request must contain a "type" element.
+            Additional request data depends on the type of request, seen in the following list of request types.
+<pre><code>
+{
+    "request":
+    {
+        "type":"type-of-request"
+    }
+}
+</code></pre>
+        </p>
+
+        <h3 id="request-type-config">Config Request</h3>
+        <p>
+            The config request is used to read the configuration data of the server.
+        </p>
+        <h4>Syntax</h4>
+        <p>
+        The config entries which need to be returned are referenced by their variable names in the <strong>config.py</strong>-file:
+        <ul>
+            <li>LED_PINS</li>
+            <li>MIN_VALUE</li>
+            <li>DELAY</li>
+            <li>SERVER_PORT</li>
+            <li>ENABLE_XBMC_REMOTE</li>
+            <li>XBMC_HOST</li>
+            <li>XBMC_PORT</li>
+        </ul>
+
+        There can be one or multiple key read with one request, by putting them as string in a JSON array referenced by "keys".
+
+<pre><code>
+{
+    "request":
+    {
+        "type":"config"
+        "keys":["key1", "key2", "key3", ...]
+    }
+}
+</code></pre>
+        </p>
+
+        <h4>Answer</h4>
+        <p>
+        The answer to the config request contains the "type":"config", the keys of the request and the values to the corresponding keys as array in the same order,
+
+<pre><code>
+{
+    "request":
+    {
+        "type":"config"
+        "keys":["key1", "key2", "key3", ...],
+        "values":["value1", "value2", "value3"]
+    }
+}
+</code></pre>
+        </p>
+
+
+        <h3 id="request-type-runtime">Runtime Request</h3>
+        <p>This request is used to read the value of runtime variables.</p>
+        <p class="note">There is only one retrievable variable yet, the current <a href="#datatype-color">color</a> of the first LED-stripe.</p>
+
+        <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"runtime",
+        "variable":"color"
+    }
+}
+</code></pre>
+            </p>
+
+        <h4>Answer</h4>
+        <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"runtime",
+        "variable":"color",
+        "value":"COLOR"
+    }
+}
+</code></pre>
+        </p>
+
+        <h3 id="request-type-remove">Remove Request</h3>
+        <p>This request is used to remove runtime items from server.</p>
+        <p class="note">Right now there only filters can be removed, other things are following some day</p>
+        <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"remove",
+        "item":"filter",
+        "id":"type-of-item"  ##like: "dim", for  dim-filter
+    }
+}
+</code></pre>
+            </p>
+
+        <h4>Answer</h4>
+        <p>
+        The answer contains the 3 fields of the request and a "count" element with the number of removed items.
+<pre><code>
+{
+    "request":
+    {
+        "type":"runtime",
+        "item":"filter",
+        "id":"type-of-item",  ##e.g.: "dim", for  dim-filter
+        "count":*             ##number of removed items
+    }
+}
+</code></pre>
+        </p>
+
+        <h3 id="request-type-xbmc">XBMC Request</h3>
+        <p>
+            This request can be used to either control a XBMC service or retrive runtime data of it.
+            It is also possible to send complex JSON objects (in the format of <a href="http://wiki.xbmc.org/?title=JSON-RPC_API">XBMC jsonrpc communication protocol</a>) to the XBMC server and use RGB-Pi as proxy for the communication.
+
+        </p>
+        <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+
+        ## one of the 3 cases
+
+        "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+        [,"params":[]]
+
+        OR
+
+        "get":"player|volume"
+
+        OR
+
+        "cmd":{jsonrpc-command}
+    }
+}
+</code></pre>
+            </p>
+
+        <h4>Answer</h4>
+        <p>
+        The answer to xbmc requests depends on the "set", "get" or "cmd" content and varies from simple int values to complex JSON objects.
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+
+        "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+        [,"params":[],]
+
+        OR
+
+        "get":"player|volume",
+
+        OR
+
+        "cmd":{jsonrpc-command},
+
+        "answer":answer to either set, get or cmd
+    }
+}
+</code></pre>
+        </p>
+
+        <h4>Examples</h4>
+        <h5>Show notification</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"notification",
+        "params":["title", "message"]
+    }
+}
+</code></pre>
+
+    <h5>Play/Pause current playing</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"playpause"
+    }
+}
+</code></pre>
+
+    <h5>Stop current playing</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"stop"
+    }
+}
+</code></pre>
+
+    <h5>Next/Previous song</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"next|previous"
+    }
+}
+</code></pre>
+
+    <h5>Set volume to 50%</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"volume",
+        "params":[50]
+    }
+}
+</code></pre>
+
+
+     <h5>Raise/lower volume by 10%</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "set":"volup|voldown"
+    }
+}
+</code></pre>
+
+    <h5>Get current player ID</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"player"
+    }
+}
+</code></pre>
+    <strong>Possible answer</strong>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"player",
+        "answer":0
+    }
+}
+</code></pre>
+
+    <h5>Get current volume</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"volume"
+    }
+}
+</code></pre>
+    <strong>Possible answer (30%)</strong>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"volume",
+        "answer":30
+    }
+}
+</code></pre>
+
+    <h5>Send JSONRPC-command to xbmc service</h5>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "cmd":{jsonrpc-command}
+    }
+}
+</code></pre>
+    <strong>Answer</strong>
+<pre><code>
+{
+    "request":
+    {
+        "type":"xbmc",
+        "get":"volume",
+        "answer":{answer-of-jsonrpc-command}
+    }
+}
+</code></pre>
+
+
+
+
+    </div>
+
+<div id="datatypes">
+        <h2>Data types</h2>
+        <p>In order to control RGB-Pi in a flexible and dynamic way, we created some complex datatypes.
+        These have unlike other communication structures their own format.
+        </p>
+        <p>Each data type is a string which is enclosed with <strong>{}</strong>-brackets. Currently there a <strong>3
+        different data types</strong> that can be used in RGB-Pi messages: Color, Time and Condition
+        </p>
+        <p>Each data type is described in the following format: <strong>{SUBTYPE:VALUE}</strong>, where SUBTYPE describes how the VALUE is interpreted.
+        More details to the data types and the way you declare the are found below.</p>
+        <!-- COLOR -->
+        <div id="datatype-color">
+            <h3>Color</h3>
+            <p>Color represents like the name hints a color in RGB format. A color can be defined in multiple ways. </p>
+            <p id="datatype-color-syntax">Syntax: <strong>{b|f|x|r:string[:hex-byte]}</strong></p>
+            <ul>
+                <li>
+                    <strong>b</strong> - Byte representation, where the color is described with 3 values between 0-255 for each channel<br/>
+                    <strong>Syntax: {b:R,G,B}</strong>
+                    <ol>
+                        <li>example: <strong>{b:165,42,42}</strong> - this would create the color brown</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>f</strong> - Float representation, where the color is described with 3 values between 0.0-1.0 for each channel<br/>
+                    <strong>Syntax: {f:R,G,B}</strong>
+                    <ol>
+                        <li>example: <strong>{f:0.647,0.165,0.165}</strong> - this would create the color brown</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>x</strong> - Hexstring representation, where of the color is described as 6-character-hex string (RRGGBB)<br/>
+                    <strong>Syntax: {x:RRGGBB}</strong>
+                    <ol>
+                        <li>example: <strong>{x:A52A2A}</strong> - this would create the color brown</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>r</strong> - Random float representation, where the color is described with 3 ranges between 0.0-1.0 for each channel<br/>
+                    <strong>Syntax: {r:R1-R2,G1-G2,B1-B2}</strong>
+                    <ol>
+                        <li>example: <strong>{r:0.5-1,0-1,0-0}</strong> - random color in half of the red spectrum and the whole green spectrum</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <p>All this variations can be applied to one or more specific <strong>addresses</strong> of a led-stripe.</p>
+            <p>
+            As you see in the description of the <a href="#datatype-color-syntax">color syntax</a>, there is an optional additional <strong>:hex-byte</strong>.<br/>
+            This is used to address multiple led stripes with a 8-bit bitmask represented as hexa-decimal digit (e.g. 0x1 to address the first stripe).<br/>
+            Here a single address list for each stripe:
+            <ol>
+            <li>LED-stripe = 0x1</li>
+            <li>LED-stripe = 0x2</li>
+            <li>LED-stripe = 0x4</li>
+            <li>LED-stripe = 0x8</li>
+            </ol>
+            You can also write <strong>0x3</strong> to address the first two stripes, or <strong>0xF</strong> to address all stripes (this is the default value if no address is specified in the color literal)<br/>
+            As you can see, a maximum number of 4 stripes are supported yet.<br/>
+            <strong>Syntax: {SUBTYPE:VALUE:ADDRESS}</strong>
+            <ol>
+                <li>example: <strong>{b:255,0,0:0x1}</strong> - red color on the first LED-stripe</li>
+                <li>example: <strong>{r:0-1,0,0:0x5}</strong> - random bright red color on the first and the third LED-stripe</li>
+            </ol>
+
+            <p>Note: Addressing is an experimental feature right now, it's only tested with the <a href="#command-cc">CC-command</a> yet.</p>
+            </p>
+        </div>
+
+        <!-- TIME -->
+        <div id="datatype-time">
+            <h3>Time</h3>
+            <p>The almost self-explained type name hints that this data type stands for a finite amount of time. it can be represented in 2 different ways.</p>
+            <p id="datatype-time-syntax">Syntax: <strong>{c|r:string} | float</strong></p>
+            <ul>
+                <li>
+                    <strong>c</strong> - Constant float value<br/>
+                    <strong>Syntax: {c:T} | T</strong>
+                    <ol>
+                        <li>example: <strong>{c:10.5}</strong> - this would create a time object which represents 10.5 seconds </li>
+                        <li>example: <strong>10.5</strong> - another, simplier way to describe the same amount of time is to write the value directly (this will be implicitly casted to the format of the first example)</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>r</strong> - Random time in a range between MIN and MAX<br/>
+                    <strong>Syntax: {r:MIN,MAX}</strong>
+                    <ol>
+                        <li>example: <strong>{r:15,18.3}</strong> - this would create a time between 15 and 18.3 seconds</li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+
+        <!-- CONDITION -->
+        <div id="datatype-condition">
+            <h3>Condition</h3>
+            <p>A condition is an often needed element RGB-Pi commands. It is used to descide whenever a control mechanic has to stop or can continue.</p>
+            <p id="datatype-condition-syntax">Syntax: <strong>{b|t|i|c:string} | bool</strong></p>
+            <ul>
+                <li>
+                    <strong>c</strong> - Constant boolean value<br/>
+                    <strong>Syntax: {b:B} | T</strong>
+                    <ol>
+                        <li>example: <strong>{c:0}</strong> - this would create condition which is always FALSE</li>
+                        <li>example: <strong>1</strong> - another, simplier way to describe a constant condition value is to write the value directly, were <strong>0</strong> stands for FALSE and <strong>1</strong> for TRUE. (This will be implicitly casted to the format of the first example)</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>t</strong> - Timed condition, which gets FALSE after T seconds since the first check<br/>
+                    <strong>Syntax: {t:T}</strong>
+                    <ol>
+                        <li>example: <strong>{t:20}</strong> - this would create a condition which is TRUE for 20 seconds and then becomes FALSE</li>
+                    </ol>
+                </li>
+                <li id="datatype-condition-type-iterate">
+                    <strong>i</strong> - Condition bound to an amount of checks/iterations. It is TRUE at the beginning and becomes FALSE after X checks/iterations<br/>
+                    <strong>Syntax: {i:X}</strong>
+                    <ol>
+                        <li>example: <strong>{i:5}</strong> - this would create a condition which is TRUE the next 5 times it is checked and then becomes FALSE</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>c</strong> - A color condition is TRUE if the current color is not the same as Color, otherwise it bacomes FALSE.<br/>
+                    <strong>Syntax: {c:Color}</strong>
+                    <ol>
+                        <li>example: <strong>{c:{x:000000}}</strong> - this would create a condition, which is TRUE if the current color is NOT black, otherwise it is FALSE</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <br/>
+            <p>
+                <strong id="datatype-condition-progress">progress()</strong><br/>
+                To understand some uses of the conditon you also need to now about the progress() function.
+                In some cases this is used to describe the percentage of progress from TRUE to the FALSE value of the condition,
+                depending on its type. E.g. if the type of the condition is a time of 10 seconds, the progress-function would return 0.5
+                to describe a progress of 50%. And so on...
+            </p>
+        </div>
+    </div>
+</article>
+
+<footer></footer>
+</body>
+</html>

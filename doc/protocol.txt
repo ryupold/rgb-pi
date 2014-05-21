@@ -1,0 +1,236 @@
+//COMMANDS: "commands":[*]  (implicit converted to a list command)
+#returns 1 on success, otherwise 0
+
+# cc - change color [or makes an arithmetic operation to the current color]
+{
+    "type":"cc",
+    "color":"<Color>"
+
+    ##optional
+    ,"operator"="*|/|+|-"
+}
+
+# fade - fading [from color] to color over time
+{
+    "type":"fade",
+    "time":"<Time>",
+
+    ##optional
+    "start":"<Color>",
+
+    "end":"<Color>"
+}
+
+# wait - waiting an amount of time without doing anything
+{
+    "type":"wait",
+    "time":"<Time>"
+}
+
+# list - a list of commands, executed in the given order
+{
+    "type":"list"
+    "commands":[<COMMAND>, <COMMAND_2>, ...]
+}
+
+# loop - loop while a condition is true
+{
+    "type":"loop",
+    "condition":"<Condition>"
+    "commands":[<COMMAND>, <COMMAND_2>, ...]
+}
+
+# nop - do nothing
+{
+    "type":"nop"
+}
+
+//FILTERS: "filters":[*]
+#note: every filter has an optional 'finish'-condition
+#      and a 'onfinish'-action which is executed after the finish-condition is reached:
+#      -> 'remove' means that after the finish-condition is reached the filter will be removed from filter list
+#      -> 'stop' means the current running command is stopped and all filters are cleared
+#
+#      if no 'onfinish'-action is specified, 'remove' will be executed as default
+
+#dim filter - dims the color-changes (to black) over time
+#finish-condition is required and is checked on every led.setColor()-call
+#note: it makes sense to take the duration of the dimmer as time-condition
+{
+    "type":"dim",
+    "finish":"<Condition>",
+
+    ##optional
+    "onfinish":"remove|stop"
+}
+
+#volume-fade filter - makes volume of the xbmc-service lower/louder according to the progress of the current fade
+#finish-condition is checked at the end of every corefunctions.fade()-call
+{
+    "type":"volumefade",
+
+    ##optional
+    "finish":"<Condition>",   ### condition can be times of fades
+    ##optional
+    "onfinish":"remove|stop",
+
+    "progress":"lower|louder",
+    "limit":0-100
+}
+
+#stop music filter - stops the music if 'finish'-condition is true
+#finish-condition is required
+{
+    "type":"stopmusic",
+    "finish":"<Condition>",
+
+    ##optional
+    "onfinish":"remove|stop"
+}
+
+
+//REQUESTS: "request":{?}
+# condig request - returns configured values
+# returns "dictionary" (json object) with the keys and their corresponding values
+{
+    "type":"config"
+    "keys":[key1, key2, key3, ...]  # as strings
+}
+#answer format (example: SERVER_PORT, XBMC_HOST, XBMC_PORT)
+{
+    "type":"config",
+    "keys":["SERVER_PORT", "XBMC_HOST", "XBMC_PORT"]
+    "values":["4321", "127.0.0.1", "80"]
+}
+
+
+
+#runtime values
+#returns runtime values specified by ONE 'variable'-string
+{
+    "type":"runtime",
+    ["variable":"color"]   #returns the current colors of each stripe as string-array of <Color> objects
+}
+#answer format (example current color):
+{
+    "type":"runtime",
+    "variable":"color",
+    "value":"{f:1,0.5,0}"
+}
+
+#remove
+#returns an int, whichs describes how many 'items' were removed
+#note: right now there only filters can be removed, other things are following some day
+{
+    "type":"remove",
+    "item":"filter",
+    "id":"dim"
+}
+#removes all filter with type 'dim'
+#answer format: (remove dim filters)
+{
+    "type":"remove",
+    "item":"filter",
+    "id":"dim",
+    "count":"1"
+}
+
+
+#XBMC
+#returns a value which content depends on the XBMC-RPC you called
+#note: the xbmc commands only work if config.ENABLE_XBMC_REMOTE is enabled, otherwise you get an appropriate error
+{
+    "type":"xbmc",
+
+    "set":"notification|playpause|stop|next|previous|volume|volup|voldown"
+    [,"params":[]]
+
+    OR
+
+    "get":"player|volume"
+
+    OR
+
+    "cmd":{jsonrcp-command}
+
+}
+
+#example: set volume to 50%
+{
+    "type":"xbmc",
+    "set":"volume",
+    "params":[50]
+}
+#answer:
+{
+    "type":"xbmc",
+    "set":"volume",
+    "answer":"???"
+}
+
+#example: next track
+{
+    "type":"xbmc",
+    "set":"next",
+    "answer":"???"
+}
+
+
+
+//ANSWERS:
+#commands:
+[
+    "commands":1|0
+]
+
+#filters:
+[
+    "filters":1|0
+]
+
+#request:
+#request answers are more complex than the others
+{
+    "request":
+    {
+        "type":"<string>",
+        [the other values depend on the request type]
+    }
+}
+
+
+//DATA TYPES
+
+### <Color> ###
+{x|b|f|r|a:string[:int]}
+
+example1 hex-string:                                    {x:FF00A1}
+example2 byte:                                          {b:255,0,161}
+example3 float:                                         {f:1,0,0.63}
+example4 random:                                        {r:0-1,0.4-0.6,1-1}
+example5 set LED-stripe 2 to red:                       {f:1,0,0:0x2}
+
+note:
+    - if a color value (red, green or blue) cannot get greater than 1.0<=>255<=>FF and lower than 0.0<=>0<=>FF.
+
+
+
+
+### <Time> ###
+{c|r:string} | float
+
+example1 constant (5.6 seconds):                {c:5.6}
+example2 constant (10.9 seconds):               10.9
+example3 random (between 15 and 18.3 seconds):  {r:15,18.3}
+
+
+### <Condition> ###
+{t|c|i|b:string} | bool
+
+example1 after time expires, since first check (5.8 seconds):   {t:5.8}
+example2 if a specific color is reached (black):                {c:{b:0,0,0}}
+example3 after the condition was checked (10 times):            {i:10}
+example4 constant condition value (true):                       {b:1}
+example5 constant condition value (false):                      {b:0}
+example6 constant condition value (true):                       1
+example7 constant condition value (false):                      0

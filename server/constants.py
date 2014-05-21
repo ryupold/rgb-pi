@@ -1,0 +1,42 @@
+#constants used by all scripts
+
+#Command fifo
+FIFO = '/dev/pi-blaster'
+
+#command thread states
+CMD_STATE_INIT = 0
+CMD_STATE_STARTED = 1
+CMD_STATE_STOPPED = 2
+
+
+CMD_TYPE_CC = 'cc'
+CMD_TYPE_FADE = 'fade'
+CMD_TYPE_WAIT = 'wait'
+CMD_TYPE_LIST = 'list'
+CMD_TYPE_LOOP = 'loop'
+CMD_TYPE_NOP = 'nop'
+
+REQUEST_TYPE_CONFIG = 'config'
+REQUEST_TYPE_RUNTIME = 'runtime'
+REQUEST_TYPE_REMOVE = 'remove'
+REQUEST_TYPE_XBMC = 'xbmc'
+
+REQUEST_RUNTIME_VARIABLE_COLOR = 'color'
+
+REQUEST_XBMC_ACTION_GET = 'get'
+REQUEST_XBMC_ACTION_SET = 'set'
+REQUEST_XBMC_ACTION_CMD = 'cmd'
+
+
+FILTER_TYPE_DIM = 'dim'
+FILTER_TYPE_VOLUMEFADE = 'volumefade'
+FILTER_TYPE_STOPMUSIC = 'stopmusic'
+
+FILTER_ONFINISH_REMOVE = 'remove'
+FILTER_ONFINISH_STOP = 'stop'
+
+
+CONDITION_BOOL = 1
+CONDITION_COLOR = 2
+CONDITION_TIME = 3
+CONDITION_ITERATE = 4

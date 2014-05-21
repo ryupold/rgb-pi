@@ -64,6 +64,11 @@ simply changing color:
 python rgb.py c 1.0 0.2 0.4
 ```
 
+configuration of the server:
+```bash
+python configure.py config
+```
+
 starting the server:
 ```bash
 python rgb.py server
@@ -74,36 +79,8 @@ The server can receive commands from third party applications, like mobile apps.
 
 By default the server listens to <strong>port 4321</strong>, but this can be configured in **config.py**.
 
-Following commands are implemented in the current version (command arguments are seperated by a space):
+A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
 
-Some commands need a color as parameter this must be provided in the following format:
-color string format **{x|b|f:string}**
-  - example1 hex-string:	**{x:FF00A1}**
-  - example2 byte:		**{b:255,0,161}**
-  - example3 float:		**{f:1,0,0.63}**
-
-##### commands
-* **cc** - set a specific color (red, green and blue are float values from 0.0 to 1.0):  
-  `cc color`  
-  1. example (violet): `cc {f:0.5,0,1}`
-
-* **rf** - random color fader, fades in a random time between min and max (in seconds, as float) within the optional brightness limits:  
-  `rf minSpeed maxSpeed [minBrightness [maxBrightness]]`  
-  1. example random fade color between a brightness level of minimum 0.1 and maximum 0.5 within random times between 2 and 60 seconds after each fade: `rf 2 60 0.1 0.5`  
-  2. example random fade all color with constant 10 seconds per fade: `rf 10 10`
-
-* **fade** - fades the start color (or current color if no start is given), over a certain time (time is given in seconds as an integer) to the endColor:  
-  `fade timeInSeconds endColor [startColor]`  
-  1. example smooth turn off: `fade 2 {x:000000}`  
-  2. example fade green to red over 5 minutes: `fade 300 {b:255,0,0} {b:0,255,0}`
-
-* **pulse** - fades from start color to end color and vice versa:  
-  `pulse timeInSeconds endColor [startColor]`  
-  1. example fast blue-black pulse: `pulse 1 {f:0,0,1}`  
-  2. example pulse red to green over a minute: `pulse 60 {b:255,0,0} {b:0,255,0}`  
-
-
-There is no acknowledgement for sent commands in the current communication protocol, but planned for the future.
 
 ## Contributors
 realkyton (https://github.com/realkyton)  
