@@ -79,6 +79,14 @@ TCP Port the server is listening on:
 SERVER_PORT = 4321
 ```
 
+##### connection timeout
+The maximum time is waited til a sending or receiving socket operation is aborted (in seconds).
+The value 0.0 enables the non-blocking mode for the connections.
+Default value: 1.0
+```python
+CONNECTION_TIMEOUT = 1.0
+```
+
 #### XBMC control
 RGB-Pi is also able to control a local or remote XBMC-service.
 In order to make this available you have to set the IP of the service (127.0.0.1 or localhost your Raspberry Pi itself is running XBMC)
