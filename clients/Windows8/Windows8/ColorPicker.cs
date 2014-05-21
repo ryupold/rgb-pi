@@ -101,13 +101,9 @@ namespace Windows8
     {
         public ColorPicker()
         {
-            this.DefaultStyleKey = typeof(ColorPicker);
+            this.DefaultStyleKey = typeof(ColorPicker);      
+            
         }
-
-
-
-
-
 
         public bool Blink
         {
