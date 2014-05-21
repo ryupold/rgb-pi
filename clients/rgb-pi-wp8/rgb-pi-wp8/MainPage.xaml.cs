@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using RGB.Resources;
 using System.Threading;
 using Coding4Fun.Toolkit.Controls;
+using System.IO.IsolatedStorage;
 
 namespace RGB
 {
@@ -22,6 +23,12 @@ namespace RGB
         private ColorPicker copickPulseStart, copickPulseEnd;
 
         private readonly Queue<RGBCommand> commandQ = new Queue<RGBCommand>();
+
+        private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+
+
+        public string IP { get; set; }
+        public int Port { get; set; }
 
         private enum RGBCommandType
         {
@@ -65,6 +72,25 @@ namespace RGB
         {
             InitializeComponent();
 
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("ip"))
+            {
+                IP = (string)IsolatedStorageSettings.ApplicationSettings["ip"];
+            }
+            else
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("ip", IP = "192.168.0.10");
+            }
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("port"))
+            {
+                Port = int.Parse(IsolatedStorageSettings.ApplicationSettings["port"].ToString());
+            }
+            else
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("port", Port = 4321);
+            }
+
+
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
 
@@ -88,6 +114,40 @@ namespace RGB
             worker.IsBackground = true;
             worker.Start();
 
+        }
+
+        private void LoadSettings()
+        {
+            settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("ip"))
+            {
+                IP = (string)settings["ip"];
+            }
+            else
+            {
+                settings.Add("ip", IP = "192.168.0.10");
+            }
+
+            if (settings.Contains("port"))
+            {
+                Port = int.Parse(settings["port"].ToString());
+            }
+            else
+            {
+                settings.Add("port", Port = 4321);
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            LoadSettings();
+        }
+
+        protected override void OnOrientationChanged(OrientationChangedEventArgs e)
+        {
+            base.OnOrientationChanged(e);
+            LoadSettings();
         }
 
         void colorPicker_ColorChanged(object sender, System.Windows.Media.Color color)
@@ -121,7 +181,7 @@ namespace RGB
                     }
 
 
-                    client.Connect("192.168.1.150", 4321);
+                    client.Connect(IP, Port);
                     switch (c.Type)
                     {
                         case RGBCommandType.ChangeColor:
@@ -158,7 +218,7 @@ namespace RGB
 
 
 
-        // Sample code for building a localized ApplicationBar
+        
         private void BuildLocalizedApplicationBar()
         {
             // Set the page's ApplicationBar to a new instance of ApplicationBar.
