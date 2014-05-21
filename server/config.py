@@ -33,6 +33,10 @@ DELAY = 0.01
 #server port
 SERVER_PORT = 4321
 
+#connection timeout for sending and receiving
+#set to 0.0 for non-blocking mode
+CONNECTION_TIMEOUT = 1.0
+
 
 #Data for XBMC remote control
 ENABLE_XBMC_REMOTE = 0

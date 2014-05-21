@@ -63,6 +63,13 @@
                 </ol>
             </li>
             <li>
+                <a href="#triggers">Triggers</a>
+                <ol>
+                    <li><a href="#trigger-type-alarm">Timed Trigger</a></li>
+                    <li><a href="#trigger-type-color">Color Trigger</a></li>
+                </ol>
+            </li>
+            <li>
                 <a href="#datatypes">Data Types</a>
                 <ol>
                     <li><a href="#datatype-color">Color</a></li>
@@ -99,7 +106,9 @@
 
                 "filters":[],   ##optional
 
-                "request":{}    ##optional
+                "request":{},   ##optional
+
+                "triggers":[]   ##optional
             }
         </code></pre>
         <p id="communication-server-answer"><strong>Answer/Acknowledge message (server -> client)</strong></p>
@@ -110,6 +119,8 @@
                 "filters":1|0,                  ##only available if 'filters'-node was present in client request
 
                 "request":{answer-to-request},  ##only available if 'request'-node was present in client request
+
+                "triggers":1|0,                 ##only available if 'triggers'-node was present in client request
 
                 "error":[]                      ##always available, but empty array if no errors occurred
             }
@@ -1331,6 +1342,11 @@
                 to describe a progress of 50%. And so on...
             </p>
         </div>
+    </div>
+
+    <div id="triggers">
+        <h2>Triggers</h2>
+        <p>comming soon...</p>
     </div>
 </article>
 

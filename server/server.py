@@ -100,8 +100,21 @@ def readcommands(threadName, intervall):
             global CurrentCMD
             global CurrentFilters
 
-            rcvString = str(clientsocket.recv(1024))
-            if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED: '+rcvString+'\n\n')
+
+
+            rcvString = ''
+            clientsocket.setblocking(1) # recv() waits til data comes or timeout is reached
+            clientsocket.settimeout(config.CONNECTION_TIMEOUT) # timeout for receiving and sending
+            kilobyte = str(clientsocket.recv(1024))
+            try:
+                while(kilobyte):
+                    rcvString += kilobyte
+                    kilobyte = str(clientsocket.recv(1024))
+            except:
+                pass
+
+
+            if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED ('+str(len(rcvString))+'): '+rcvString+'\n\n')
             answer = {}
             answer['error'] = []
 

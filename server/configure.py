@@ -23,6 +23,8 @@ CONFIG = {
 
     'SERVER_PORT': '4321',
 
+    'CONNECTION_TIMEOUT': '1.0',
+
     'ENABLE_XBMC_REMOTE': '0',
     'XBMC_HOST': '\"127.0.0.1\"',
     'XBMC_PORT': '80'
@@ -274,7 +276,7 @@ def serverConfig():
         choises = {'x': 'exit'}
         i = 0
         for k in CONFIG:
-            if k == 'SERVER_PORT' or k == 'MIN_VALUE' or k == 'DELAY':
+            if k == 'SERVER_PORT' or k == 'MIN_VALUE' or k == 'DELAY' or k == 'CONNECTION_TIMEOUT':
                 choises[str(i+1)] = k
                 i = i+1
                 preQ += k+" = "+CONFIG[k]+"\n"
@@ -284,6 +286,7 @@ def serverConfig():
         else:
             v = None
             if choises[answer] == 'SERVER_PORT': v = messageBoxINT('Please enter the port, the server should be bound to', 1, 65535)
+            if choises[answer] == 'CONNECTION_TIMEOUT': v = messageBoxFLOAT('Enter the timeout for the network communication (in seconds). (default value: 1.0)', 0.0, 1.7976931348623157e+308)
             if choises[answer] == 'DELAY': v = messageBoxFLOAT('Enter the delay between fade-color-change-iterations (good value: 0.01)', 0.0001, 1)
             if choises[answer] == 'MIN_VALUE': v = messageBoxFLOAT("Enter the minimum value the RGB Pins can be set to before the LEDs start \"blinking\"", 0.0, 0.999)
             CONFIG[choises[answer]] = str(v)
