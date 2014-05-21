@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>RYU-PC</Machine>
+    <WindowsUser>Michael</WindowsUser>
+    <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <PackageIdentityName>28b82676-c8f9-48c1-a975-25f0ab8af11a</PackageIdentityName>
+    <IntermediateOutputPath>D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\obj\Debug\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\Windows8.exe">
+      <PackagePath>Windows8.exe</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windows8\Coding4Fun.Toolkit.Controls.dll">
+      <PackagePath>Coding4Fun.Toolkit.Controls.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit.dll">
+      <PackagePath>WinRTXamlToolkit.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\Cursor.png">
+      <PackagePath>Assets\Cursor.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\hsv1.png">
+      <PackagePath>Assets\hsv1.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\hsv2.png">
+      <PackagePath>Assets\hsv2.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\hsv3.png">
+      <PackagePath>Assets\hsv3.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\Logo.scale-100.png">
+      <PackagePath>Assets\Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\SmallLogo.scale-100.png">
+      <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\SplashScreen.scale-100.png">
+      <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\StoreLogo.scale-100.png">
+      <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\ReadMe.Coding4Fun.Toolkit.txt">
+      <PackagePath>ReadMe.Coding4Fun.Toolkit.txt</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\Themes\Generic.xbf">
+      <PackagePath>Themes\Generic.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\Windows8.xr.xml">
+      <PackagePath>Windows8.xr.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windows8\Coding4Fun.Toolkit.Controls\Themes\Generic.xaml">
+      <PackagePath>Coding4Fun.Toolkit.Controls\Themes\Generic.xaml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\WinRTXamlToolkit.xr.xml">
+      <PackagePath>WinRTXamlToolkit\WinRTXamlToolkit.xr.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\AlternativeFrame\AlternativeFrame.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\AlternativeFrame\AlternativeFrame.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\AnimatingContainer\AnimatingContainer.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\AnimatingContainer\AnimatingContainer.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CameraCaptureControl\CameraCaptureControl.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\CameraCaptureControl\CameraCaptureControl.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CascadingImageControl\CascadingImageControl.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\CascadingImageControl\CascadingImageControl.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CascadingTextBlock\CascadingTextBlock.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\CascadingTextBlock\CascadingTextBlock.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ColorPicker\ColorPicker.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\ColorPicker\ColorPicker.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CountdownControl\CountdownControl.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\CountdownControl\CountdownControl.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CustomAppBar\CustomAppBar.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\CustomAppBar\CustomAppBar.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CustomGridSplitter\CustomGridSplitter.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\CustomGridSplitter\CustomGridSplitter.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\DelayedLoadControl\DelayedLoadControl.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\DelayedLoadControl\DelayedLoadControl.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\FxContentControl\FxContentControl.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\FxContentControl\FxContentControl.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ImageButton\ImageButton.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\ImageButton\ImageButton.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ImageToggleButton\ImageToggleButton.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\ImageToggleButton\ImageToggleButton.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\InputDialog\InputDialog.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\InputDialog\InputDialog.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ListItemButton\ListItemButton.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\ListItemButton\ListItemButton.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\NumericUpDown\NumericUpDown.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\NumericUpDown\NumericUpDown.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ToolWindow\ToolWindow.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\ToolWindow\ToolWindow.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeView.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeView.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeViewItem.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeViewItem.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeViewMouse.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeViewMouse.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeViewTouch.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeViewTouch.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\WatermarkPasswordBox\WatermarkPasswordBox.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\WatermarkPasswordBox\WatermarkPasswordBox.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\WatermarkTextBox\WatermarkTextBox.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\WatermarkTextBox\WatermarkTextBox.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\WebBrowser\WebBrowser.xbf">
+      <PackagePath>WinRTXamlToolkit\Controls\WebBrowser\WebBrowser.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Themes\Generic.xbf">
+      <PackagePath>WinRTXamlToolkit\Themes\Generic.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>

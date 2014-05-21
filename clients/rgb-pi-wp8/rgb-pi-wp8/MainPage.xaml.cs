@@ -11,6 +11,7 @@ using RGB.Resources;
 using System.Threading;
 using Coding4Fun.Toolkit.Controls;
 using RGBPi;
+using System.IO.IsolatedStorage;
 
 namespace RGB
 {
@@ -23,6 +24,12 @@ namespace RGB
         private ColorPicker copickPulseStart, copickPulseEnd;
 
         private readonly Queue<string> commandQ = new Queue<string>();
+
+        private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+
+
+        public string IP { get; set; }
+        public int Port { get; set; }
 
         public enum RGBCommandType
         {
@@ -154,6 +161,42 @@ namespace RGB
             worker.IsBackground = true;
             worker.Start();
 
+
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
+            settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("ip"))
+            {
+                IP = (string)settings["ip"];
+            }
+            else
+            {
+                settings.Add("ip", IP = "192.168.0.10");
+            }
+
+            if (settings.Contains("port"))
+            {
+                Port = int.Parse(settings["port"].ToString());
+            }
+            else
+            {
+                settings.Add("port", Port = 4321);
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            LoadSettings();
+        }
+
+        protected override void OnOrientationChanged(OrientationChangedEventArgs e)
+        {
+            base.OnOrientationChanged(e);
+            LoadSettings();
         }
 
         void colorPicker_ColorChanged(object sender, System.Windows.Media.Color color)
@@ -187,7 +230,7 @@ namespace RGB
                     }
 
 
-                    client.Connect("192.168.1.150", 4321);
+                    client.Connect(IP, Port);
                     client.Send(cmd);
                     string answer = client.Receive();
                     client.Close();
@@ -223,7 +266,6 @@ namespace RGB
                 lock (commandQ)
                 {
                     commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, 2, new LEDColor(1f, 1f, 1f)));
-                    //commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor(1f, 1f, 1f)));
                     Monitor.PulseAll(commandQ);
                 }
             };
@@ -236,7 +278,7 @@ namespace RGB
                 lock (commandQ)
                 {
                     commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, 2, new LEDColor()));
-                    //commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, "2 "+new LEDColor()));
+                    
                     Monitor.PulseAll(commandQ);
                 }
             };
