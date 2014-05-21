@@ -110,7 +110,7 @@ python rgb.py server
 ```
 
 #### communication protocol
-The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a string with a maximum size of 1024 bytes.
+The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a unicode string.
 
 By default the server listens to <strong>port 4321</strong>, but this can be configured in **config.py**.
 
