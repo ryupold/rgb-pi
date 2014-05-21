@@ -109,7 +109,11 @@ def readcommands(threadName, intervall):
             try:
                 while(kilobyte):
                     rcvString += kilobyte
-                    kilobyte = str(clientsocket.recv(1024))
+                    try:
+                        json.loads(rcvString)
+                        kilobyte = None
+                    except:
+                        kilobyte = str(clientsocket.recv(1024))
             except:
                 pass
 
