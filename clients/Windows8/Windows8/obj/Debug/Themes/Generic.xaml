@@ -13,8 +13,6 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <Polygon Fill="#7FADD8E6"
-                            Points="10%,10%,60,140,130,140,180,200" />
                     </Border>
                     
                 </ControlTemplate>

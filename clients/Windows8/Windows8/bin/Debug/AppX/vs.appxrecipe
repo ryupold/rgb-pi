@@ -20,189 +20,189 @@
     <AppXManifest Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-05-16T23:50:50.159</Modified>
+      <Modified>2014-05-21T23:06:51.080</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\Windows8.exe">
       <PackagePath>Windows8.exe</PackagePath>
-      <Modified>2014-05-16T23:50:49.843</Modified>
+      <Modified>2014-05-21T23:06:50.907</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windows8\Coding4Fun.Toolkit.Controls.dll">
       <PackagePath>Coding4Fun.Toolkit.Controls.dll</PackagePath>
-      <Modified>2014-05-13T23:09:24.950</Modified>
+      <Modified>2014-05-21T22:21:30.414</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit.dll">
       <PackagePath>WinRTXamlToolkit.dll</PackagePath>
-      <Modified>2014-05-13T23:09:25.324</Modified>
+      <Modified>2014-05-21T22:21:30.636</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\Cursor.png">
       <PackagePath>Assets\Cursor.png</PackagePath>
-      <Modified>2014-05-16T18:45:54.285</Modified>
+      <Modified>2014-05-21T22:21:30.325</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\hsv1.png">
       <PackagePath>Assets\hsv1.png</PackagePath>
-      <Modified>2014-05-13T23:09:24.792</Modified>
+      <Modified>2014-05-21T22:21:30.328</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\hsv2.png">
       <PackagePath>Assets\hsv2.png</PackagePath>
-      <Modified>2014-05-13T23:09:24.812</Modified>
+      <Modified>2014-05-21T22:21:30.337</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\hsv3.png">
       <PackagePath>Assets\hsv3.png</PackagePath>
-      <Modified>2014-05-13T23:09:24.831</Modified>
+      <Modified>2014-05-21T22:21:30.347</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\Logo.scale-100.png">
       <PackagePath>Assets\Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-05-13T23:09:24.786</Modified>
+      <Modified>2014-05-21T22:21:30.325</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\SmallLogo.scale-100.png">
       <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-05-13T23:09:24.787</Modified>
+      <Modified>2014-05-21T22:21:30.326</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\SplashScreen.scale-100.png">
       <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-05-13T23:09:24.789</Modified>
+      <Modified>2014-05-21T22:21:30.326</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\Assets\StoreLogo.scale-100.png">
       <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-05-13T23:09:24.790</Modified>
+      <Modified>2014-05-21T22:21:30.327</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\ReadMe.Coding4Fun.Toolkit.txt">
       <PackagePath>ReadMe.Coding4Fun.Toolkit.txt</PackagePath>
-      <Modified>2014-05-13T23:09:24.869</Modified>
+      <Modified>2014-05-21T22:21:30.360</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2014-05-13T23:11:17.864</Modified>
+      <Modified>2014-05-21T23:02:53.571</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\Themes\Generic.xbf">
       <PackagePath>Themes\Generic.xbf</PackagePath>
-      <Modified>2014-05-16T23:50:49.693</Modified>
+      <Modified>2014-05-21T23:02:53.574</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2014-05-16T23:50:49.694</Modified>
+      <Modified>2014-05-21T23:02:53.577</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\Windows8.xr.xml">
       <PackagePath>Windows8.xr.xml</PackagePath>
-      <Modified>2014-05-16T23:46:32.636</Modified>
+      <Modified>2014-05-21T23:06:27.617</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windows8\Coding4Fun.Toolkit.Controls\Themes\Generic.xaml">
       <PackagePath>Coding4Fun.Toolkit.Controls\Themes\Generic.xaml</PackagePath>
-      <Modified>2014-05-13T23:09:24.982</Modified>
+      <Modified>2014-05-21T22:21:30.444</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\WinRTXamlToolkit.xr.xml">
       <PackagePath>WinRTXamlToolkit\WinRTXamlToolkit.xr.xml</PackagePath>
-      <Modified>2014-05-13T23:09:25.464</Modified>
+      <Modified>2014-05-21T22:21:30.730</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\AlternativeFrame\AlternativeFrame.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\AlternativeFrame\AlternativeFrame.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.332</Modified>
+      <Modified>2014-05-21T22:21:30.640</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\AnimatingContainer\AnimatingContainer.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\AnimatingContainer\AnimatingContainer.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.337</Modified>
+      <Modified>2014-05-21T22:21:30.642</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CameraCaptureControl\CameraCaptureControl.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\CameraCaptureControl\CameraCaptureControl.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.341</Modified>
+      <Modified>2014-05-21T22:21:30.645</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CascadingImageControl\CascadingImageControl.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\CascadingImageControl\CascadingImageControl.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.346</Modified>
+      <Modified>2014-05-21T22:21:30.646</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CascadingTextBlock\CascadingTextBlock.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\CascadingTextBlock\CascadingTextBlock.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.350</Modified>
+      <Modified>2014-05-21T22:21:30.649</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ColorPicker\ColorPicker.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\ColorPicker\ColorPicker.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.355</Modified>
+      <Modified>2014-05-21T22:21:30.651</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CountdownControl\CountdownControl.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\CountdownControl\CountdownControl.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.358</Modified>
+      <Modified>2014-05-21T22:21:30.652</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CustomAppBar\CustomAppBar.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\CustomAppBar\CustomAppBar.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.363</Modified>
+      <Modified>2014-05-21T22:21:30.654</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\CustomGridSplitter\CustomGridSplitter.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\CustomGridSplitter\CustomGridSplitter.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.367</Modified>
+      <Modified>2014-05-21T22:21:30.656</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\DelayedLoadControl\DelayedLoadControl.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\DelayedLoadControl\DelayedLoadControl.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.371</Modified>
+      <Modified>2014-05-21T22:21:30.658</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\FxContentControl\FxContentControl.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\FxContentControl\FxContentControl.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.375</Modified>
+      <Modified>2014-05-21T22:21:30.660</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ImageButton\ImageButton.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\ImageButton\ImageButton.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.380</Modified>
+      <Modified>2014-05-21T22:21:30.662</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ImageToggleButton\ImageToggleButton.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\ImageToggleButton\ImageToggleButton.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.384</Modified>
+      <Modified>2014-05-21T22:21:30.664</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\InputDialog\InputDialog.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\InputDialog\InputDialog.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.388</Modified>
+      <Modified>2014-05-21T22:21:30.666</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ListItemButton\ListItemButton.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\ListItemButton\ListItemButton.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.392</Modified>
+      <Modified>2014-05-21T22:21:30.668</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\NumericUpDown\NumericUpDown.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\NumericUpDown\NumericUpDown.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.396</Modified>
+      <Modified>2014-05-21T22:21:30.687</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\ToolWindow\ToolWindow.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\ToolWindow\ToolWindow.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.400</Modified>
+      <Modified>2014-05-21T22:21:30.694</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeView.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeView.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.404</Modified>
+      <Modified>2014-05-21T22:21:30.696</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeViewItem.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeViewItem.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.408</Modified>
+      <Modified>2014-05-21T22:21:30.707</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeViewMouse.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeViewMouse.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.413</Modified>
+      <Modified>2014-05-21T22:21:30.709</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\TreeView\TreeViewTouch.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\TreeView\TreeViewTouch.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.417</Modified>
+      <Modified>2014-05-21T22:21:30.712</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\WatermarkPasswordBox\WatermarkPasswordBox.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\WatermarkPasswordBox\WatermarkPasswordBox.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.422</Modified>
+      <Modified>2014-05-21T22:21:30.714</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\WatermarkTextBox\WatermarkTextBox.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\WatermarkTextBox\WatermarkTextBox.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.450</Modified>
+      <Modified>2014-05-21T22:21:30.722</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Controls\WebBrowser\WebBrowser.xbf">
       <PackagePath>WinRTXamlToolkit\Controls\WebBrowser\WebBrowser.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.455</Modified>
+      <Modified>2014-05-21T22:21:30.725</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\packages\WinRTXamlToolkit.1.6.1.3\lib\netcore451\WinRTXamlToolkit\Themes\Generic.xbf">
       <PackagePath>WinRTXamlToolkit\Themes\Generic.xbf</PackagePath>
-      <Modified>2014-05-13T23:09:25.459</Modified>
+      <Modified>2014-05-21T22:21:30.727</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Stuff\Proggen\rgb-pi\clients\Windows8\Windows8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-05-16T23:46:33.405</Modified>
+      <Modified>2014-05-21T23:02:54.474</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

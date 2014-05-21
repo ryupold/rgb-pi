@@ -8,14 +8,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <LinearGradientBrush x:Name="gradientHSV">
-            <GradientStopCollection>
-                <GradientStop Color="Red" Offset="0"></GradientStop>
-                <GradientStop Color="Green" Offset="0.33333333333333"></GradientStop>
-                <GradientStop Color="Blue" Offset="0.66666666666666"></GradientStop>
-                <GradientStop Color="Red" Offset="1"></GradientStop>
-            </GradientStopCollection>
-        </LinearGradientBrush>
+        
 
         <Style x:Name="styleGradient" TargetType="local:ColorPicker">
             <!--<Setter Property="Background" Value="{StaticResource gradientHSV}"></Setter>-->
