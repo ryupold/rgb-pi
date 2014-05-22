@@ -114,6 +114,13 @@ class Color(object):
     def blueByte(self):
         return int(self.B * 255)
 
+    def red(self):
+        return self.R
+    def green(self):
+        return self.G
+    def blue(self):
+        return self.B
+
     def getHexString(self):
         return utils.getColorString([self.redByte(), self.greenByte(), self.blueByte()])
 
