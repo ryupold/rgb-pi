@@ -107,13 +107,11 @@ class SaturationFilter(Filter):
     """
     def __init__(self, filter): # takes a command as json encoded object
         super(SaturationFilter, self).__init__(constants.FILTER_TYPE_SATURATION, filter)
+        self.saturation = filter['saturation']
 
     def onChangeColor(self, newColor):
-
-
         h, s, v = colorsys.rgb_to_hsv(newColor.red(), newColor.green(), newColor.blue())
-        s = 1.0 #filter['saturation'] / 100
-        r, g, b = colorsys.hsv_to_rgb(h, s, v)
+        r, g, b = colorsys.hsv_to_rgb(h, self.saturation, v)
         filteredColor = datatypes.Color(r, g, b) #utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
         log.l(self.type+'-filter color from '+str(newColor)+' to '+str(filteredColor))
         return filteredColor
