@@ -56,8 +56,6 @@ if sys.argv[1] == "server":
                 server.CurrentCMD = None
 
 
-            #led.changeColor(0,0,0,0xF)
-
         if(input == 'help'):
             help = "\n\nCommand list:"
             help = help + "\ncc r g b - change color"

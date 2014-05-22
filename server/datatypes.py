@@ -1,6 +1,7 @@
 #python modules
 import string
 import time
+import colorsys
 
 #rgb-pi modules
 import utils
@@ -32,7 +33,7 @@ class Color(object):
             colorString = self.colorString[1:len(self.colorString)-1]
             colorParts = string.split(colorString, ':')
 
-            if not (colorParts[0] in ['x', 'b', 'f', 'r']):
+            if not (colorParts[0] in ['x', 'b', 'f', 'r', 'hsv', 'hsl']):
                 raise ValueError('unknown color type: '+colorParts[0])
 
             #extracting Address
@@ -74,12 +75,25 @@ class Color(object):
                 self.G = utils.randfloat(fromGreen, toGreen)
                 self.B = utils.randfloat(fromBlue, toBlue)
 
+            if colorParts[0] == 'hsv':
+                hsvcomps = string.split(colorParts[1], ',')
+                h = float(hsvcomps[0])
+                s = float(hsvcomps[1])
+                v = float(hsvcomps[2])
+
+                self.R, self.G, self.B = colorsys.hsv_to_rgb(h/360.0, s/100.0, v/100.0)
+
+            if colorParts[0] == 'hsl':
+                hslcomps = string.split(colorParts[1], ',')
+                h = float(hslcomps[0])
+                s = float(hslcomps[1])
+                l = float(hslcomps[2])
+
+                self.R, self.G, self.B = colorsys.hls_to_rgb(h/360.0, l/100.0, s/100.0)
 
             self.R = utils.clip(self.R)
             self.G = utils.clip(self.G)
             self.B = utils.clip(self.B)
-
-
 
 
         else:
