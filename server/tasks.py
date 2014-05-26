@@ -83,7 +83,7 @@ class CC(Task):
         if super(CC, self).start():
             self.color = datatypes.Color(self.command['color'])
             if self.command.has_key('operator'):
-                self.operator = datatypes.Color(self.command['operator'])
+                self.operator = self.command['operator']
                 if log.m(log.LEVEL_COMMAND_CC): log.l('<'+str(self.getThreadID())+'> color=' + str(led.COLOR[0]) + ' ' + self.operator + ' ' + str(self.color))
                 for i in range(0, len(config.LED_PINS)):
                     if ((i + 1) & self.color.Address) != 0:
