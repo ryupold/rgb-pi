@@ -38,7 +38,7 @@ def fade(task, timeInSecs, endColor, startColor=None):
     secondsPassed = 0.0
     lastVolume = startVolume
 
-    while ((task is not None and (task.state == constants.CMD_STATE_STARTED and (task.thread is None or task.thread.state == constants.CMD_STATE_STARTED))) and secondsPassed <= timeInSecs):
+    while ((task is not None and (task.isStarted() and (task.thread is None or task.thread.isStarted()))) and secondsPassed <= timeInSecs):
         secondsPassed = time.time() - startTime
         #interpolate new color
         utils.interpolateColor(startColor, endColor, secondsPassed/timeInSecs, currentColor)
@@ -58,6 +58,6 @@ def fade(task, timeInSecs, endColor, startColor=None):
 def wait(task, timeInSecs):
     startTime = time.time()
     secondsPassed = 0.0
-    while ((task is not None and (task.state == constants.CMD_STATE_STARTED and (task.thread is None or task.thread.state == constants.CMD_STATE_STARTED))) and secondsPassed <= timeInSecs):
+    while ((task is not None and (task.isStarted() and (task.thread is None or task.thread.isStarted()))) and secondsPassed <= timeInSecs):
         time.sleep(config.DELAY)
         secondsPassed = time.time() - startTime

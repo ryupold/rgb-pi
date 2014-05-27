@@ -91,13 +91,17 @@ class DimFilter(Filter):
     def __init__(self, filter): # takes a command as json encoded object
         super(DimFilter, self).__init__(constants.FILTER_TYPE_DIM, filter)
         self.black = datatypes.Color(0,0,0)
+        self.startBrightness = 1.0
+        if filter.has_key('start'):
+            self.startBrightness = filter['start']
 
     def onChangeColor(self, newColor):
-        if not self.finishTrigger.check():
+        if self.finishTrigger.isFalse():
             self.finish()
 
         filteredColor = utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
         if log.m(log.LEVEL_FILTER_ACTIONS): log.l(self.type+'-filter color ('+str(self.finishTrigger.progress()*100)+'%) from '+str(newColor)+' to '+str(filteredColor))
+        self.finishTrigger.step()
         return filteredColor
 
 
@@ -110,10 +114,13 @@ class SaturationFilter(Filter):
         self.saturation = filter['saturation']
 
     def onChangeColor(self, newColor):
+        if self.finishTrigger.isFalse():
+            self.finish()
         h, s, v = colorsys.rgb_to_hsv(newColor.red(), newColor.green(), newColor.blue())
         r, g, b = colorsys.hsv_to_rgb(h, self.saturation, v)
         filteredColor = datatypes.Color(r, g, b) #utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
         log.l(self.type+'-filter color from '+str(newColor)+' to '+str(filteredColor))
+        self.finishTrigger.step()
         return filteredColor
 
 

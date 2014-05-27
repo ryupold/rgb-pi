@@ -26,6 +26,7 @@ class Task(object):
     def __init__(self, command, thread=None): # takes a command as json encoded object
         self.command = command
         self.thread = thread
+        self.threadID = -1
         self.state = constants.CMD_STATE_INIT
         if log.m(log.LEVEL_INIT_COMMAND): log.l('<'+str(self.getThreadID())+'> initialized: ' + self.type)
 
@@ -154,21 +155,21 @@ class List(Task):
 
         if isinstance(command, dict) and command.has_key('type'):
             for cmd in command['commands']:
-                self.tasks.append(Task.createTask(cmd, self.thread))
+                self.tasks.append(Task.createTask(cmd, self))
         else:
             for cmd in command:
-                self.tasks.append(Task.createTask(cmd, self.thread))
+                self.tasks.append(Task.createTask(cmd, self))
 
     def start(self):
         if super(List, self).start():
             for t in self.tasks:
-                if self.state == constants.CMD_STATE_STARTED: t.start()
+                if self.isStarted(): t.start()
                 else: break
         self.stop()
 
     def stop(self):
         for t in self.tasks:
-            if t.state != constants.CMD_STATE_STOPPED:
+            if not t.isStopped():
                 t.stop()
         super(List, self).stop()
 
@@ -184,16 +185,22 @@ class Loop(Task):
 
         if command.has_key('type'):
             for cmd in command['commands']:
-                self.tasks.append(Task.createTask(cmd, self.thread))
+                self.tasks.append(Task.createTask(cmd, self))
+
+    def isStarted(self):
+        return self.state == constants.CMD_STATE_STARTED and self.condition.isTrue()
 
 
     def start(self):
         if super(Loop, self).start():
             self.condition = datatypes.Condition(self.command['condition'])
             if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> starting loop with condition: ' + str(self.condition))
-            while self.state == constants.CMD_STATE_STARTED and self.condition.check():
+            tmp = self.isStarted()
+            while tmp:
                 for t in self.tasks:
                     t.start()
+                self.condition.step()
+                tmp = self.isStarted()
         self.stop()
 
     def stop(self):
