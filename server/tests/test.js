@@ -2,7 +2,7 @@
     "commands":[
         {
             "type":"loop",
-            "condition":"{b:1}",
+            "condition":"{t:{r:5,10}}",
             "commands":
             [
                 {
@@ -87,13 +87,6 @@
                 }
             ]
         }
-    ],
-
-
-    "request":
-    {
-        "type":"runtime",
-        "variable":"color"
-    }
+    ]
 }
 

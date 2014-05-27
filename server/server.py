@@ -59,6 +59,18 @@ class CommandThread(threading.Thread):
         self.task.stop()
 
 
+    def isStarted(self):
+        return self.state == constants.CMD_STATE_STARTED
+
+    def isStopped(self):
+        return self.state == constants.CMD_STATE_STOPPED
+
+    def isInitialized(self):
+        return self.state == constants.CMD_STATE_INIT
+
+    def getThreadID(self):
+        return self.threadID
+
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
 def readcommands(threadName, intervall):
