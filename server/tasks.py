@@ -195,12 +195,10 @@ class Loop(Task):
         if super(Loop, self).start():
             self.condition = datatypes.Condition(self.command['condition'])
             if log.m(log.LEVEL_COMMAND_DETAIL): log.l('<'+str(self.getThreadID())+'> starting loop with condition: ' + str(self.condition))
-            tmp = self.isStarted()
-            while tmp:
+            while self.isStarted():
                 for t in self.tasks:
                     t.start()
                 self.condition.step()
-                tmp = self.isStarted()
         self.stop()
 
     def stop(self):

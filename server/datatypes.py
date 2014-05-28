@@ -271,6 +271,8 @@ class Condition(object):
         if self.type == constants.CONDITION_COLOR:
             self.condition = led.COLOR[0] != self.color
 
+        return self.condition
+
     def isFalse(self):
         return not self.isTrue()
 
