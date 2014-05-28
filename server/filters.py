@@ -116,12 +116,15 @@ class SaturationFilter(Filter):
     def onChangeColor(self, newColor):
         if self.finishTrigger.isFalse():
             self.finish()
-        h, s, v = colorsys.rgb_to_hsv(newColor.red(), newColor.green(), newColor.blue())
-        r, g, b = colorsys.hsv_to_rgb(h, self.saturation, v)
-        filteredColor = datatypes.Color(r, g, b) #utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
-        log.l(self.type+'-filter color from '+str(newColor)+' to '+str(filteredColor))
-        self.finishTrigger.step()
-        return filteredColor
+            return newColor
+
+        else:
+            h, s, v = colorsys.rgb_to_hsv(newColor.red(), newColor.green(), newColor.blue())
+            r, g, b = colorsys.hsv_to_rgb(h, self.saturation, v)
+            filteredColor = datatypes.Color(r, g, b) #utils.interpolateColor(newColor, self.black, self.finishTrigger.progress())
+            log.l(self.type+'-filter color from '+str(newColor)+' to '+str(filteredColor))
+            self.finishTrigger.step()
+            return filteredColor
 
 
 class VolumeFadeFilter(Filter):
