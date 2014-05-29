@@ -221,6 +221,7 @@ def ledConfig():
         if abort: break
         cls()
         rgb = messageBoxRGB()
+        stripe = 0
 
         if rgb != 'n':
             if stripes > 1:
