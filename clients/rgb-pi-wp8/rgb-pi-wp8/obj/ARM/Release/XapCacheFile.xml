@@ -1,5 +1,5 @@
-﻿<xapCache source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\RGB-Pi-WP8.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="22.05.2014 00:10:13">
-  <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\obj\ARM\Release\rgb-pi.dll" archivePath="rgb-pi.dll" lastWriteTime="22.05.2014 00:10:13" />
+﻿<xapCache source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\RGB-Pi-WP8.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="29.05.2014 19:31:54">
+  <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\obj\ARM\Release\rgb-pi.dll" archivePath="rgb-pi.dll" lastWriteTime="29.05.2014 19:31:52" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="14.05.2014 01:07:01" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\off.png" archivePath="Assets\Icons\off.png" lastWriteTime="14.05.2014 01:07:01" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\Icons\on.png" archivePath="Assets\Icons\on.png" lastWriteTime="14.05.2014 01:07:01" />
@@ -45,7 +45,7 @@
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="14.05.2014 01:07:01" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="14.05.2014 01:07:01" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="14.05.2014 01:07:01" />
-  <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="22.05.2014 00:10:13" />
+  <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="22.05.2014 01:09:16" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="21.05.2014 23:55:09" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="21.05.2014 23:55:09" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="21.05.2014 23:55:09" />
@@ -56,7 +56,7 @@
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Controls.dll" archivePath="Coding4Fun.Toolkit.Controls.dll" lastWriteTime="14.05.2014 01:07:00" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Net.dll" archivePath="Coding4Fun.Toolkit.Net.dll" lastWriteTime="14.05.2014 01:07:00" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Storage.dll" archivePath="Coding4Fun.Toolkit.Storage.dll" lastWriteTime="14.05.2014 01:07:00" />
-  <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\RGB-Pi Lib\Bin\ARM\Release\RGB-Pi Lib.dll" archivePath="RGB-Pi Lib.dll" lastWriteTime="22.05.2014 00:10:12" />
+  <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\RGB-Pi Lib\Bin\ARM\Release\RGB-Pi Lib.dll" archivePath="RGB-Pi Lib.dll" lastWriteTime="22.05.2014 01:09:16" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="14.05.2014 01:07:01" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="14.05.2014 01:07:01" />
   <file source="D:\Stuff\Proggen\rgb-pi\clients\rgb-pi-wp8\rgb-pi-wp8\Bin\ARM\Release\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="21.05.2014 23:55:09" />
