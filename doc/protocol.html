@@ -63,6 +63,13 @@
                 </ol>
             </li>
             <li>
+                <a href="#triggers">Triggers</a>
+                <ol>
+                    <li><a href="#trigger-type-alarm">Timed Trigger</a></li>
+                    <li><a href="#trigger-type-color">Color Trigger</a></li>
+                </ol>
+            </li>
+            <li>
                 <a href="#datatypes">Data Types</a>
                 <ol>
                     <li><a href="#datatype-color">Color</a></li>
@@ -99,7 +106,9 @@
 
                 "filters":[],   ##optional
 
-                "request":{}    ##optional
+                "request":{},   ##optional
+
+                "triggers":[]   ##optional
             }
         </code></pre>
         <p id="communication-server-answer"><strong>Answer/Acknowledge message (server -> client)</strong></p>
@@ -110,6 +119,8 @@
                 "filters":1|0,                  ##only available if 'filters'-node was present in client request
 
                 "request":{answer-to-request},  ##only available if 'request'-node was present in client request
+
+                "triggers":1|0,                 ##only available if 'triggers'-node was present in client request
 
                 "error":[]                      ##always available, but empty array if no errors occurred
             }
@@ -729,7 +740,7 @@
         </p>
 
 
-        <h4 id="filter-type-volumefade">Voluma-Fade-Filter</h4>
+        <h4 id="filter-type-volumefade">Volume-Fade-Filter</h4>
         <p>
             Makes volume of the <strong>xbmc-service</strong> lower/louder according to the progress of the current fade.
             With the "progress"-element you decide if the volume should go louder or lower with the progression of the current fade.
@@ -895,6 +906,7 @@
             <li>MIN_VALUE</li>
             <li>DELAY</li>
             <li>SERVER_PORT</li>
+            <li>CONNECTION_TIMEOUT</li>
             <li>ENABLE_XBMC_REMOTE</li>
             <li>XBMC_HOST</li>
             <li>XBMC_PORT</li>
@@ -1236,6 +1248,42 @@
                         <li>example: <strong>{r:0.5-1,0-1,0-0}</strong> - random color in half of the red spectrum and the whole green spectrum</li>
                     </ol>
                 </li>
+
+                <li>
+                    <strong>hsv</strong> - Hue-Saturation-Value (HSV) representation, where the color is described with 3 values:
+                    <br/>
+                    <strong>Syntax: {hsv:H,S,V}</strong>
+                    <dl>
+                        <dt>Hue</dt>
+                        <dd>between 0-360°</dd>
+                        <dt>Saturation</dt>
+                        <dd>between 0-100%</dd>
+                        <dt>Value (Brightness)</dt>
+                        <dd>between 0-100%</dd>
+                    </dl>
+                    <br/>
+                    <ol>
+                        <li>example: <strong>{hsv:360,100,100}</strong> - this would create the color red</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>hsl</strong> - Hue-Saturation-Lightness (HSL) representation, where the color is described with 3 values:
+                    <br/>
+                    <strong>Syntax: {hsl:H,S,L}</strong>
+                    <dl>
+                        <dt>Hue</dt>
+                        <dd>between 0-360°</dd>
+                        <dt>Saturation</dt>
+                        <dd>between 0-100%</dd>
+                        <dt>Lightness</dt>
+                        <dd>between 0-100%</dd>
+                    </dl>
+                    <br/>
+
+                    <ol>
+                        <li>example: <strong>{hsl:224,65,53}</strong> - this would create a <strong style="background-color: #3963D5; color: #FFFFFF;">less saturated blue</strong> color.</li>
+                    </ol>
+                </li>
             </ul>
 
             <p>All this variations can be applied to one or more specific <strong>addresses</strong> of a led-stripe.</p>
@@ -1331,6 +1379,11 @@
                 to describe a progress of 50%. And so on...
             </p>
         </div>
+    </div>
+
+    <div id="triggers">
+        <h2>Triggers</h2>
+        <p>comming soon...</p>
     </div>
 </article>
 
