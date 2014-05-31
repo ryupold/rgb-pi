@@ -299,8 +299,27 @@ namespace RGB
         {
             lock (commandQ)
             {
-                commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value), new LEDColor(), new LEDColor(copickDimColor.Color)));
-                //commandQ.Enqueue(new RGBCommand(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value) + " " + new LEDColor() + " " + new LEDColor(copickDimColor.Color)));
+                if (!(bool)cbDim.IsChecked)
+                    commandQ.Enqueue(GetJSON(RGBCommandType.FadeColor, (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value), new LEDColor(), new LEDColor(copickDimColor.Color)));
+                else
+                {
+
+                    string json = @"{
+                        'filters':[
+                            {
+                                'type':'dim',
+                                'finish':'{t:" + (slideDimTime.Value >= 60 ? (int)slideDimTime.Value - (((int)slideDimTime.Value) % 60) : (int)slideDimTime.Value) + @"}'
+                            }
+                        ]
+                    }";
+                    
+                    json.Replace("'", "\"");
+
+                    commandQ.Enqueue(
+                        json
+                    );
+                }
+                
                 Monitor.PulseAll(commandQ);
             }
         }
@@ -359,6 +378,11 @@ namespace RGB
                 //commandQ.Enqueue(new RGBCommand(RGBCommandType.RandomFader, ((int)slideMinTime.Value) + " " + ((int)slideMaxTime.Value) + " " + (slideMinBrightness.Value / 100f).ToString("F3").Replace(",", ".") + " " + (slideMaxBrightness.Value / 100f).ToString("F3").Replace(",", ".")));
                 Monitor.PulseAll(commandQ);
             }
+        }
+
+        private void cbDim_Checked(object sender, RoutedEventArgs e)
+        {
+            copickDimColor.Visibility = (bool)cbDim.IsChecked ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
 
