@@ -29,24 +29,43 @@ To control the whole thing there are mobile apps planned for various platforms:
 
 ## rgb-pi server
 ### configure
-first you have to set the pin numbers according to the pins you connected the rgb-channels of your LEDs. This have to be done in the **config.py** file:
-			
-Pins on the raspberry pi GPIO interface. See: (https://github.com/mvitousek/pi-blaster)
-Which represents the RGB channels of your LEDs
-```python
-RED_PIN_1 = 2 
-GREEN_PIN_1 = 5 
-BLUE_PIN_1 = 6
+
+Before you can start using RGB-Pi you have to setup it.
+You can do this easily by running this command:
+configuration of the server:
+```bash
+python configure.py config
 ```
 
-This value indicates the minimum value of the sum of red, green and blue channels.  
+First thing to do this is installing pi-blaster by calling number 1 in the configuration script:
+configuration of the server:
+```bash
+1: install/uninstall pi-blaster
+```
+
+After installing pi-blaster you have to set the pin numbers according to the pins you connected the rgb-channels of your LEDs.
+This is done by the 2nd option of the configuration script:
+```bash
+2: configure LED-channels
+```
+
+The next steps are optional.
+You can change the server runtime constants with the 3rd number of the configuration script:
+```bash
+3: configure server
+```
+
+#### server values
+##### min-value
+This value indicates the minimum value of the sum of red, green and blue channels.
 If a Color is set with **R + G + B < MIN_VALUE**, rgb-pi will set black (off) as color to prevent the LEDs from blinking.
 			
 ```python
 MIN_VALUE = 0.00
 ```
 
-this is the minimum value threads wait between their processing intervals
+##### delay
+This is the minimum value threads wait between their processing intervals
 increase this value to get more cpu time for other programs
 decrease this value, to get smoother fading
 don't set this value lower or equal 0!!!
@@ -54,19 +73,35 @@ don't set this value lower or equal 0!!!
 DELAY = 0.01
 ```
 
+##### server port
 TCP Port the server is listening on: 
 ```python
 SERVER_PORT = 4321
 ```
+
+##### connection timeout
+The maximum time is waited til a sending or receiving socket operation is aborted (in seconds).
+The value 0.0 enables the non-blocking mode for the connections.
+Default value: 1.0
+```python
+CONNECTION_TIMEOUT = 1.0
+```
+
+#### XBMC control
+RGB-Pi is also able to control a local or remote XBMC-service.
+In order to make this available you have to set the IP of the service (127.0.0.1 or localhost your Raspberry Pi itself is running XBMC)
+and the port the service is listening on:
+```bash
+1: ENABLE_XBMC_REMOTE
+2: XBMC_HOST
+3: XBMC_PORT
+```
+
+
 ### use
 simply changing color:
 ```bash
 python rgb.py c 1.0 0.2 0.4
-```
-
-configuration of the server:
-```bash
-python configure.py config
 ```
 
 starting the server:
@@ -75,7 +110,7 @@ python rgb.py server
 ```
 
 #### communication protocol
-The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a string with a maximum size of 1024 bytes.
+The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a unicode string.
 
 By default the server listens to <strong>port 4321</strong>, but this can be configured in **config.py**.
 

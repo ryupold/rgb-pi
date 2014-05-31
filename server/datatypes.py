@@ -1,19 +1,22 @@
 #python modules
 import string
 import time
+import colorsys
 
 #rgb-pi modules
 import utils
 import constants
 import led
-
+import datetime
+import math
+import log
 
 
 #color string format {x|b|f:string}
 #example1 hex-string:	{x:FF00A1}
 #example2 byte:			{b:255,0,161}
 #example3 float:		{f:1,0,0.63}
-class Color():
+class Color(object):
     def __init__(self, redFloat_Or_colorString, greenFloat=None, blueFloat=None, address=None):
         if greenFloat is None or blueFloat is None:
             self.colorString = string.strip(redFloat_Or_colorString)
@@ -31,7 +34,7 @@ class Color():
             colorString = self.colorString[1:len(self.colorString)-1]
             colorParts = string.split(colorString, ':')
 
-            if not (colorParts[0] in ['x', 'b', 'f', 'r']):
+            if not (colorParts[0] in ['x', 'b', 'f', 'r', 'hsv', 'hsl']):
                 raise ValueError('unknown color type: '+colorParts[0])
 
             #extracting Address
@@ -73,12 +76,25 @@ class Color():
                 self.G = utils.randfloat(fromGreen, toGreen)
                 self.B = utils.randfloat(fromBlue, toBlue)
 
+            if colorParts[0] == 'hsv':
+                hsvcomps = string.split(colorParts[1], ',')
+                h = float(hsvcomps[0])
+                s = float(hsvcomps[1])
+                v = float(hsvcomps[2])
+
+                self.R, self.G, self.B = colorsys.hsv_to_rgb(h/360.0, s/100.0, v/100.0)
+
+            if colorParts[0] == 'hsl':
+                hslcomps = string.split(colorParts[1], ',')
+                h = float(hslcomps[0])
+                s = float(hslcomps[1])
+                l = float(hslcomps[2])
+
+                self.R, self.G, self.B = colorsys.hls_to_rgb(h/360.0, l/100.0, s/100.0)
 
             self.R = utils.clip(self.R)
             self.G = utils.clip(self.G)
             self.B = utils.clip(self.B)
-
-
 
 
         else:
@@ -99,23 +115,54 @@ class Color():
     def blueByte(self):
         return int(self.B * 255)
 
+    def red(self):
+        return self.R
+    def green(self):
+        return self.G
+    def blue(self):
+        return self.B
+
     def getHexString(self):
         return utils.getColorString([self.redByte(), self.greenByte(), self.blueByte()])
+
+    def magnitude(self):
+        return math.sqrt(self.R*self.R + self.G*self.G + self.B*self.B)
 
     def __str__(self):
         return '{f:'+str(self.R)+','+str(self.G)+','+str(self.B)+'}'
 
     def __add__(self, other):
-        return Color(utils.clip(self.R+other.R), utils.clip(self.G+other.G), utils.clip(self.B+other.B))
+        if type(other) is Color:
+            return Color(utils.clip(self.R+other.R), utils.clip(self.G+other.G), utils.clip(self.B+other.B))
+        if type(other) is float or type(other) is int or type(other) is long:
+            return Color(utils.clip(self.R+other), utils.clip(self.G+other), utils.clip(self.B+other))
+
+        raise ValueError('unknown type for add operation '+type(other))
 
     def __sub__(self, other):
-        return Color(utils.clip(self.R-other.R), utils.clip(self.G-other.G), utils.clip(self.B-other.B))
+        if type(other) is Color:
+            return Color(utils.clip(self.R-other.R), utils.clip(self.G-other.G), utils.clip(self.B-other.B))
+        if type(other) is float or type(other) is int or type(other) is long:
+            return Color(utils.clip(self.R-other), utils.clip(self.G-other), utils.clip(self.B-other))
+
+        raise ValueError('unknown type for subtract operation '+type(other))
 
     def __mul__(self, other):
-        return Color(utils.clip(self.R*other.R), utils.clip(self.G*other.G), utils.clip(self.B*other.B))
+        if type(other) is Color:
+            return Color(utils.clip(self.R*other.R), utils.clip(self.G*other.G), utils.clip(self.B*other.B))
+        if type(other) is float or type(other) is int or type(other) is long:
+            return Color(utils.clip(self.R*other), utils.clip(self.G*other), utils.clip(self.B*other))
+
+
+        raise ValueError('unknown type for multiply operation')
 
     def __div__(self, other):
-        return Color(utils.clip(self.R/other.R), utils.clip(self.G/other.G), utils.clip(self.B/other.B))
+        if type(other) is Color:
+            return Color(utils.clip(self.R/other.R), utils.clip(self.G/other.G), utils.clip(self.B/other.B))
+        if type(other) is float or type(other) is int or type(other) is long:
+            return Color(utils.clip(self.R/other), utils.clip(self.G/other), utils.clip(self.B/other))
+
+        raise ValueError('unknown type for division operation')
 
     def __eq__(self, other):
         return self.R == other.R and self.G == other.G and self.B == other.B
@@ -125,7 +172,7 @@ class Color():
 
 
 
-class Time():
+class Time(object):
     def __init__(self, seconds):
         self.timeString = string.strip(str(seconds))
         self.seconds = 0.0
@@ -170,7 +217,7 @@ class Time():
         return Time(max(self.seconds / other.seconds, 0))
 
 
-class Condition():
+class Condition(object):
     def __init__(self, condition):
         self.conditionString = string.strip(str(condition))
         self.condition = 0
@@ -189,7 +236,7 @@ class Condition():
             self.condition = int(self.conditionString) != 0
         else:
             conditionString = self.conditionString[1:len(self.conditionString)-1]
-            conditionParts = string.split(conditionString, ':')
+            conditionParts = string.split(conditionString, ':', 1)
 
             if not (conditionParts[0] in ['t','c', 'i', 'b']):
                 raise ValueError('unknown condition type: '+conditionParts[0])
@@ -197,9 +244,10 @@ class Condition():
             #extracting condition
             if conditionParts[0] == 't':
                 self.type = constants.CONDITION_TIME
-                self.time = float(conditionParts[1])
+                self.time = Time(conditionParts[1])
                 if self.startTime is None:
                     self.startTime = time.time()
+                self.condition = self.startTime+self.time.seconds >= time.time()
 
             if conditionParts[0] == 'c':
                 self.type = constants.CONDITION_COLOR
@@ -215,14 +263,22 @@ class Condition():
                 self.condition = int(conditionParts[1]) != 0
 
     def isTrue(self):
-        return self.condition != 0
+        if self.type == constants.CONDITION_TIME:
+            if self.startTime is None:
+                self.startTime = time.time()
+            self.condition = time.time() < self.startTime+self.time.seconds
+
+        if self.type == constants.CONDITION_COLOR:
+            self.condition = led.COLOR[0] != self.color
+
+        return self.condition
 
     def isFalse(self):
-        return self.condition == 0
+        return not self.isTrue()
 
     def progress(self):
         if self.type == constants.CONDITION_TIME:
-            return utils.clip((time.time()-self.startTime)/self.time)
+            return utils.clip((time.time()-self.startTime)/self.time.seconds)
 
         if self.type == constants.CONDITION_ITERATE:
             return (self.startIterations-self.iterations)*1.0/self.iterations
@@ -233,11 +289,14 @@ class Condition():
         if self.type == constants.CONDITION_BOOL:
             return 1.0 if self.condition else 0.0
 
-    def check(self):
+    def step(self):
+        """
+            Condition used by Triggers
+        """
         if self.type == constants.CONDITION_TIME:
             if self.startTime is None:
                 self.startTime = time.time()
-            self.condition = self.startTime+self.time >= time.time()
+            self.condition = self.startTime+self.time.seconds >= time.time()
 
         if self.type == constants.CONDITION_ITERATE:
             self.condition = self.iterations != 0
@@ -247,7 +306,65 @@ class Condition():
         if self.type == constants.CONDITION_COLOR:
             self.condition = led.COLOR[0] != self.color
 
-        return self.condition
+    def __str__(self):
+        return str(self.condition)
+
+class TriggerCondition(object):
+    """
+    Condition used by Triggers
+    """
+    def __init__(self, condition):
+        self.conditionString = string.strip(str(condition))
+        self.condition = 0
+        self.type = constants.TRIGGER_TYPE_TIME
+        self.time = None
+        self.lastTime = None
+        self.color = None
+        self.tolerance = 0.0
+
+        if self.conditionString[0] != '{' or self.conditionString[len(self.conditionString)-1] != '}':
+            raise ValueError('condition must defined within {} brackets ' + self.conditionString)
+
+
+        conditionString = self.conditionString[1:len(self.conditionString)-1]
+        conditionParts = string.split(conditionString, ':')
+
+        if not (conditionParts[0] in ['t','c']):
+            raise ValueError('unknown condition type: '+conditionParts[0])
+
+        #extracting condition
+        if conditionParts[0] == 't':
+            self.type = constants.TRIGGER_TYPE_TIME
+            hms = string.split(conditionParts[1], ",")
+            self.time = datetime.time(hms[0], hms[1], hms[2])
+
+            if self.lastTime is None:
+                self.lastTime = datetime.datetime.utcnow()
+
+        if conditionParts[0] == 'c':
+            self.type = constants.TRIGGER_TYPE_COLOR
+            self.color = Color(conditionParts[1])
+
+    def check(self):
+        if self.type == constants.TRIGGER_TYPE_TIME:
+            currentDateTime = datetime.datetime.combine(datetime.date.today(), self.time)
+            if currentDateTime < datetime.datetime.utcnow() and currentDateTime > self.lastTime:
+                self.condition = 1
+            else:
+                self.condition = 0
+            self.lastTime = datetime.datetime.utcnow()
+
+        if self.type == constants.TRIGGER_TYPE_COLOR:
+            if (led.COLOR[0] - self.color).magnitude() < 0.01:
+                self.condition = 1
+            else:
+                self.condition = 0
+
+    def isTrue(self):
+        return self.condition != 0
+
+    def isFalse(self):
+        return self.condition == 0
 
     def __str__(self):
         return str(self.condition)

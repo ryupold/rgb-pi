@@ -59,6 +59,18 @@ class CommandThread(threading.Thread):
         self.task.stop()
 
 
+    def isStarted(self):
+        return self.state == constants.CMD_STATE_STARTED
+
+    def isStopped(self):
+        return self.state == constants.CMD_STATE_STOPPED
+
+    def isInitialized(self):
+        return self.state == constants.CMD_STATE_INIT
+
+    def getThreadID(self):
+        return self.threadID
+
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
 def readcommands(threadName, intervall):
@@ -100,8 +112,25 @@ def readcommands(threadName, intervall):
             global CurrentCMD
             global CurrentFilters
 
-            rcvString = str(clientsocket.recv(1024))
-            if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED: '+rcvString+'\n\n')
+
+
+            rcvString = ''
+            clientsocket.setblocking(1) # recv() waits til data comes or timeout is reached
+            clientsocket.settimeout(config.CONNECTION_TIMEOUT) # timeout for receiving and sending
+            kilobyte = str(clientsocket.recv(1024))
+            try:
+                while(kilobyte):
+                    rcvString += kilobyte
+                    try:
+                        json.loads(rcvString)
+                        kilobyte = None
+                    except:
+                        kilobyte = str(clientsocket.recv(1024))
+            except:
+                pass
+
+
+            if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED ('+str(len(rcvString))+'): '+rcvString+'\n\n')
             answer = {}
             answer['error'] = []
 
