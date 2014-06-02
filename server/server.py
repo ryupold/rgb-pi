@@ -22,18 +22,27 @@ import constants
 import requests
 import tasks
 import filters
+import trigger
 
 RUN = 1
 serversocket = None
+mutex = threading.BoundedSemaphore()
 ID = 0
 CurrentCMD = None
 CurrentFilters = []
+CommandHistory = []
+CommandCount = 0
+
+#starting trigger thread
+triggerManager = trigger.TriggerManager(-10, 'Trigger Manager')
+triggerManager.start()
 
 
-
-
-#mega thread class
 class CommandThread(threading.Thread):
+    """
+    command thread class which holds the root command/list.
+    there can only be one command thread running at a time.
+    """
     #ctor
     def __init__(self, threadID, name, cmd):
         threading.Thread.__init__(self)
@@ -70,6 +79,8 @@ class CommandThread(threading.Thread):
 
     def getThreadID(self):
         return self.threadID
+
+
 
 
 #server socket, which waits for incoming commands and starting actions like fading or simple color changes
@@ -111,7 +122,8 @@ def readcommands(threadName, intervall):
 
             global CurrentCMD
             global CurrentFilters
-
+            global CommandHistory
+            global CommandCount
 
 
             rcvString = ''
@@ -135,7 +147,14 @@ def readcommands(threadName, intervall):
             answer['error'] = []
 
             try:
+                mutex.acquire()
                 r = json.loads(rcvString)
+
+                CommandCount += 1
+                CommandHistory.append(r)
+                #limit command history to the last 10 commands (client request messages)
+                if len(CommandHistory) > 10:
+                    CommandHistory = CommandHistory[len(CommandHistory)-10:len(CommandHistory)]
 
                 # execute commands
                 if isinstance(r, dict) and r.has_key('commands') and len(r['commands']) > 0:
@@ -194,9 +213,80 @@ def readcommands(threadName, intervall):
                 answer['error'].append(str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
             else:
+                mutex.release()
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
 
         except:
             log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
         else:
             clientsocket.close()
+
+
+def applyCommand(r):
+    """
+    This method can be used from other scripts like triggers.py to apply commands to the server
+    :param r: json object with command
+    :return: None
+    """
+
+    global ID
+    global serversocket
+    global CurrentCMD
+    global CurrentFilters
+    global CommandHistory
+    global CommandCount
+
+    mutex.acquire()
+    try:
+
+        CommandCount += 1
+        CommandHistory.append(r)
+        #limit command history to the last 10 commands (client request messages)
+        if len(CommandHistory) > 10:
+            CommandHistory = CommandHistory[len(CommandHistory)-10:len(CommandHistory)]
+
+        contains_cmd = False
+
+        # execute commands
+        if isinstance(r, dict) and r.has_key('commands') and len(r['commands']) > 0:
+            try:
+                if log.m(log.LEVEL_COMMANDS): log.l( 'commands: '+ str(len(r['commands'])))
+
+                if CurrentCMD is not None:
+                    CurrentCMD.stop()
+                    CurrentCMD.join()
+                    CurrentCMD = None
+
+                ID = ID + 1
+                CurrentCMD = CommandThread(ID, 'command thread', r)
+                CurrentFilters = []
+                contains_cmd = True
+
+            except:
+                log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+
+
+        #add new filters if a command is running
+        if isinstance(r, dict) and r.has_key('filters') and len(r['filters']) > 0 and CurrentCMD is not None and CurrentCMD.state != constants.CMD_STATE_STOPPED:
+            try:
+                for f in r['filters']:
+                    CurrentFilters.append(filters.Filter.createFilter(f))
+            except:
+                log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+
+        #answer request
+        if isinstance(r, dict) and r.has_key('request'):
+            try:
+                req = requests.Request.createRequest(r['request'])
+                req.execute()
+            except:
+                log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+
+
+        #starting a new command if a new arrived and could be correctly decoded
+        if contains_cmd:
+            CurrentCMD.start()
+    except:
+        log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+
+    mutex.release()

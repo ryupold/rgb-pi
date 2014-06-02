@@ -49,6 +49,7 @@ if sys.argv[1] == "server":
 
             server.RUN = 0
             RUN = 0
+            server.triggerManager.stop()
 
             if server.CurrentCMD is not None:
                 server.CurrentCMD.stop()
