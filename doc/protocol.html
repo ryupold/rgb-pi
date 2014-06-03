@@ -944,7 +944,15 @@
 
         <h3 id="request-type-runtime">Runtime Request</h3>
         <p>This request is used to read the value of runtime variables.</p>
-        <p class="note">There is only one retrievable variable yet, the current <a href="#datatype-color">color</a> of the first LED-stripe.</p>
+        <p class="note">Following variables are retrieveable:</p>
+        <dl>
+            <dt>color</dt>
+            <dd>the current <a href="#datatype-color">color</a> of the first LED-stripe.</dd>
+            <dt>filters</dt>
+            <dd>a JSON array with all currentyly active <a href="#filters">filters</a>.</dd>
+            <dt>triggers</dt>
+            <dd>a JSON array with all currently active <a href="#triggers">triggers</a>.</dd>
+        </dl>
 
         <h4>Syntax</h4>
             <p>
@@ -953,7 +961,7 @@
     "request":
     {
         "type":"runtime",
-        "variable":"color"
+        "variable":"color|filters|triggers"
     }
 }
 </code></pre>
@@ -966,8 +974,8 @@
     "request":
     {
         "type":"runtime",
-        "variable":"color",
-        "value":"COLOR"
+        "variable":"color|filters|triggers",
+        "value":"COLOR|filter-list|trigger-list"
     }
 }
 </code></pre>
@@ -975,8 +983,22 @@
 
         <h3 id="request-type-remove">Remove Request</h3>
         <p>This request is used to remove runtime items from server.</p>
-        <p class="note">Right now there only filters can be removed, other things are following some day</p>
+        <p class="note">Right now only filters and triggers can be removed, other things are following some day</p>
         <h4>Syntax</h4>
+            <p>
+<pre><code>
+{
+    "request":
+    {
+        "type":"remove",
+        "item":"type-of-item",      ## "filter" or "trigger"
+        "id":"identifier-of-item"   ## filter-type or trigger-name
+    }
+}
+</code></pre>
+            </p>
+
+         <h4>Example</h4>
             <p>
 <pre><code>
 {

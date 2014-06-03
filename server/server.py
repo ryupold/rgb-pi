@@ -198,6 +198,17 @@ def readcommands(threadName, intervall):
                         answer['request'] = None
                         log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
+                #add new triggers
+                if isinstance(r, dict) and r.has_key('triggers') and len(r['triggers']) > 0:
+                    try:
+                        for t in r['triggers']:
+                            triggerManager.addTrigger(trigger.Trigger(t))
+                        answer['triggers'] = 1
+                    except:
+                        answer['error'].append('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
+                        answer['triggers'] = 0
+                        log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
+
 
                 #starting a new command if a new arrived and could be correctly decoded
                 if answer.has_key('commands') and answer['commands'] == 1:
@@ -282,6 +293,14 @@ def applyCommand(r):
             except:
                 log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
+
+        #add new triggers
+        if isinstance(r, dict) and r.has_key('triggers') and len(r['triggers']) > 0:
+            try:
+                for t in r['triggers']:
+                    triggerManager.addTrigger(trigger.Trigger(t))
+            except:
+                log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
         #starting a new command if a new arrived and could be correctly decoded
         if contains_cmd:

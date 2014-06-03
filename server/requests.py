@@ -1,5 +1,8 @@
 #requests to the server
 
+#python modules
+import json
+
 #rgb-pi modules
 import log
 import constants
@@ -87,6 +90,10 @@ class RuntimeRequest(Request):
 
         if self.variable == constants.REQUEST_RUNTIME_VARIABLE_COLOR:
             self.value = str(led.COLOR[0])
+        if self.variable == constants.REQUEST_RUNTIME_VARIABLE_FILTERS:
+            self.value = json.dumps(server.CurrentFilters)
+        if self.variable == constants.REQUEST_RUNTIME_VARIABLE_TRIGGERS:
+            self.value = json.dumps(server.triggerManager.triggers)
 
         answer = {"type":self.type, "variable":self.variable, "value":self.value}
         return answer
@@ -94,7 +101,7 @@ class RuntimeRequest(Request):
 class RemoveRequest(Request):
     def __init__(self, request): # takes a command as json encoded object
         """
-        initializes a new Remove-Request object for removing runtime-items (currently only filters^^)
+        initializes a new Remove-Request object for removing runtime-items
         @param request: JSON object with the request
         @return: instance of Request
         """
@@ -114,6 +121,12 @@ class RemoveRequest(Request):
                     count = count + 1
                 else:
                     i += 1
+        if self.item == 'trigger':
+            try:
+                server.triggerManager.removeTrigger(self.id)
+                count = 1
+            except:
+                count = 0
 
         answer = {"type":self.type, "item":self.item, "id":self.id, "count":count}
         return answer

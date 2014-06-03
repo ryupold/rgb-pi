@@ -37,7 +37,7 @@ class TriggerManager(threading.Thread):
         while self.active:
             self.mutex.acquire()
             try:
-                for k,v in self.triggers:
+                for k,v in self.triggers.items():
                     if v.isTrue():
                         v.action()
             except:

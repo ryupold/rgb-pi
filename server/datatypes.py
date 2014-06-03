@@ -128,6 +128,9 @@ class Color(object):
     def magnitude(self):
         return math.sqrt(self.R*self.R + self.G*self.G + self.B*self.B)
 
+    def distance(self, other):
+        return math.sqrt((self.R-other.R)*(self.R-other.R) + (self.G-other.G)*(self.G-other.G) + (self.B-other.B)*(self.B-other.B))
+
     def __str__(self):
         return '{f:'+str(self.R)+','+str(self.G)+','+str(self.B)+'}'
 
@@ -301,7 +304,6 @@ class Condition(object):
         if self.type == constants.CONDITION_ITERATE:
             self.condition = self.iterations != 0
             self.iterations = max(self.iterations - 1, 0)
-            print 'i='+str(self.iterations)
 
         if self.type == constants.CONDITION_COLOR:
             self.condition = led.COLOR[0] != self.color
@@ -320,23 +322,26 @@ class TriggerCondition(object):
         self.time = None
         self.lastTime = None
         self.color = None
-        self.tolerance = 0.0
+        self.tolerance = 0.01
 
         if self.conditionString[0] != '{' or self.conditionString[len(self.conditionString)-1] != '}':
             raise ValueError('condition must defined within {} brackets ' + self.conditionString)
 
 
         conditionString = self.conditionString[1:len(self.conditionString)-1]
-        conditionParts = string.split(conditionString, ':')
+        conditionParts = string.split(conditionString, ':', 1)
 
         if not (conditionParts[0] in ['t','c']):
             raise ValueError('unknown condition type: '+conditionParts[0])
+
+        if len(conditionParts) >= 3:
+            self.tolerance = float(conditionParts[2])
 
         #extracting condition
         if conditionParts[0] == 't':
             self.type = constants.TRIGGER_TYPE_TIME
             hms = string.split(conditionParts[1], ",")
-            self.time = datetime.time(hms[0], hms[1], hms[2])
+            self.time = datetime.time(int(hms[0]), int(hms[1]), int(hms[2]))
 
             if self.lastTime is None:
                 self.lastTime = datetime.datetime.utcnow()
@@ -347,15 +352,16 @@ class TriggerCondition(object):
 
     def check(self):
         if self.type == constants.TRIGGER_TYPE_TIME:
-            currentDateTime = datetime.datetime.combine(datetime.date.today(), self.time)
-            if currentDateTime < datetime.datetime.utcnow() and currentDateTime > self.lastTime:
+            expectedDateTime = datetime.datetime.combine(datetime.date.today(), self.time)
+            currentDateTime = datetime.datetime.now()
+            if expectedDateTime < currentDateTime and expectedDateTime > self.lastTime:
                 self.condition = 1
             else:
                 self.condition = 0
-            self.lastTime = datetime.datetime.utcnow()
+            self.lastTime = currentDateTime
 
         if self.type == constants.TRIGGER_TYPE_COLOR:
-            if (led.COLOR[0] - self.color).magnitude() < 0.01:
+            if led.COLOR[0].distance(self.color) <= self.tolerance:
                 self.condition = 1
             else:
                 self.condition = 0
