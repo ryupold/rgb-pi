@@ -40,7 +40,7 @@ LEVEL_SECURITY = 0x2000
 LEVEL_FILTERS = 0x4000
 
 #   0x8000 = logs for adding and removing filters
-LEVEL_FILTER_ACTIONS = 0x8000,
+LEVEL_FILTER_ACTIONS = 0x8000
 
 #   0x10000 = logs for adding and removing triggers
 LEVEL_TRIGGER = 0x10000
