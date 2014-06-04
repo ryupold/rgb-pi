@@ -79,6 +79,7 @@ class TriggerManager(threading.Thread):
 class Trigger(object):
 
     def __init__(self, trigger):
+        self.trigger = trigger
         self.name = trigger['name']
         self.condition = datatypes.TriggerCondition(trigger['condition'])
         self.onAction = trigger['action']
@@ -96,5 +97,3 @@ class Trigger(object):
             self.repeat -= 1
             if self.repeat <= 0:
                 server.triggerManager.triggers.pop(self.name) #this might cause an error, but i'm not sure xD
-
-

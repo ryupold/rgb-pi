@@ -2,8 +2,7 @@
     "commands":[
         {
             "type":"cc",
-            "operator":"*",
-            "color":"{hsl:224,65,53}"
+            "color":"{f:1,1,1}"
         }
     ]
 }

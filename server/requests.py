@@ -91,9 +91,17 @@ class RuntimeRequest(Request):
         if self.variable == constants.REQUEST_RUNTIME_VARIABLE_COLOR:
             self.value = str(led.COLOR[0])
         if self.variable == constants.REQUEST_RUNTIME_VARIABLE_FILTERS:
-            self.value = json.dumps(server.CurrentFilters)
+            self.value  = '{'
+            for f in server.CurrentFilters:
+                self.value += json.dumps(f.filter)
+            self.value += '}'
+            #self.value = json.dumps(server.CurrentFilters)
         if self.variable == constants.REQUEST_RUNTIME_VARIABLE_TRIGGERS:
-            self.value = json.dumps(server.triggerManager.triggers)
+            self.value  = '{'
+            for k,t in server.triggerManager.triggers.items():
+                self.value += json.dumps(t.trigger)
+            self.value += '}'
+            #self.value = json.dumps(server.triggerManager.triggers)
 
         answer = {"type":self.type, "variable":self.variable, "value":self.value}
         return answer

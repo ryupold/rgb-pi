@@ -2,7 +2,7 @@
     "filters":[
         {
             "type":"dim",
-            "finish":"{t:20}",
+            "finish":"{t:200}",
             "onfinish":"stop"
         }
     ]

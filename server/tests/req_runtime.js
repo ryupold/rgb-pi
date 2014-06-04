@@ -2,7 +2,7 @@
     "request":
         {
             "type":"runtime",
-            "variable":"triggers"
+            "variable":"filters"
         }
 
 }
