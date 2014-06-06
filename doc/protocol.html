@@ -49,6 +49,7 @@
                             <li><a href="#filter-type-dim">Dim-Filter</a></li>
                             <li><a href="#filter-type-volumefade">Volume-Fade-Filter</a></li>
                             <li><a href="#filter-type-stopmusic">Stop-Music-Filter</a></li>
+                            <li><a href="#filter-type-saturation">Saturation-Filter</a></li>
                         </ol>
             </li>
                 </ol>
@@ -65,8 +66,8 @@
             <li>
                 <a href="#triggers">Triggers</a>
                 <ol>
-                    <li><a href="#trigger-type-alarm">Timed Trigger</a></li>
-                    <li><a href="#trigger-type-color">Color Trigger</a></li>
+                    <li><a href="#trigger-syntax">Syntax</a></li>
+                    <li><a href="#trigger-examples">Examples</a></li>
                 </ol>
             </li>
             <li>
@@ -75,6 +76,7 @@
                     <li><a href="#datatype-color">Color</a></li>
                     <li><a href="#datatype-time">Time</a></li>
                     <li><a href="#datatype-condition">Condition</a></li>
+                    <li><a href="#datatype-trigger-condition">Trigger Condition</a></li>
                 </ol>
             </li>
         </ol>
@@ -870,6 +872,35 @@
 </code></pre>
         </p>
 
+    <h4 id="filter-type-saturation">Saturation-Filter</h4>
+        <p>
+            This filter manipulates all color changes by converting the rgb values to a hsv color
+            and setting the saturation to the specified 'saturation'-value.
+        </p>
+        <p class="note">The "finish <a href="#datatype-condition">condition</a> is checked on every color change, if it's set."</p>
+
+
+        <h5>Syntax</h5>
+        <p>
+<pre><code>
+{
+    "filters":
+    [
+        {
+            "type":"saturation",
+            "saturation":float
+
+            ##optional
+            "finish":"CONDITION",
+
+            ##optional
+            "onfinish":"remove|stop"
+        }
+    ]
+}
+</code></pre>
+        </p>
+
     </div>
 
     <div id="requests">
@@ -1401,11 +1432,62 @@
                 to describe a progress of 50%. And so on...
             </p>
         </div>
+
+        <!-- TRIGGER CONDITION -->
+        <div id="datatype-trigger-condition">
+            <h3>Trigger Condition</h3>
+            <p>Condition for Triggers, which determines when a trigger has to fire its action-command. The action is fire when the condition of a trigger becomes TRUE.</p>
+            <p id="datatype-trigger-condition-syntax">Syntax: <strong>{t|c:string}</strong></p>
+            <ul>
+                <li>
+                    <strong>c</strong> - Current Color value<br/>
+                    <strong>Syntax: {c:COLOR}</strong>
+                    <ol>
+                        <li>example: <strong>{c:{f:0,0,0}}</strong> - The trigger condition would become TRUE if the current color becomes black.</li>
+                    </ol>
+                </li>
+                <li>
+                    <strong>t</strong> - Day Time condition, it becomes TRUE at the specified time of the day (24h).<br/>
+                    <strong>Syntax: {t:Hour,Minute,Second}</strong>
+                    <ol>
+                        <li>example: <strong>{t:13,30,0}</strong> - this would create a condition which triggers at 1:30pm every day.</li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div id="triggers">
         <h2>Triggers</h2>
-        <p>comming soon...</p>
+        <p>Triggers give you a smart way to set up tasks which should occur asynchronously to the normal use cases of RGB-Pi.</p>
+        <p>You specify them with a <a href="#datatype-trigger-condition">trigger-condition</a>. When it becomes TRUE, the trigger fires
+        a defined action. There are no limitations in action variation, you can use the whole set of commands that can be
+        defined with the <a href="#communication-client-message">Client Request</a>.</p>
+        <p class="note">Note: while you can use all commands, filters, requests and triggers as action, you wont be able to read the answers
+        they produce (also not the errors). So it would be wise to test the desired action before putting it blindly into a trigger :)</p>
+
+        <h3 id="trigger-syntax">Syntax</h3>
+        <p>The "name" has to be unique as an old trigger with the same name would be overriden by a new one.</p>
+<pre><code>
+{
+    "triggers":
+    [
+        {
+            "name":"name-of-the-trigger",
+            "condition":"TRIGGER_CONDITION",
+
+            ##optional (0 = infinite number of repeats)
+            "repeat":int
+
+            "action":JSON                       ## everything that is possible as Client Request
+        }
+    ]
+}
+</code></pre>
+
+        <h3 id="trigger-examples">Examples</h3>
+
+
     </div>
 </article>
 
