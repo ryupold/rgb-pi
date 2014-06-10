@@ -88,8 +88,8 @@
 
     <p>
     To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip.
-    The command has to be a string with a maximum size of 1024 bytes.
-    By default the server listens to port <strong>4321</strong>, but this can be configured with <strong>configutre.py config</strong> or manually set in <strong>config.py</strong>.
+    The command has to be a unicode string.
+    By default the server listens to port <strong>4321</strong>, but this can be configured with <strong>python configutre.py config</strong> or manually set in <strong>config.py</strong>.
     </p>
 
     <div id="communication">
@@ -1262,7 +1262,7 @@
         <p>In order to control RGB-Pi in a flexible and dynamic way, we created some complex datatypes.
         These have unlike other communication structures their own format.
         </p>
-        <p>Each data type is a string which is enclosed with <strong>{}</strong>-brackets. Currently there a <strong>3
+        <p>Each data type is a string which is enclosed with <strong>{}</strong>-brackets. Currently there a <strong>4
         different data types</strong> that can be used in RGB-Pi messages: Color, Time and Condition
         </p>
         <p>Each data type is described in the following format: <strong>{SUBTYPE:VALUE}</strong>, where SUBTYPE describes how the VALUE is interpreted.

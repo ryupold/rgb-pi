@@ -67,8 +67,8 @@ MIN_VALUE = 0.00
 ##### delay
 This is the minimum value threads wait between their processing intervals
 increase this value to get more cpu time for other programs
-decrease this value, to get smoother fading
-don't set this value lower or equal 0!!!
+decrease this value, to get smoother fading.
+Do not set this value lower or equal 0!!!
 ```python
 DELAY = 0.01
 ```
@@ -80,7 +80,7 @@ SERVER_PORT = 4321
 ```
 
 ##### connection timeout
-The maximum time is waited til a sending or receiving socket operation is aborted (in seconds).
+The maximum time waited til a sending or receiving socket operation is aborted (in seconds).
 The value 0.0 enables the non-blocking mode for the connections.
 Default value: 1.0
 ```python
@@ -112,7 +112,7 @@ python rgb.py server
 #### communication protocol
 The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a unicode string.
 
-By default the server listens to <strong>port 4321</strong>, but this can be configured in **config.py**.
+By default the server listens to <strong>port 4321</strong>, but this can be configured with **python configutre.py config**.
 
 A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
 
