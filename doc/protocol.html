@@ -1486,7 +1486,27 @@
 </code></pre>
 
         <h3 id="trigger-examples">Examples</h3>
-
+        <p>
+            This example shows a trigger that can be used for saving energy.
+            It fades the LED off and stops the XBMC music playback every day at 1:30AM.
+        </p>
+<pre><code>
+{
+    "triggers":
+    [
+        {
+            "name":"energy saver",
+            "condition":"{t:1,30,0}",
+            "repeat":0,
+            "action":
+            {
+                "commands":[{"type":"fade", "time":"5", "end":"{f:0,0,0}"}]
+                "request":{"type":"xbmc", "set":"stop"}
+            }
+        }
+    ]
+}
+</code></pre>
 
     </div>
 </article>
