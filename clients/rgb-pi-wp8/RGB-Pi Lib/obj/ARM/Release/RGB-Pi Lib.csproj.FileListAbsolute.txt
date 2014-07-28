@@ -1,4 +1,0 @@
-Z:\rgb-pi\clients\rgb-pi-wp8\RGB-Pi Lib\Bin\ARM\Release\RGB-Pi Lib.dll
-Z:\rgb-pi\clients\rgb-pi-wp8\RGB-Pi Lib\Bin\ARM\Release\RGB-Pi Lib.pdb
-Z:\rgb-pi\clients\rgb-pi-wp8\RGB-Pi Lib\obj\ARM\Release\RGB-Pi Lib.dll
-Z:\rgb-pi\clients\rgb-pi-wp8\RGB-Pi Lib\obj\ARM\Release\RGB-Pi Lib.pdb
