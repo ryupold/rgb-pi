@@ -9,6 +9,7 @@ import log
 import constants
 import server
 
+
 GPIOMapping_BCM = [4, 17, 18, 21, 22, 23, 24, 25]
 PWMs = {}
 if config.USE_PI_BLASTER == 0:
@@ -24,7 +25,7 @@ if config.USE_PI_BLASTER == 0:
             p.ChangeDutyCycle(0)
             PWMs[pin] = p
             #p.stop()
-        time.sleep(1)
+        time.sleep(2)
     except RuntimeError:
         print("Error importing RPi.GPIO!  This is probably because you need superuser privileges. ")
 
