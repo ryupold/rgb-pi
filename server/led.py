@@ -8,23 +8,17 @@ import config
 import log
 import constants
 import server
+import random
 
 
 GPIOMapping_BCM = [4, 17, 18, 21, 22, 23, 24, 25]
-PWMs = {}
+PIGPIO = None
 if config.USE_PI_BLASTER == 0:
     try:
-        import RPi.GPIO as GPIO
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        for pin in GPIOMapping_BCM:
-            print("setting up BCM Pin: "+str(pin))
-            GPIO.setup(pin, GPIO.OUT, GPIO.LOW)
-            p = GPIO.PWM(pin, 100)
-            p.start(0)
-            p.ChangeDutyCycle(0)
-            PWMs[pin] = p
-            #p.stop()
+        import pigpio
+        global PIGPIO
+        PIGPIO = pigpio.pi() # connect to local Pi
+        log.l("starting pigpio...", log.LEVEL_UI)
         time.sleep(2)
     except RuntimeError:
         print("Error importing RPi.GPIO!  This is probably because you need superuser privileges. ")
@@ -45,6 +39,7 @@ COLOR = [datatypes.Color('{x:000000}'),
 # elementary function to change the color of LED stripes
 def changeColor(r, g, b, address=0xF):
     global COLOR
+    global PIGPIO
 
     if config.USE_PI_BLASTER:
         cmd = ''
@@ -83,9 +78,11 @@ def changeColor(r, g, b, address=0xF):
                     r = 0.0
                     g = 0.0
                     b = 0.0
-                PWMs[GPIOMapping_BCM[config.LED_PINS[i][0]]].ChangeDutyCycle((int)(r*100))
-                PWMs[GPIOMapping_BCM[config.LED_PINS[i][1]]].ChangeDutyCycle((int)(g*100))
-                PWMs[GPIOMapping_BCM[config.LED_PINS[i][2]]].ChangeDutyCycle((int)(b*100))
+
+                PIGPIO.set_PWM_dutycycle(GPIOMapping_BCM[config.LED_PINS[i][0]], r*255)
+                PIGPIO.set_PWM_dutycycle(GPIOMapping_BCM[config.LED_PINS[i][1]], g*255)
+                PIGPIO.set_PWM_dutycycle(GPIOMapping_BCM[config.LED_PINS[i][2]], b*255)
+                #PWMs[GPIOMapping_BCM[config.LED_PINS[i][0]]].ChangeDutyCycle((int)(r*100))
 
 def setColor(color):
     for i in range(0, len(server.CurrentFilters)):
