@@ -2,7 +2,7 @@
 ======
 **Controlling RGB LED Stripes using a Raspberry Pi and a mobile Device**
 
-This project was build on the work of Michael Vitousek and his project [pi-blaster](https://github.com/mvitousek/pi-blaster)
+This project was build on [The pigpio library](http://abyz.co.uk/rpi/pigpio)
 	
 This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings. (protocoll in development)
 	
@@ -24,7 +24,8 @@ To control the whole thing there are mobile apps planned for various platforms:
 **sources & helpful links:**
   * [michael at mitchtech.net - Assembly](http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip)
   * [thomas at tbideas.com - PWM](http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi)
-	
+  * [The pigpio Library - pigpio](http://abyz.co.uk/rpi/pigpio)
+
 ======
 
 ## rgb-pi server
@@ -34,13 +35,13 @@ Before you can start using RGB-Pi you have to setup it.
 You can do this easily by running this command:
 configuration of the server:
 ```bash
-python configure.py config
+sudo python configure.py config
 ```
 
-First thing to do this is installing pi-blaster by calling number 1 in the configuration script:
+First thing to do this is installing pigpio by calling number 1 in the configuration script:
 configuration of the server:
 ```bash
-1: install/uninstall pi-blaster
+1: install/uninstall pigpio
 ```
 
 After installing pi-blaster you have to set the pin numbers according to the pins you connected the rgb-channels of your LEDs.
