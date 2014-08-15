@@ -1,6 +1,8 @@
+#!/usr/bin/env python
+
 # this file will be used by the config.sh script to easily set-up the server
 # and the configuration of the RGB-channels of your LED stripes.
-# It's also able to install pi-blaster and configure communication with xbmc.
+# It's also able to install pigpio and configure communication with xbmc.
 
 #python modules
 import string
@@ -10,7 +12,7 @@ import re
 import sys
 
 #rgb-pi modules
-
+import log
 
 
 #config parameters
@@ -29,9 +31,11 @@ CONFIG = {
     'XBMC_HOST': '\"127.0.0.1\"',
     'XBMC_PORT': '80'
 }
+
+GPIOMapping_BCM = [4, 17, 18, 21, 22, 23, 24, 25]
+
 #contains a string with the contents of the config file
 configData = ''
-
 
 ##### MESSAGE BOXES START #####
 
@@ -200,6 +204,7 @@ def ledConfig():
     cls()
     readConfig()
     global CONFIG
+    global GPIOMapping_BCM
     stripes = messageBoxINT(
         'How many LED-stripes do you have?\n(If two stripes are connected to the same channels, they count as one)', 0, 8)
 
@@ -214,11 +219,12 @@ def ledConfig():
         #set one of the pins to '1', and let the user say which stripe/color it represents
         for p in range(0, 8):
             if i==p:
-                abort = os.system("echo \""+str(p)+"=1\" > /dev/pi-blaster")
+                os.system("echo \"w "+str(GPIOMapping_BCM[p])+" 1\" > /dev/pigpio")
+                #led.setPin(led.GPIOMapping_BCM[p], 1.0)
             else:
-                abort = os.system("echo \""+str(p)+"=0\" > /dev/pi-blaster")
+                os.system("echo \"w "+str(GPIOMapping_BCM[p])+" 0\" > /dev/pigpio")
+                #led.setPin(led.GPIOMapping_BCM[p], 0.0)
 
-        if abort: break
         cls()
         rgb = messageBoxRGB()
         stripe = 0
@@ -259,7 +265,7 @@ def ledConfig():
             if a == '1':
                 ledConfig()
     else:
-        print "\n\npi-blaster seems not to be running.\nYou need it to light up LEDs, that are connected to the GPIO interface.\nPlease install it via main menu, "
+        print "\n\npigpio seems not to be running.\nYou need it to light up LEDs, that are connected to the GPIO interface.\nPlease install it via main menu, "
         messageBoxAnyKey()
 
 ##### LED CONFIG END #####
@@ -329,7 +335,7 @@ def xbmcConfig():
 
 ##### MENU START #####
 def showMenu():
-    choises = {'1': 'install/uninstall pi-blaster (necessary to control LEDs)',
+    choises = {'1': 'install/uninstall pigpio (necessary to control LEDs)',
                '2': 'configure LED-channels',
                '3': 'configure server',
                '4': 'configure xbmc remote control',
@@ -348,18 +354,18 @@ def createConfig():
         menuitem = showMenu()
 
         if menuitem == '1':
-            choises = {'1': 'install pi-blaster',
-                       '2': 'uninstall pi-blaster'}
+            choises = {'1': 'install pigpio',
+                       '2': 'uninstall pigpio'}
             a = messageBoxChoose('choose the next operation', **choises)
 
             if '1' == a:
-                print 'installing pi-blaster (with --pcm option...)'
+                print 'installing pigpio'
                 time.sleep(1)
-                os.system("sudo make -C ../pi-blaster/ install")
+                os.system("sudo make -C ../pigpio/ install")
             elif a == '2':
-                print 'uninstalling pi-blaster'
+                print 'uninstalling pigpio'
                 time.sleep(1)
-                os.system("sudo make -C ../pi-blaster/ uninstall")
+                os.system("sudo make -C ../pigpio/ uninstall")
 
             messageBoxAnyKey()
 
