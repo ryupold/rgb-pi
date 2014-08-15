@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+"""
+if this is set to True (1), pi-blaster is used to control the LEDs
+if it' s False (0) the Raspberry Pi native GPIO-Python-APi is used (RPi.GPIO)
+"""
+USE_PI_BLASTER = 0
+
+
 #GPIO pins for RGB
 #Pin mapping: pi-blaster -> GPIO-interface on the Raspberry Pi
 #   Pin 0 -> 4
@@ -21,7 +28,7 @@ LED_PINS = [[5, 2, 6]]
 
 # this value indicates the minimum value of the sum of
 # red, green and blue channels can be set to before the LEDs start blinking
-MIN_VALUE = 0.0001
+MIN_VALUE = 0.0000
 
 # this is the minimum value threads wait between their processing intervals
 # increase this value to get more cpu time for other tests
