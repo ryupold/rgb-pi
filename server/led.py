@@ -46,10 +46,9 @@ def changeColor(r, g, b, address=0xF):
             COLOR[i].B = b
 
             # if lower than min value turn LEDs off
-            if (r + g + b) < config.MIN_VALUE:
-                r = 0.0
-                g = 0.0
-                b = 0.0
+            r = 0.0 if r<=0.0 else utils.clip(r, config.MIN_VALUE)
+            g = 0.0 if g<=0.0 else utils.clip(g, config.MIN_VALUE)
+            b = 0.0 if b<=0.0 else utils.clip(b, config.MIN_VALUE)
 
             #pigpio works with values between 0-255
             PIGPIO.set_PWM_dutycycle(GPIOMapping_BCM[config.LED_PINS[i][0]], r*255)
