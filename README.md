@@ -120,7 +120,7 @@ A documentation to the communication protocol can be found here (http://htmlprev
 
 ## Contributors
 realkyton (https://github.com/realkyton)  
-realriu (https://github.com/realriu)
+ryupold (https://github.com/ryupold)
 
 ## License
 ```
