@@ -15,12 +15,12 @@ import led
 import server
 import configure
 import log
-import rest
+
 
 # rgb representing pins on the raspberry pi GPIO interface
 # see: https://github.com/sarfata/pi-blaster
 
-RUN = 1
+RUN = 0
 
 
 #command line options		
@@ -37,6 +37,11 @@ if len(sys.argv)>1:
 def startServer(serverThread, var):
     global RUN
 
+    if RUN == 0:
+        RUN = 1
+    else:
+        return
+
     #readcommands("socket thread", 0.01)
     thread.start_new_thread(server.readcommands, ("socket thread", var, ))
     time.sleep(1)
@@ -52,8 +57,6 @@ def startServer(serverThread, var):
             server.RUN = 0
             RUN = 0
             server.triggerManager.stop()
-
-            rest.shutdown_server()
 
             if server.CurrentCMD is not None:
                 server.CurrentCMD.stop()

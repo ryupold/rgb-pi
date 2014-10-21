@@ -1,8 +1,10 @@
 import log
 import thread
+import time
 import rgb
 import server
 import sys
+import json
 
 from datetime import timedelta
 from flask import Flask, render_template, request, current_app, make_response
@@ -10,7 +12,6 @@ from flask.ext.jsonpify import jsonify
 from functools import update_wrapper
 
 app = Flask(__name__)
-
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
     if methods is not None:
@@ -55,17 +56,16 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
 @app.route('/request')
 @crossdomain(origin='*', methods=['GET', 'PUT', 'POST', 'OPTIONS'])
 def rgbpi_request():
-    print "request args= ", request.args
-    client_request = request.args.get('request')
+    print "request: ", request.args.get('request')
+
+    if(rgb.RUN == 0):
+        log.l('rgb-pi server is not started, starting now...')
+        rgb.RUN = 1
+        thread.start_new_thread(rgb.startServer, ('server thread', 0.01, ))
+        time.sleep(3)
+
+    client_request = json.loads(request.args.get('request'))
     return jsonify(answer=server.applyCommand(client_request)), 200
-
-
-def startWebservice(threadName, param):
-    # Bind to PORT if defined, otherwise default to 5000.
-    log.l('starting asyncronous server thread', log.LEVEL_UI)
-    thread.start_new_thread(rgb.startServer, (threadName, param, ))
-    port = 5000
-    app.run(host='0.0.0.0', port=port, debug=True)
 
 
 def shutdown_server():
@@ -76,6 +76,11 @@ def shutdown_server():
 
 
 if len(sys.argv)>1 and sys.argv[1] == "webserver":
-    startWebservice('rest thread', 1)
+    port = 5000
+    app.run(host='0.0.0.0', port=port, debug=True)
+
+
+
+
 
 

@@ -12,7 +12,8 @@ import threading
 import math
 import Queue
 import json
-import traceback
+import urllib
+
 
 #rgb-pi modules
 
@@ -94,9 +95,6 @@ def readcommands(threadName, intervall):
 
     print '\n... starting server (',intervall,')...\n\n'
 
-
-    led.initPIGPIO()
-
     #globals
     global ID
     global serversocket
@@ -147,6 +145,9 @@ def readcommands(threadName, intervall):
             except:
                 pass
 
+            if rcvString.startswith('GET'):
+                rcvString = urllib.unquote(str.split(str.split(rcvString, '\n', 1)[0], ' ')[1])
+                rcvString = rcvString[rcvString.index('{'):rcvString.rindex('}')+1]
 
             if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED ('+str(len(rcvString))+'): '+rcvString+'\n\n')
             answer = {}

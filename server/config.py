@@ -31,7 +31,7 @@ DELAY = 0.01
 
 
 #server port
-SERVER_PORT = 4321
+SERVER_PORT = 5000
 
 #connection timeout for sending and receiving
 #set to 0.0 for non-blocking mode
