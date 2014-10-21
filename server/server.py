@@ -12,6 +12,7 @@ import threading
 import math
 import Queue
 import json
+import traceback
 
 #rgb-pi modules
 
@@ -23,6 +24,8 @@ import requests
 import tasks
 import filters
 import trigger
+import led
+#import rest
 
 RUN = 1
 serversocket = None
@@ -89,7 +92,10 @@ def readcommands(threadName, intervall):
     configure.cls()
     configure.printConfig()
 
-    print '\n... starting server...\n\n'
+    print '\n... starting server (',intervall,')...\n\n'
+
+
+    led.initPIGPIO()
 
     #globals
     global ID
@@ -247,9 +253,10 @@ def applyCommand(r):
     global CommandHistory
     global CommandCount
 
+    answer = {}
     mutex.acquire()
     try:
-
+        answer['error'] = []
         CommandCount += 1
         CommandHistory.append(r)
         #limit command history to the last 10 commands (client request messages)
@@ -309,3 +316,4 @@ def applyCommand(r):
         log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
 
     mutex.release()
+    return answer

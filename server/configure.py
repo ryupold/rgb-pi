@@ -41,7 +41,7 @@ configData = ''
 
 #clears console
 def cls():
-    os.system(['clear', 'cls'][os.name == 'nt'])
+    pass#os.system(['clear', 'cls'][os.name == 'nt'])
 
 
 def messageBoxAnyKey():
