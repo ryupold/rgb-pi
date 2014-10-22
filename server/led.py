@@ -8,19 +8,22 @@ import config
 import log
 import server
 import utils
-
+import mock
 
 GPIOMapping_BCM = [4, 17, 18, 21, 22, 23, 24, 25]
 PIGPIO = None
 
 try:
     import pigpio
-    global PIGPIO
     PIGPIO = pigpio.pi() # connect to local Pi
     log.l("starting pigpio...", log.LEVEL_UI)
-    time.sleep(2)
-except RuntimeError:
+    time.sleep(1)
+except ImportError:
     log.l("Error importing RPi.GPIO!  This is probably because you need superuser privileges.", log.LEVEL_ERRORS)
+    log.l("Mocking RPi.GPIO ...", log.LEVEL_ERRORS)
+    PIGPIO = mock.PiGPIO_Mock.pi()
+
+
 
 #global rgb values
 COLOR = [datatypes.Color('{x:000000}'),
