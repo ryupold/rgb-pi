@@ -145,18 +145,33 @@ def readcommands(threadName, intervall):
             except:
                 pass
 
-            if rcvString.startswith('GET'):
-                rcvString = urllib.unquote(str.split(str.split(rcvString, '\n', 1)[0], ' ')[1])
-                rcvString = rcvString[rcvString.index('{'):rcvString.rindex('}')+1]
+            #flag which is true if the received command comes from a http request
+            isHTTPRequest = False
 
-            if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED ('+str(len(rcvString))+'): '+rcvString+'\n\n')
-            answer = {}
-            answer['error'] = []
-
+            mutex.acquire()
             try:
-                mutex.acquire()
-                r = json.loads(rcvString)
+                answer = {}
+                answer['error'] = []
 
+                if rcvString.startswith('GET') or rcvString.startswith('OPTIONS') or rcvString.startswith('POST') or rcvString.startswith('PUT'):
+                    isHTTPRequest = True
+                    rcvString = urllib.unquote(str.split(str.split(rcvString, '\n', 1)[0], ' ')[1])
+                    if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED HTTP ('+str(len(rcvString))+'): '+rcvString+'\n\n')
+
+                    startIndex = rcvString.find('{')
+                    endIndex = rcvString.rfind('}')
+                    if startIndex >= 0 and endIndex >= 0:
+                        rcvString = rcvString[rcvString.find('{'):rcvString.rfind('}')+1]
+                        if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED Command ('+str(len(rcvString))+'): '+rcvString+'\n\n')
+                    else:
+                        if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('no valid command found in ('+str(len(rcvString))+'): '+rcvString+'\n\n')
+                else:
+                    isHTTPRequest = False
+                    if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED Command ('+str(len(rcvString))+'): '+rcvString+'\n\n')
+
+
+
+                r = json.loads(rcvString)
                 CommandCount += 1
                 CommandHistory.append(r)
                 #limit command history to the last 10 commands (client request messages)
@@ -229,15 +244,32 @@ def readcommands(threadName, intervall):
             except:
                 log.l('ERROR: ' + str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
                 answer['error'].append(str(sys.exc_info()[0]) + ": "+ str(sys.exc_info()[1]))
-                clientsocket.send(json.dumps(answer, separators=(',',':')))
+                #clientsocket.send(json.dumps(answer, separators=(',',':')))
+
+
+            mutex.release()
+
+            if isHTTPRequest:
+                answerString = json.dumps(answer, separators=(',',':'))
+                httpResponse = 'HTTP/1.1 200 OK\n'
+                httpResponse = httpResponse + 'Content-Type: application/json;charset=utf-8\n'
+                httpResponse = httpResponse + 'Access-Control-Allow-Origin: *\n'
+                httpResponse = httpResponse + 'Content-Length: '+str(len(answerString))+'\n\n'
+                httpResponse = httpResponse + answerString
+                clientsocket.send(httpResponse)
+                log.l('answer sent (http response)', log.LEVEL_SOCKET_COMMUNICATION)
             else:
-                mutex.release()
                 clientsocket.send(json.dumps(answer, separators=(',',':')))
+                log.l('answer sent (normal socket)', log.LEVEL_SOCKET_COMMUNICATION)
+
+            clientsocket.close()
 
         except:
             log.l('ERROR: ' + str(sys.exc_info()[0])+ ": "+ str(sys.exc_info()[1]), log.LEVEL_ERRORS)
-        else:
-            clientsocket.close()
+
+
+
+
 
 
 def applyCommand(r):
