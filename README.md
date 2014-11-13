@@ -111,11 +111,11 @@ python rgb.py server
 ```
 
 #### communication protocol
-The server can receive commands from third party applications, like mobile apps. To send a commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a unicode string.
+A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
+
+The server can receive commands from third party applications, like mobile apps. To send commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a unicode string.
 
 By default the server listens to <strong>port 4321</strong>, but this can be configured with **python configutre.py config**.
-
-A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
 
 
 ## Contributors
