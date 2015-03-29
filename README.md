@@ -4,7 +4,7 @@
 
 This project was build on [The pigpio library](http://abyz.co.uk/rpi/pigpio)
 	
-This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings. (protocoll in development)
+This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings.
 	
 To control the whole thing there are mobile apps planned for various platforms:
   * Windows Phone
