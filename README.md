@@ -2,7 +2,7 @@
 ======
 **Controlling RGB LED stripes using a Raspberry Pi and a mobile device**
 
-This project was build on [The pigpio library](http://abyz.co.uk/rpi/pigpio)
+This project was build on the [pigpio library](http://abyz.co.uk/rpi/pigpio)
 	
 This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings.
 	
@@ -16,10 +16,10 @@ To control the whole thing there are mobile apps planned for various platforms:
 
 ## hardware parts needed:
   * Raspberry Pi
-  * 3 x TIP120 power transistors for each LED strip (in case you wanna controll them separately)
+  * 3 x TIP120 power transistors for each LED strip (in case you wanna control them separately)
   * RGB LED strip
   * Perfboard/Breadboard or Dupont cables
-  * 12V power supply (_Watt amount needed depends on the used LED-stripe and its lenght_)
+  * 12V power supply (_Watt amount needed depends on the used LED-stripe and its length_)
 	
 **sources & helpful links:**
   * [michael at mitchtech.net - Assembly](http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip)
