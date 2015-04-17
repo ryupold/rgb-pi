@@ -1,6 +1,6 @@
 # RGB-pi
 ======
-**Controlling RGB LED Stripes using a Raspberry Pi and a mobile Device**
+**Controlling RGB LED stripes using a Raspberry Pi and a mobile device**
 
 This project was build on [The pigpio library](http://abyz.co.uk/rpi/pigpio)
 	
@@ -16,7 +16,7 @@ To control the whole thing there are mobile apps planned for various platforms:
 
 ## hardware parts needed:
   * Raspberry Pi
-  * 3 x TIP120 power transistors for each LED strip (in case you wanna controll them seperatly)
+  * 3 x TIP120 power transistors for each LED strip (in case you wanna controll them separately)
   * RGB LED strip
   * Perfboard/Breadboard or Dupont cables
   * 12V power supply (_Watt amount needed depends on the used LED-stripe and its lenght_)
@@ -31,14 +31,14 @@ To control the whole thing there are mobile apps planned for various platforms:
 ## rgb-pi server
 ### configure
 
-Before you can start using RGB-Pi you have to setup it.
+Before you can start using RGB-Pi you have to set it up.
 You can do this easily by running this command:
 configuration of the server:
 ```bash
 sudo python configure.py config
 ```
 
-First thing to do this is installing pigpio by calling number 1 in the configuration script:
+First thing to do is installing pigpio by calling number 1 in the configuration script:
 configuration of the server:
 ```bash
 1: install/uninstall pigpio
@@ -59,7 +59,7 @@ You can change the server runtime constants with the 3rd number of the configura
 #### server values
 ##### min-value
 This value indicates the minimum value of the sum of red, green and blue channels.
-If a Color is set with **R + G + B < MIN_VALUE**, rgb-pi will set black (off) as color to prevent the LEDs from blinking.
+If a color is set with **R + G + B < MIN_VALUE**, rgb-pi will set black (off) as color to prevent the LEDs from blinking.
 			
 ```python
 MIN_VALUE = 0.00
@@ -75,13 +75,13 @@ DELAY = 0.01
 ```
 
 ##### server port
-TCP Port the server is listening on: 
+TCP port the server is listening on: 
 ```python
 SERVER_PORT = 4321
 ```
 
 ##### connection timeout
-The maximum time waited til a sending or receiving socket operation is aborted (in seconds).
+The maximum time waited till a sending or receiving socket operation is aborted (in seconds).
 The value 0.0 enables the non-blocking mode for the connections.
 Default value: 1.0
 ```python
