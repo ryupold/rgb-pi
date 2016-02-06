@@ -152,10 +152,11 @@ def readcommands(threadName, intervall):
             try:
                 answer = {}
                 answer['error'] = []
+                if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED SOCKET ('+str(len(rcvString))+'): '+rcvString+'\n\n')
 
                 if rcvString.startswith('GET') or rcvString.startswith('OPTIONS') or rcvString.startswith('POST') or rcvString.startswith('PUT'):
                     isHTTPRequest = True
-                    rcvString = urllib.unquote(str.split(str.split(rcvString, '\n', 1)[0], ' ')[1])
+                    rcvString = urllib.unquote(str.split(rcvString, '\n', 1)[1])
                     if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED HTTP ('+str(len(rcvString))+'): '+rcvString+'\n\n')
 
                     startIndex = rcvString.find('{')
