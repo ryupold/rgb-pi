@@ -2,24 +2,37 @@
 
 #*** WARNING ************************************************
 #*                                                          *
-#* All the tests make extensive use of gpio 4 (pin P1-7).   *
+#* All the tests make extensive use of gpio 25 (pin 22).    *
 #* Ensure that either nothing or just a LED is connected to *
-#* gpio 4 before running any of the tests.                  *
+#* gpio 25 before running any of the tests.                 *
+#*                                                          *
+#* Some tests are statistical in nature and so may on       *
+#* occasion fail.  Repeated failures on the same test or    *
+#* many failures in a group of tests indicate a problem.    *
 #************************************************************
 
 import sys
 import time
-import codecs
 import struct
 
 import pigpio
 
-GPIO=4
+GPIO=25
 
 def STRCMP(r, s):
-   if r != codecs.latin_1_encode(s)[0]:
-      print(r, codecs.latin_1_encode(s)[0])
+
+   if sys.hexversion > 0x03000000:
+
+      if type(r) == type(""):
+         r = bytearray(r, 'latin-1')
+
+      if type(s) == type(""):
+         s = bytearray(s, 'latin-1')
+
+   if r != s:
+      print(r, s)
       return 0
+
    else:
       return 1
 
@@ -87,53 +100,61 @@ def t2():
    t2cb = pi.callback(GPIO, pigpio.EITHER_EDGE, t2cbf)
 
    pi.set_PWM_dutycycle(GPIO, 0)
+   dc = pi.get_PWM_dutycycle(GPIO)
+   CHECK(2, 2, dc, 0, 0, "get PWM dutycycle")
+
    time.sleep(0.5) # allow old notifications to flush
    oc = t2_count
    time.sleep(2)
    f = t2_count - oc
-   CHECK(2, 2, f, 0, 0, "set PWM dutycycle, callback")
+   CHECK(2, 3, f, 0, 0, "set PWM dutycycle, callback")
 
    pi.set_PWM_dutycycle(GPIO, 128)
+   dc = pi.get_PWM_dutycycle(GPIO)
+   CHECK(2, 4, dc, 128, 0, "get PWM dutycycle")
+
    time.sleep(1)
    oc = t2_count
    time.sleep(2)
    f = t2_count - oc
-   CHECK(2, 3, f, 40, 10, "set PWM dutycycle, callback")
+   CHECK(2, 5, f, 40, 10, "set PWM dutycycle, callback")
 
    pi.set_PWM_frequency(GPIO,100)
    f = pi.get_PWM_frequency(GPIO)
-   CHECK(2, 4, f, 100, 0, "set/get PWM frequency")
+   CHECK(2, 6, f, 100, 0, "set/get PWM frequency")
 
    time.sleep(1)
    oc = t2_count
    time.sleep(2)
    f = t2_count - oc
-   CHECK(2, 5, f, 400, 5, "callback")
+   CHECK(2, 7, f, 400, 5, "callback")
 
    pi.set_PWM_frequency(GPIO,1000)
    f = pi.get_PWM_frequency(GPIO)
-   CHECK(2, 6, f, 1000, 0, "set/get PWM frequency")
+   CHECK(2, 8, f, 1000, 0, "set/get PWM frequency")
 
    time.sleep(1)
    oc = t2_count
    time.sleep(2)
    f = t2_count - oc
-   CHECK(2, 7, f, 4000, 5, "callback")
+   CHECK(2, 9, f, 4000, 5, "callback")
 
    r = pi.get_PWM_range(GPIO)
-   CHECK(2, 8, r, 255, 0, "get PWM range")
-
-   rr = pi.get_PWM_real_range(GPIO)
-   CHECK(2, 9, rr, 200, 0, "get PWM real range")
-
-   pi.set_PWM_range(GPIO, 2000)
-   r = pi.get_PWM_range(GPIO)
-   CHECK(2, 10, r, 2000, 0, "set/get PWM range")
+   CHECK(2, 10, r, 255, 0, "get PWM range")
 
    rr = pi.get_PWM_real_range(GPIO)
    CHECK(2, 11, rr, 200, 0, "get PWM real range")
 
+   pi.set_PWM_range(GPIO, 2000)
+   r = pi.get_PWM_range(GPIO)
+   CHECK(2, 12, r, 2000, 0, "set/get PWM range")
+
+   rr = pi.get_PWM_real_range(GPIO)
+   CHECK(2, 13, rr, 200, 0, "get PWM real range")
+
    pi.set_PWM_dutycycle(GPIO, 0)
+
+   t2cb.cancel()
 
 t3_reset=True
 t3_count=0
@@ -175,6 +196,10 @@ def t3():
    for x in pw:
       t += 1
       pi.set_servo_pulsewidth(GPIO, x)
+      v = pi.get_servo_pulsewidth(GPIO)
+      CHECK(3, t, v, int(x), 0, "get servo pulsewidth")
+
+      t += 1
       time.sleep(1)
       t3_reset = True
       time.sleep(4)
@@ -187,15 +212,19 @@ def t3():
    pi.set_servo_pulsewidth(GPIO, 0)
    pi.set_PWM_frequency(GPIO, 1000)
    f = pi.get_PWM_frequency(GPIO)
-   CHECK(3, 4, f, 1000, 0, "set/get PWM frequency")
+   CHECK(3, 7, f, 1000, 0, "set/get PWM frequency")
 
    rr = pi.set_PWM_range(GPIO, 100)
-   CHECK(3, 5, rr, 200, 0, "set PWM range")
+   CHECK(3, 8, rr, 200, 0, "set PWM range")
 
-   t = 5
+   t = 8
    for x in dc:
       t += 1
       pi.set_PWM_dutycycle(GPIO, x*100)
+      v = pi.get_PWM_dutycycle(GPIO)
+      CHECK(3, t, v, int(x*100), 0, "get PWM dutycycle")
+
+      t += 1
       time.sleep(1)
       t3_reset = True
       time.sleep(2)
@@ -206,6 +235,8 @@ def t3():
 
    pi.set_PWM_dutycycle(GPIO, 0)
 
+   t3cb.cancel()
+
 def t4():
 
    print("Pipe notification tests.")
@@ -215,7 +246,7 @@ def t4():
    pi.set_PWM_range(GPIO, 100)
 
    h = pi.notify_open()
-   e = pi.notify_begin(h, (1<<4))
+   e = pi.notify_begin(h, (1<<GPIO))
    CHECK(4, 1, e, 0, 0, "notify open/begin")
 
    time.sleep(1)
@@ -253,7 +284,7 @@ def t4():
             if s != S:
                seq_ok = 0
 
-            L = v & (1<<4)
+            L = v & (1<<GPIO)
 
             if n:
                if l != L:
@@ -262,7 +293,7 @@ def t4():
             if L:
                l = 0
             else:
-               l = (1<<4)
+               l = (1<<GPIO)
            
             s += 1
             n += 1
@@ -328,8 +359,9 @@ To the lascivious pleasing of a lute.
    e = pi.wave_add_generic(wf)
    CHECK(5, 2, e, 4, 0, "pulse, wave add generic")
 
-   e = pi.wave_tx_repeat()
-   CHECK(5, 3, e, 9, 0, "wave tx repeat")
+   wid = pi.wave_create()
+   e = pi.wave_send_repeat(wid)
+   CHECK(5, 3, e, 9, 0, "wave send repeat")
 
    oc = t5_count
    time.sleep(5)
@@ -343,11 +375,12 @@ To the lascivious pleasing of a lute.
    CHECK(5, 6, e, 0, 0, "serial read open")
 
    pi.wave_clear()
-   e = pi.wave_add_serial(GPIO, BAUD, 5000000, TEXT)
+   e = pi.wave_add_serial(GPIO, BAUD, TEXT, 5000000)
    CHECK(5, 7, e, 3405, 0, "wave clear, wave add serial")
 
-   e = pi.wave_tx_start()
-   CHECK(5, 8, e, 6811, 0, "wave tx start")
+   wid = pi.wave_create()
+   e = pi.wave_send_once(wid)
+   CHECK(5, 8, e, 6811, 0, "wave send once")
 
    oc = t5_count
    time.sleep(3)
@@ -356,8 +389,8 @@ To the lascivious pleasing of a lute.
 
    oc = t5_count
    while pi.wave_tx_busy():
-      time.sleep(0.1)
-   time.sleep(0.1)
+      time.sleep(0.2)
+   time.sleep(0.2)
    c = t5_count - oc
    CHECK(5, 10, c, 1702, 0, "wave tx busy, callback")
 
@@ -368,7 +401,7 @@ To the lascivious pleasing of a lute.
    CHECK(5, 12, e, 0, 0, "serial read close")
 
    c = pi.wave_get_micros()
-   CHECK(5, 13, c, 6158704, 0, "wave get micros")
+   CHECK(5, 13, c, 6158148, 0, "wave get micros")
 
    CHECK(5, 14, 0, 0, 0, "NOT APPLICABLE")
 
@@ -411,7 +444,7 @@ To the lascivious pleasing of a lute.
    e = pi.wave_tx_stop()
    CHECK(5, 27, e, 0, 0, "wave tx stop")
 
-   e = pi.wave_add_serial(GPIO, BAUD, 5000000, TEXT)
+   e = pi.wave_add_serial(GPIO, BAUD, TEXT, 5000000)
    CHECK(5, 28, e, 3405, 0, "wave add serial")
 
    w2 = pi.wave_create()
@@ -427,13 +460,15 @@ To the lascivious pleasing of a lute.
 
    oc = t5_count
    while pi.wave_tx_busy():
-      time.sleep(0.1)
-   time.sleep(0.1)
+      time.sleep(0.2)
+   time.sleep(0.2)
    c = t5_count - oc
    CHECK(5, 32, c, 1702, 0, "wave tx busy, callback")
 
    e = pi.wave_delete(0)
    CHECK(5, 33, e, 0, 0, "wave delete")
+
+   t5cb.cancel()
 
 t6_count=0
 t6_on=0
@@ -471,6 +506,8 @@ def t6():
 
    CHECK(6, 2, t6_on, tp, 25, "gpio trigger pulse length")
 
+   t6cb.cancel()
+
 t7_count=0
 
 def t7cbf(gpio, level, tick):
@@ -486,12 +523,12 @@ def t7():
    # type of edge shouldn't matter for watchdogs
    t7cb = pi.callback(GPIO, pigpio.FALLING_EDGE, t7cbf)
 
-   pi.set_watchdog(GPIO, 10) # 10 ms, 100 per second
+   pi.set_watchdog(GPIO, 50) # 50 ms, 20 per second
    time.sleep(0.5)
    oc = t7_count
    time.sleep(2)
    c = t7_count - oc
-   CHECK(7, 1, c, 200, 5, "set watchdog on count")
+   CHECK(7, 1, c, 39, 5, "set watchdog on count")
 
    pi.set_watchdog(GPIO, 0) # 0 switches watchdog off
    time.sleep(0.5)
@@ -499,6 +536,8 @@ def t7():
    time.sleep(2)
    c = t7_count - oc
    CHECK(7, 2, c, 0, 1, "set watchdog off count")
+
+   t7cb.cancel()
 
 def t8():
    print("Bank read/write tests.")
@@ -519,12 +558,14 @@ def t8():
    v = pi.read(GPIO)
    CHECK(8, 4, v, 1, 0, "set bank 1")
 
-   t = 0
-   v = (1<<16)
-   for i in range(100):
-      if pi.read_bank_2() & v:
-         t += 1
-   CHECK(8, 5, t, 60, 75, "read bank 2")
+   v = pi.read_bank_2()
+
+   if v:
+      v = 0
+   else:
+      v = 1
+
+   CHECK(8, 5, v, 0, 0, "read bank 2")
 
    v = pi.clear_bank_2(0)
    CHECK(8, 6, v, 0, 0, "clear bank 2")
@@ -541,6 +582,13 @@ def t8():
    v = pi.set_bank_2(0xffffff)
    pigpio.exceptions = True
    CHECK(8, 9, v, pigpio.PI_SOME_PERMITTED, 0, "set bank 2")
+
+def t9waitNotHalted(s):
+   for check in range(10):
+      time.sleep(0.1)
+      e, p = pi.script_status(s)
+      if e != pigpio.PI_SCRIPT_HALTED:
+         return
 
 def t9():
    print("Script store/run/status/stop/delete tests.")
@@ -562,34 +610,52 @@ def t9():
 
    t9cb = pi.callback(GPIO)
 
+   old_exceptions = pigpio.exceptions
+
+   pigpio.exceptions = False
+
    s = pi.store_script(script)
 
    # Ensure the script has finished initing.
    while True:
-      time.sleep(0.1)
       e, p = pi.script_status(s)
       if e != pigpio.PI_SCRIPT_INITING:
          break
+      time.sleep(0.1)
 
    oc = t9cb.tally()
    pi.run_script(s, [99, GPIO])
-   time.sleep(2)
+
+   t9waitNotHalted(s)
+
+   while True:
+      e, p = pi.script_status(s)
+      if e != pigpio.PI_SCRIPT_RUNNING:
+         break
+      time.sleep(0.1)
+   time.sleep(0.2)
    c = t9cb.tally() - oc
    CHECK(9, 1, c, 100, 0, "store/run script")
 
    oc = t9cb.tally()
    pi.run_script(s, [200, GPIO])
+
+   t9waitNotHalted(s)
+
    while True:
       e, p = pi.script_status(s)
       if e != pigpio.PI_SCRIPT_RUNNING:
          break
-      time.sleep(0.5)
+      time.sleep(0.1)
+   time.sleep(0.2)
    c = t9cb.tally() - oc
-   time.sleep(0.1)
    CHECK(9, 2, c, 201, 0, "run script/script status")
 
    oc = t9cb.tally()
    pi.run_script(s, [2000, GPIO])
+
+   t9waitNotHalted(s)
+
    while True:
       e, p = pi.script_status(s)
       if e != pigpio.PI_SCRIPT_RUNNING:
@@ -597,12 +663,16 @@ def t9():
       if p[9] < 1900:
          pi.stop_script(s)
       time.sleep(0.1)
+   time.sleep(0.2)
    c = t9cb.tally() - oc
-   time.sleep(0.1)
-   CHECK(9, 3, c, 110, 10, "run/stop script/script status")
+   CHECK(9, 3, c, 110, 20, "run/stop script/script status")
 
    e = pi.delete_script(s)
    CHECK(9, 4, e, 0, 0, "delete script")
+
+   t9cb.cancel()
+
+   pigpio.exceptions = old_exceptions
 
 def ta():
    print("Serial link tests.")
@@ -684,9 +754,9 @@ def tb():
    b = pi.i2c_read_byte_data(h, 48)
    CHECK(11, 7, b, 2, 0, "i2c read byte data")
 
-   exp = "[aB\x08cD\xAAgHj\xFD]"
+   exp = b"[aB\x08cD\xAAgHj\xFD]"
 
-   e = pi.i2c_write_device(h, '\x1D' + exp)
+   e = pi.i2c_write_device(h, b'\x1D'+ exp)
    CHECK(11, 8, e, 0, 0, "i2c write device")
 
    e = pi.i2c_write_device(h, '\x1D')
@@ -706,10 +776,9 @@ def tb():
    b = pi.i2c_read_byte_data(h, 0x1d)
    CHECK(11, 14, b, 0x55, 0, "i2c read byte data")
 
-   exps = b"[1234567890#]"
    exp  =  "[1234567890#]"
 
-   e = pi.i2c_write_block_data(h, 0x1C, exps)
+   e = pi.i2c_write_block_data(h, 0x1C, exp)
    CHECK(11, 15, e, 0, 0, "i2c write block data")
 
    e = pi.i2c_write_device(h, '\x1D')
@@ -772,6 +841,116 @@ def tc():
    e = pi.spi_close(h)
    CHECK(12, 99, e, 0, 0, "spi close")
 
+def td():
+
+   print("Wavechains & filter tests.")
+
+   tdcb = pi.callback(GPIO)
+
+   pi.set_mode(GPIO, pigpio.OUTPUT)
+
+   pi.write(GPIO, pigpio.LOW)
+
+   e = pi.wave_clear()
+   CHECK(13, 1, e, 0, 0, "callback, set mode, wave clear")
+
+   wf = []
+
+   wf.append(pigpio.pulse(1<<GPIO, 0,  50))
+   wf.append(pigpio.pulse(0, 1<<GPIO,  70))
+   wf.append(pigpio.pulse(1<<GPIO, 0, 130))
+   wf.append(pigpio.pulse(0, 1<<GPIO, 150))
+   wf.append(pigpio.pulse(1<<GPIO, 0,  90))
+   wf.append(pigpio.pulse(0, 1<<GPIO, 110))
+
+   e = pi.wave_add_generic(wf)
+   CHECK(13, 2, e, 6, 0, "pulse, wave add generic")
+
+   wid = pi.wave_create()
+
+   chain = [
+      255, 0, wid, 255, 1, 128, 0, 255, 2, 0, 8,
+      255, 0, wid, 255, 1,   0, 1, 255, 2, 0, 4,
+      255, 0, wid, 255, 1,   0, 2]
+
+   e = pi.set_glitch_filter(GPIO, 0)
+   CHECK(13, 3, e, 0, 0, "clear glitch filter")
+
+   e = pi.set_noise_filter(GPIO, 0, 0)
+   CHECK(13, 4, e, 0, 0, "clear noise filter")
+
+   tdcb.reset_tally()
+   e = pi.wave_chain(chain)
+   CHECK(13, 5, e, 0, 0, "wave chain")
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.3)
+   tally = tdcb.tally()
+   CHECK(13, 6, tally, 2688, 2, "wave chain, tally")
+
+   pi.set_glitch_filter(GPIO, 80)
+   tdcb.reset_tally()
+   pi.wave_chain(chain)
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.3)
+   tally = tdcb.tally()
+   CHECK(13, 7, tally, 1792, 2, "glitch filter, wave chain, tally")
+
+   pi.set_glitch_filter(GPIO, 120)
+   tdcb.reset_tally()
+   pi.wave_chain(chain)
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.2)
+   tally = tdcb.tally()
+   CHECK(13, 8, tally, 896, 2, "glitch filter, wave chain, tally")
+
+   pi.set_glitch_filter(GPIO, 140)
+   tdcb.reset_tally()
+   pi.wave_chain(chain)
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.2)
+   tally = tdcb.tally()
+   CHECK(13, 9, tally, 0, 0, "glitch filter, wave chain, tally")
+
+   pi.set_glitch_filter(GPIO, 0)
+
+   pi.wave_chain(chain)
+   pi.set_noise_filter(GPIO, 1000, 150000)
+   tdcb.reset_tally()
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.2)
+   tally = tdcb.tally()
+   CHECK(13, 10, tally, 1500, 2, "noise filter, wave chain, tally")
+
+   pi.wave_chain(chain)
+   pi.set_noise_filter(GPIO, 2000, 150000)
+   tdcb.reset_tally()
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.2)
+   tally = tdcb.tally()
+   CHECK(13, 11, tally, 750, 2, "noise filter, wave chain, tally")
+
+   pi.wave_chain(chain)
+   pi.set_noise_filter(GPIO, 3000, 5000)
+   tdcb.reset_tally()
+   while pi.wave_tx_busy():
+      time.sleep(0.1)
+   time.sleep(0.2)
+   tally = tdcb.tally()
+   CHECK(13, 12, tally, 0, 2, "noise filter, wave chain, tally")
+
+   pi.set_noise_filter(GPIO, 0, 0)
+
+   e = pi.wave_delete(wid)
+   CHECK(13, 13, e, 0, 0, "wave delete")
+
+   tdcb.cancel()
+
 if len(sys.argv) > 1:
    tests = ""
    for C in sys.argv[1]:
@@ -780,7 +959,7 @@ if len(sys.argv) > 1:
          tests += c
 
 else:
-   tests = "0123456789"
+   tests = "0123456789d"
 
 pi = pigpio.pi()
 
@@ -800,6 +979,7 @@ if pi.connected:
    if 'a' in tests: ta()
    if 'b' in tests: tb()
    if 'c' in tests: tc()
+   if 'd' in tests: td()
 
 pi.stop()
 

@@ -11,8 +11,9 @@ import time
 import re
 import sys
 
-#rgb-pi modules
+#install_service.py modules
 import log
+import install_service
 
 
 #config parameters
@@ -339,6 +340,7 @@ def showMenu():
                '2': 'configure LED-channels',
                '3': 'configure server',
                '4': 'configure xbmc remote control',
+               '5': 'enable/disable autostart (root)',
                'x': 'exit'
     }
 
@@ -361,11 +363,18 @@ def createConfig():
             if '1' == a:
                 print 'installing pigpio'
                 time.sleep(1)
-                os.system("sudo make -C ../pigpio/ install")
+                os.system("mkdir ../temp")
+                os.system("wget abyz.co.uk/rpi/pigpio/pigpio.zip -O ../temp/pigpio.zip")
+                os.system("unzip ../temp/pigpio.zip -d ../temp")
+                os.system("make -C ../temp/PIGPIO/")
+                os.system("cp -avr ../temp/PIGPIO/ ../PIGPIO/")
+                os.system("sudo rm -R ../temp")
+                os.system("sudo make -C ../PIGPIO/ install")
             elif a == '2':
                 print 'uninstalling pigpio'
                 time.sleep(1)
-                os.system("sudo make -C ../pigpio/ uninstall")
+                os.system("sudo make -C ../PIGPIO/ uninstall")
+                os.system("sudo rm -R ../PIGPIO")
 
             messageBoxAnyKey()
 
@@ -377,6 +386,27 @@ def createConfig():
 
         if menuitem == '4':
             xbmcConfig()
+        
+        if menuitem == '5':
+            choises = {'1': 'enable autostart',
+                       '2': 'disable autostart'}
+            a = messageBoxChoose('choose the next operation', **choises)
+
+            if '1' == a:
+                print 'installing start script in /etc/init.d/rgb-pi'
+                time.sleep(1)
+                install_service.writeInitD(os.getcwd(), os.path.dirname(os.getcwd())+"/PIGPIO/pigpiod")
+                os.system("sudo chmod +x /etc/init.d/rgb-pi")
+                os.system("sudo update-rc.d rgb-pi defaults")
+                print '\n...done'
+
+            elif a == '2':
+                print 'uninstalling start script'
+                time.sleep(1)
+                os.system("sudo rm /etc/init.d/rgb-pi")
+                print 'done'
+
+            messageBoxAnyKey()
 
         if menuitem == 'x':
             exit = 1
@@ -385,5 +415,4 @@ def createConfig():
 
 # start
 if len(sys.argv) > 1:
-    if sys.argv[1] == "config":
-        createConfig()
+    if sys.argv[1] == "config": createConfig()

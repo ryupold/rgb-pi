@@ -6,7 +6,7 @@ import time
 import sys
 import json
 
-#rgb-pi modules
+#install_service.py modules
 import log
 import constants
 import led
@@ -19,7 +19,7 @@ import config
 
 class TriggerManager(threading.Thread):
     """
-    This thread is started with the rgb-pi server and handles adding, removing and runtime of all active triggers.
+    This thread is started with the install_service.py server and handles adding, removing and runtime of all active triggers.
     """
     def __init__(self, threadID, name):
         threading.Thread.__init__(self)

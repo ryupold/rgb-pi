@@ -2,7 +2,7 @@
 ." Process this file with
 ." groff -man -Tascii pigpiod.1
 ."
-.TH pigpiod 1 2012-2014 Linux "pigpio archive"
+.TH pigpiod 1 2012-2015 Linux "pigpio archive"
 .SH NAME
 pigpiod - A utility to start the pigpio library as a daemon.
 
@@ -29,10 +29,20 @@ pigpiod accepts the following configuration options
 .br
 .SH OPTIONS
 
+.IP "\fB-a value\fP"
+DMA memory allocation mode
+0=AUTO, 1=PMAP, 2=MBOX
+default AUTO
+
 .IP "\fB-b value\fP"
-gpio sample buffer in milliseconds
+GPIO sample buffer in milliseconds
 100-10000
 default 120
+
+.IP "\fB-c value\fP"
+library internal settings
+
+default 0
 
 .IP "\fB-d value\fP"
 primary DMA channel
@@ -50,7 +60,12 @@ disable fifo interface
 default enabled
 
 .IP "\fB-k\fP"
-disable socket interface
+disable local and remote socket interface
+
+default enabled
+
+.IP "\fB-l\fP"
+disable remote socket interface
 
 default enabled
 
@@ -69,15 +84,15 @@ clock peripheral
 0=PWM 1=PCM
 default PCM
 
-.IP "\fB-u value\fP"
-clock source
-0=OSC 1=PLLD
-default PLLD
+.IP "\fB-v -V\fP"
+display pigpio version and exit
+
+
 
 .IP "\fB-x mask\fP"
-gpios which may be updated
-A 54 bit mask with (1<<n) set if the user may update gpio #n.
-default is the set of user gpios for the board revision
+GPIO which may be updated
+A 54 bit mask with (1<<n) set if the user may update GPIO #n.
+default is the set of user GPIO for the board revision
 
 .br
 
@@ -110,23 +125,23 @@ pigpio provides a rudimentary permissions system for commands issued via the soc
 .br
 
 .br
-All gpios may be read.
+All GPIO may be read.
 
 .br
 
 .br
-Only the default gpios for the board revision or those specified by the -x option may be updated.
+Only the user GPIO for the board type or those specified by the -x option may be updated.
 
 .br
 
 .br
 
 .EX
-Revision 1 boards 0x03E6CF93
+Type 1 boards 0x03E6CF93
 .br
-Revision 2 boards 0xFBC6CF9C
+Type 2 boards 0xFBC6CF9C
 .br
-Revision 3 boards 0x0FFFFFFC
+Type 3 boards 0x0FFFFFFC
 .br
 
 .EE
@@ -139,41 +154,46 @@ In this context an update includes the following:
 .br
 
 .br
-gpio mode set
+GPIO mode set
 .br
-gpio pull/up down
+GPIO pull/up down
 .br
-gpio write
+GPIO write
 .br
-gpio set PWM (including range and frequency)
+GPIO set PWM (including range and frequency)
 .br
-gpio set servo
+GPIO set servo
 
 .br
 
 .br
 In addition the bank clear and set commands, and the wave commands will only
-affect updateable gpios.
+affect updateable GPIO.
 
 .br
 
 .br
-There are two special cases.
+There are several special cases.
 
 .br
 
 .br
-The activity LED may be written (gpio 16 for Rev.1/2
-boards, gpio 47 for Rev.3 boards).
+The activity LED (green) may be written (GPIO 16 for type 1 and 2
+boards, GPIO 47 for type 3 boards)
 
 .br
 
 .br
-The high USB power mode gpio may be written (gpio 38 for Rev.3 boards).
+The power LED (red) may be written on type 3 boards (GPIO 35).
+
+.br
+
+.br
+The high USB power mode GPIO may be written (GPIO 38 for type 3 boards).
 
 .SH SEE ALSO
 
-pig2vcd(1), pigs(1), pigpio(3), pigpiod_if(3)
+pig2vcd(1), pigs(1), pigpio(3), pigpiod_if(3), pigpiod_if2(3)
 .SH AUTHOR
 
 joan@abyz.co.uk

@@ -16,7 +16,7 @@
 #Seconds level contains the GPIO-pin addresses of [RED, GREEN, BLUE] of the corresponding stripe (always in this order)
 #If a LED-Stripe supports only 1 or 2 colors the other pins are set to a negative value, to be ignored by the server
 #e.g.: [[-1, -1, 3]] <- means a single-color blue led-stripe is connected to GPIO-Pin 3
-LED_PINS = [[5, 2, 6]]
+LED_PINS = [[2, 5, 6]]
 
 
 # this value indicates the minimum value of the sum of

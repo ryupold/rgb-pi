@@ -62,8 +62,10 @@ def startServer(serverThread, var):
                 server.CurrentCMD.stop()
                 server.CurrentCMD.join()
                 server.CurrentCMD = None
+                
+            led.PIGPIO.stop()
 
-
+            
         if(input == 'help'):
             help = "\n\nCommand list:"
             help = help + "\ncc r g b - change color"
@@ -71,7 +73,7 @@ def startServer(serverThread, var):
             help = help + "\nexit - stops the server end kills process"
 
             log.l(help, log.LEVEL_UI)
-
+        
 
         if input == 'clear':
             configure.cls()
@@ -93,10 +95,10 @@ try:
         log.l("\nstarting server from console..." , log.LEVEL_UI)
         startServer('server thread', 0.01)
 except KeyboardInterrupt:
-    if(len(sys.argv)>1 and sys.argv[1] == "server" and led.PIGPIO is not None):
+    if(len(sys.argv)>1 and sys.argv[1] == "server"):
         led.PIGPIO.stop()
         log.l("\nstopping server with errors..." , log.LEVEL_UI)
 else:
-    if(len(sys.argv)>1 and sys.argv[1] == "server" and led.PIGPIO is not None):
+    if(len(sys.argv)>1 and sys.argv[1] == "server"):
         led.PIGPIO.stop()
         log.l("\nstopping server..." , log.LEVEL_UI)

@@ -167,3 +167,4 @@ log.txt
 .idea/
 nohup.out
 PIGPIO/*
+pigpio/*

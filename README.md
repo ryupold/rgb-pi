@@ -56,6 +56,11 @@ You can change the server runtime constants with the 3rd number of the configura
 3: configure server
 ```
 
+Setup RGB-Pi as service. So it starts on boot:
+```bash
+5: enable/disable autostart (root)
+```
+
 #### server values
 ##### min-value
 This value indicates the minimum value of the sum of red, green and blue channels.
