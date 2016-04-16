@@ -155,8 +155,12 @@ def readcommands(threadName, intervall):
 
                 if rcvString.startswith('GET') or rcvString.startswith('OPTIONS') or rcvString.startswith('POST') or rcvString.startswith('PUT'):
                     isHTTPRequest = True
-                    rcvString = urllib.unquote(str.split(str.split(rcvString, '\n', 1)[0], ' ')[1])
-                    if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED HTTP ('+str(len(rcvString))+'): '+rcvString+'\n\n')
+                    indexOfLineBreak = rcvString.find('\n\n')
+                    if indexOfLineBreak < 0:
+                        indexOfLineBreak = rcvString.find('\r\n\r\n')
+                    rcvString = rcvString[indexOfLineBreak:]
+                    rcvString = urllib.unquote(rcvString)
+                    if log.m(log.LEVEL_SOCKET_COMMUNICATION): log.l('RECEIVED HTTP ('+str(rcvString)+'): '+rcvString+'\n\n')
 
                     startIndex = rcvString.find('{')
                     endIndex = rcvString.rfind('}')
