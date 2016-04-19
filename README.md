@@ -116,7 +116,7 @@ python rgb.py server
 ```
 
 #### communication protocol
-A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/realriu/rgb-pi/blob/master/doc/protocol.html)
+A documentation to the communication protocol can be found here (http://htmlpreview.github.io/?https://github.com/ryupold/rgb-pi/blob/master/doc/protocol.html)
 
 The server can receive commands from third party applications, like mobile apps. To send commands to the server, a TCP stream socket has to be initialized and connected to the raspberry pi host ip. The command has to be a unicode string.
 
