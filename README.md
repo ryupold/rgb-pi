@@ -124,7 +124,7 @@ By default the server listens to <strong>port 4321</strong>, but this can be con
 
 
 ## Contributors
-realkyton (https://github.com/realkyton)  
+benjamindieter (https://github.com/benjamindieter)  
 ryupold (https://github.com/ryupold)
 
 ## License
