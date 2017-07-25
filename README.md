@@ -1,10 +1,7 @@
 # RGB-pi
-======
 **Controlling RGB LED stripes using a Raspberry Pi**
 	
 This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings. We use the [pigpio library](http://abyz.co.uk/rpi/pigpio) to control the GPIO outputs.
-
-======
 
 ## hardware parts needed:
   * Raspberry Pi
@@ -17,8 +14,6 @@ This project provides a server, written in in python. It can be connected by a s
   * [michael at mitchtech.net - Assembly](http://mitchtech.net/raspberry-pi-pwm-rgb-led-strip)
   * [thomas at tbideas.com - PWM](http://www.tbideas.com/blog/2013/02/controling-a-high-power-rgb-led-with-a-raspberry-pi)
   * [The pigpio Library - pigpio](http://abyz.co.uk/rpi/pigpio)
-
-======
 
 ## rgb-pi server
 ### configure
