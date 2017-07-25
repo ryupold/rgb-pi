@@ -1,4 +1,4 @@
-# RGB-pi
+# RGB-Pi API
 **Controlling RGB LED stripes using a Raspberry Pi**
 	
 This project provides a server, written in in python. It can be connected by a simple TCP stream socket and controlled by command strings. We use the [pigpio library](http://abyz.co.uk/rpi/pigpio) to control the GPIO outputs.
